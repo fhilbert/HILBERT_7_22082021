@@ -1,23 +1,20 @@
 const express = require("express");
-const helmet = require("helmet");
-
-const mongoose = require("mongoose");
-require("dotenv").config();
-const path = require("path");
-
-const sauceRoutes = require("./routes/sauces");
-const userRoutes = require("./routes/user");
-
-const accessmongodb = process.env.ACCESSMONGODB;
-
-mongoose
-	.connect(accessmongodb, { useNewUrlParser: true, useUnifiedTopology: true })
-	.then(() => console.log("Connexion à MongoDB réussie !"))
-	.catch(err => console.log("Connexion à MongoDB échouée !" + err));
-
 const app = express();
 
+const helmet = require("helmet");
+
+const dotenv = require("dotenv").config();
+const path = require("path");
+const cors = require("cors"); // CORS - Permet à l'application d'accéder à l'API
+
+//routes
+
+// const sauceRoutes = require("./routes/sauces");
+const userRoutes = require("./routes/user");
+
 app.use(helmet());
+app.use(cors());
+app.use(express.json());
 
 app.use((req, res, next) => {
 	res.setHeader("Access-Control-Allow-Origin", "*");
@@ -29,10 +26,9 @@ app.use((req, res, next) => {
 	next();
 });
 
-app.use(express.json());
-
 app.use("/images", express.static(path.join(__dirname, "images")));
-app.use("/api/sauces", sauceRoutes);
+
+// app.use("/api/sauces", sauceRoutes);
 app.use("/api/auth", userRoutes);
 
 module.exports = app;
