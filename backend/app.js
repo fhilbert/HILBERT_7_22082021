@@ -10,7 +10,7 @@ const cors = require("cors"); // CORS - Permet à l'application d'accéder à l'
 //routes
 
 // const sauceRoutes = require("./routes/sauces");
-const userRoutes = require("./routes/user");
+const userRoutes = require("./routes/users");
 
 app.use(helmet());
 app.use(cors());
