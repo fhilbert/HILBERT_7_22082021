@@ -2,8 +2,22 @@ POST  http://localhost:3000/api/auth/signup
 Content-Type:application/json
 
 {
-    "email":"fhilbert78@gmail.com",
-    "password":"Tr05072003"
+    "firstName":"frank",
+    "lastName":"hilbert",
+    "email":"frank7@gmail.com",
+    "password":"hilbert",
+    "bio":"content"
+    
+}
+###
+POST  http://localhost:3000/api/posts
+Content-Type:application/json
+
+{
+    "idUsers":2,
+    "content":"je suis un texte",
+    "attachment":"image"
+    
 }
 ###
 POST  http://localhost:3000/api/auth/signup
