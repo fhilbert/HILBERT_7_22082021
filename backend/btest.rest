@@ -2,11 +2,23 @@ POST  http://localhost:3000/api/auth/signup
 Content-Type:application/json
 
 {
-    "firstName":"frank",
+    "firstName":"frank11",
     "lastName":"hilbert",
-    "email":"frank7@gmail.com",
-    "password":"hilbert",
-    "bio":"content"
+    "email":"frank6@gmail.com",
+    "password":"Tr05072033",
+    "bio":"cont"
+    
+}
+###
+POST  http://localhost:3000/api/auth/login
+Content-Type:application/json
+
+{
+    "firstName":"frank11",
+    "lastName":"hilbert",
+    "email":"frank6@gmail.com",
+    "password":"Tr05072033",
+    "bio":"cont"
     
 }
 ###

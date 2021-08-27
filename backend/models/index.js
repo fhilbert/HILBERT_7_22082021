@@ -18,11 +18,17 @@ if (config.use_env_variable) {
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
 
+// tables references
 db.User = require("./users")(sequelize, Sequelize);
 db.Post = require("./posts")(sequelize, Sequelize);
+db.Comment = require("./comments")(sequelize, Sequelize);
+db.Like = require("./likes")(sequelize, Sequelize);
 
+//relations
+
+//  Posts -- Users
 db.User.hasMany(db.Post, {
-	foreignKey: "userId",
+	foreignKey: "Idusers",
 	as: "Post",
 });
 db.Post.belongsTo(db.User, {
@@ -30,6 +36,14 @@ db.Post.belongsTo(db.User, {
 	as: "User",
 });
 
-// db.Comment = require("./comments")(sequelize, Sequelize);
-// db.Like = require("./likes")(sequelize, Sequelize);
+// Comments -- Posts
+// db.Post.hasMany(db.Comment, {
+// 	foreignKey: "postId",
+// 	as: "Comment",
+// });
+// db.Comment.belongsTo(db.Post, {
+// 	foreignKey: "postId",
+// 	as: "Post",
+// });
+
 module.exports = db;

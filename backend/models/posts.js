@@ -17,7 +17,6 @@ module.exports = (sequelize, Sequelize) => {
 					key: "id",
 				},
 			},
-
 			content: {
 				type: Sequelize.STRING(255),
 				allowNull: false,

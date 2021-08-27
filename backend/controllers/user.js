@@ -1,112 +1,101 @@
 const db = require("../models");
 
-exports.signup =
-	("/users",
-	async (req, res, next) => {
-		const newUser = {
-			firstName: req.body.firstName,
-			lastName: req.body.lastName,
-			password: req.body.password,
-			email: req.body.email,
-			bio: req.body.bio,
-		};
+const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
 
-		await db.User.create(newUser);
+const CryptoJS = require("crypto-js");
 
-		res.json(newUser);
-	});
+const key = process.env.CRYPTKEY;
+const keyutf = CryptoJS.enc.Utf8.parse(key);
+const iv = CryptoJS.enc.Base64.parse(key);
 
-// exports.signup = (req, res, next) => {
-// 	console.log("signup");
-// 	const enc = CryptoJS.AES.encrypt(req.body.email, keyutf, { iv: iv });
-// 	const encMail = enc.toString();
-// 	bcrypt
-// 		.hash(req.body.password, 10)
-// 		.then(hash => {
-// 			const user = new User({
-// 				// email: encMail,
-// 				email: req.body.email,
-// 				password: hash,
-// 			});
-// 			user
-// 				.save()
-// 				.then(() => res.status(201).json({ message: "Utilisateur crée !" }))
-// 				.catch(error => res.status(400).json({ error }));
-// 		})
-// 		.catch(error => res.status(503).json({ error }));
-// };
+const User = require("../models/users");
 
-// const bcrypt = require("bcrypt");
-// const jwt = require("jsonwebtoken");
+// validation
+exports.userCheck = (req, res, next) => {
+	// user
+	if (req.body.email === "") return res.status(405).json({ error: "email vide" });
+	const mailFormat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+	if (!req.body.email.match(mailFormat)) {
+		return res.status(405).json({ error: "email invalide" });
+	}
+	// password
+	if (req.body.password === "") {
+		return res.status(405).json({ error: "Mot de passe vide" });
+	}
+	const pswdFormat = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/;
+	if (!req.body.password.match(pswdFormat)) {
+		return res.status(405).json({ error: "Mot de passe invalide" });
+	}
+	next();
+};
 
-// const CryptoJS = require("crypto-js");
+exports.signup = (req, res, next) => {
+	console.log("signup");
+	const enc = CryptoJS.AES.encrypt(req.body.email, keyutf, { iv: iv });
+	const encMail = enc.toString();
+	bcrypt
+		.hash(req.body.password, 10)
+		.then(hash => {
+			const newUser = {
+				// email: encMail,
+				email: req.body.email,
+				password: hash,
+				firstName: req.body.firstName,
+				lastName: req.body.lastName,
+				bio: req.body.bio,
+			};
+			db.User.create(newUser)
+				.then(() => res.status(201).json({ message: "Utilisateur crée !" }))
+				.catch(error => res.status(400).json({ error }));
+		})
+		.catch(error => res.status(503).json({ error }));
+};
 
-// const key = process.env.CRYPTKEY;
-// const keyutf = CryptoJS.enc.Utf8.parse(key);
-// const iv = CryptoJS.enc.Base64.parse(key);
+exports.login = (req, res, next) => {
+	const tokenkey = process.env.TOKENKEY;
+	const enc = CryptoJS.AES.encrypt(req.body.email, keyutf, { iv: iv });
+	const encMail = enc.toString();
+	console.log(tokenkey);
 
-// const User = require("../models/user");
-// // validation
-// exports.userCheck = (req, res, next) => {
-// 	// user
-// 	if (req.body.email === "") return res.status(405).json({ error: "email vide" });
-// 	const mailFormat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-// 	if (!req.body.email.match(mailFormat)) {
-// 		return res.status(405).json({ error: "email invalide" });
-// 	}
-// 	// password
-// 	if (req.body.password === "") {
-// 		return res.status(405).json({ error: "Mot de passe vide" });
-// 	}
-// 	const pswdFormat = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/;
-// 	if (!req.body.password.match(pswdFormat)) {
-// 		return res.status(405).json({ error: "Mot de passe invalide" });
-// 	}
+	db.User.findOne({ where: { email: req.body.email } })
+		// User.findOne({ email: encMail })
+		.then(user => {
+			if (!user) {
+				return res.status(401).json({ error: "Utilisateur non trouvé !" });
+			}
+			bcrypt
+				.compare(req.body.password, user.password)
+				.then(valid => {
+					if (!valid) {
+						return res.status(401).json({ error: "Mot de passe incorrect !" });
+					}
+					res.status(200).json({
+						userId: user._id,
+						token: jwt.sign({ userId: user._id }, tokenkey, { expiresIn: "24h" }),
+					});
+				})
+				.catch(error => res.status(501).json({ error }));
+		})
+		.catch(error => res.status(502).json({ error }));
 
-// 	next();
-// };
-
-// exports.signup = (req, res, next) => {
-// 	console.log("signup");
-// 	const enc = CryptoJS.AES.encrypt(req.body.email, keyutf, { iv: iv });
-// 	const encMail = enc.toString();
-// 	bcrypt
-// 		.hash(req.body.password, 10)
-// 		.then(hash => {
-// 			const user = new User({
-// 				// email: encMail,
-// 				email: req.body.email,
-// 				password: hash,
-// 			});
-// 			user
-// 				.save()
-// 				.then(() => res.status(201).json({ message: "Utilisateur crée !" }))
-// 				.catch(error => res.status(400).json({ error }));
-// 		})
-// 		.catch(error => res.status(503).json({ error }));
-// };
-// exports.login = (req, res, next) => {
-// 	const tokenkey = process.env.TOKENKEY;
-// 	const enc = CryptoJS.AES.encrypt(req.body.email, keyutf, { iv: iv });
-// 	const encMail = enc.toString();
-
-// 	User.findOne({ email: encMail })
-// 		.then(user => {
-// 			if (!user) {
-// 				return res.status(401).json({ error: "Utilisateur non trouvé !" });
-// 			}
-// 			bcrypt
-// 				.compare(req.body.password, user.password)
-// 				.then(valid => {
-// 					if (!valid) {
-// 						return res.status(401).json({ error: "Mot de passe incorrect !" });
-// 					}
-// 					res.status(200).json({
-// 						userId: user._id,
-// 						token: jwt.sign({ userId: user._id }, tokenkey, { expiresIn: "24h" }),
-// 					});
-// 				})
-// 				.catch(error => res.status(501).json({ error }));
-// 		})
-// 		.catch(error => res.status(502).json({ error }));
-// };
+	// User.findOne({ email: encMail })
+	// 	.then(user => {
+	// 		if (!user) {
+	// 			return res.status(401).json({ error: "Utilisateur non trouvé !" });
+	// 		}
+	// 		bcrypt
+	// 			.compare(req.body.password, user.password)
+	// 			.then(valid => {
+	// 				if (!valid) {
+	// 					return res.status(401).json({ error: "Mot de passe incorrect !" });
+	// 				}
+	// 				res.status(200).json({
+	// 					userId: user._id,
+	// 					token: jwt.sign({ userId: user._id }, tokenkey, { expiresIn: "24h" }),
+	// 				});
+	// 			})
+	// 			.catch(error => res.status(501).json({ error }));
+	// 	})
+	// 	.catch(error => res.status(502).json({ error }));
+};
