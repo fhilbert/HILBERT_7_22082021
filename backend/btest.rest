@@ -14,11 +14,8 @@ POST  http://localhost:3000/api/auth/login
 Content-Type:application/json
 
 {
-    "firstName":"frank11",
-    "lastName":"hilbert",
     "email":"frank6@gmail.com",
-    "password":"Tr05072033",
-    "bio":"cont"
+    "password":"Tr05072033"
     
 }
 ###
@@ -64,6 +61,26 @@ Content-Type:application/json
     "password":"1234"
 }
 ###
+GET http://localhost:3000/api/posts/
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MTFiYjViOWNiYWUxZDAzYmNiMDRkMjYiLCJpYXQiOjE2MjkyMDc2NzAsImV4cCI6MTYyOTI5NDA3MH0.drRjVbFwsMEyZd9YPvXGncC2C4wUt-RsxEJs7DFn8sE
+
+###
+GET http://localhost:3000/api/posts/3
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MTFiYjViOWNiYWUxZDAzYmNiMDRkMjYiLCJpYXQiOjE2MjkyMDc2NzAsImV4cCI6MTYyOTI5NDA3MH0.drRjVbFwsMEyZd9YPvXGncC2C4wUt-RsxEJs7DFn8sE
+
+###
+DELETE http://localhost:3000/api/posts/3
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MTFiYjViOWNiYWUxZDAzYmNiMDRkMjYiLCJpYXQiOjE2MjkyMDc2NzAsImV4cCI6MTYyOTI5NDA3MH0.drRjVbFwsMEyZd9YPvXGncC2C4wUt-RsxEJs7DFn8sE
+
+###
+GET http://localhost:3000/api/posts/comments/
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MTFiYjViOWNiYWUxZDAzYmNiMDRkMjYiLCJpYXQiOjE2MjkyMDc2NzAsImV4cCI6MTYyOTI5NDA3MH0.drRjVbFwsMEyZd9YPvXGncC2C4wUt-RsxEJs7DFn8sE
+
+###
+GET http://localhost:3000/api/posts/likes/2
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MTFiYjViOWNiYWUxZDAzYmNiMDRkMjYiLCJpYXQiOjE2MjkyMDc2NzAsImV4cCI6MTYyOTI5NDA3MH0.drRjVbFwsMEyZd9YPvXGncC2C4wUt-RsxEJs7DFn8sE
+
+
 #jean francois
 POST  http://localhost:3000/api/sauces
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MTE5OTBjNDEwY2JmMzQzY2Y1MmI4OTgiLCJpYXQiOjE2MjkwNjU1ODUsImV4cCI6MTYyOTE1MTk4NX0.PdWsoJ6CPKwiSPThw5HVq1bq33a5rQ0Un2Tm1803vM0

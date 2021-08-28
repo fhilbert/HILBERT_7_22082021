@@ -61,6 +61,8 @@ exports.login = (req, res, next) => {
 	db.User.findOne({ where: { email: req.body.email } })
 		// User.findOne({ email: encMail })
 		.then(user => {
+			console.log(user);
+
 			if (!user) {
 				return res.status(401).json({ error: "Utilisateur non trouvé !" });
 			}

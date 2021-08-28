@@ -15,9 +15,11 @@ VALUES
 ;
 
 
-DELETE FROM Comments WHERE id=5 ;
+DELETE FROM Posts WHERE id=3 ;
 DELETE FROM Comments ;
 
-SELECT * FROM Comments;
+SELECT * FROM Posts ORDER BY id;
+SELECT * FROM Comments ORDER BY idPosts;
+SELECT * FROM Likes ORDER BY idPosts;
 
 DROP TABLE Comments;
