@@ -41,8 +41,8 @@ POST  http://localhost:3000/api/auth/login
 Content-Type:application/json
 
 {
-    "email":"fhilbert@gmail.com",
-    "password":"Tr05072003"
+    "email":"f.hilbert@wanadoo.fr",
+    "password":"Tr123456"
 }
 ###
 POST  http://localhost:3000/api/auth/login
