@@ -14,10 +14,16 @@ POST  http://localhost:3000/api/auth/login
 Content-Type:application/json
 
 {
-    "email":"frank6@gmail.com",
-    "password":"Tr05072033"
+    "email":"frank@gmail.com",
+    "password":"Tr123456"
     
 }
+###
+GET  http://localhost:3000/api/auth/user
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2MzAyNDc3MDgsImV4cCI6MTYzMDMzNDEwOH0.xHcx9CRobM0SRuOxgGOtIiq-6QKlaZ_9jH9RekUNW3c
+
+
+
 ###
 POST  http://localhost:3000/api/posts
 Content-Type:application/json

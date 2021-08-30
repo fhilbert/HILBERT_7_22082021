@@ -1,0 +1,8 @@
+<template>
+	<div>Box2</div>
+</template>
+<script>
+export default {
+	name: "test2",
+};
+</script>

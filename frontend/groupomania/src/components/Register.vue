@@ -26,6 +26,7 @@
 	</form>
 </template>
 <script>
+import axios from "axios";
 export default {
 	name: "Register",
 	data() {
@@ -38,37 +39,37 @@ export default {
 		};
 	},
 	methods: {
-		handleSubmit() {
-			const data = {
+		async handleSubmit() {
+			const response = await axios.post("/auth/signup", {
 				firstName: this.firstName,
 				lastName: this.lastName,
 				email: this.email,
 				password: this.password,
 				passwordConfirm: this.passwordConfirm,
-			};
-			console.log(data);
+			});
+			console.log(response);
+			this.$router.push("./login");
 
-			// const jsonBody = {
-			// 	contact: contact,
-			// 	products: products,
+			// const url = "http://localhost:3000/api/auth/signup";
+
+			// const response = await axios.post("/auth/signup", data);
+
+			// const options = {
+			// 	method: "POST",
+			// 	headers: {
+			// 		Accept: "application/json",
+			// 		"Content-Type": "application/json",
+			// 	},
+			// 	body: JSON.stringify(data),
 			// };
-			// console.log(jsonBody);
-			const url = "http://localhost:3000/api/auth/signup";
-			const options = {
-				method: "POST",
-				headers: {
-					Accept: "application/json",
-					"Content-Type": "application/json",
-				},
-				body: JSON.stringify(data),
-			};
-			fetch(url, options)
-				.then(res => res.json())
-				.then(data => {
-					console.log(data);
-					console.log("Enregistré ");
-				})
-				.catch(error => console.log("Erreur : " + error));
+			// fetch(url, options)
+			// 	.then(res => res.json())
+			// 	.then(data => {
+			// 		console.log(data);
+			// 		console.log("Enregistré ");
+			// 		this.$router.push("./login");
+			// 	})
+			// 	.catch(error => console.log("Erreur : " + error));
 		},
 	},
 };

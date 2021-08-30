@@ -1,6 +1,6 @@
 <template>
 	<div id="app">
-		<Nav />
+		<!-- <Nav /> -->
 		<div class="auth-wrapper">
 			<div class="auth-inner">
 				<router-view />
@@ -10,12 +10,12 @@
 </template>
 
 <script>
-import Nav from "./components/Nav.vue";
+// import Nav from "./components/Nav.vue";
 
 export default {
 	name: "App",
 	components: {
-		Nav,
+		// Nav,
 	},
 };
 </script>
@@ -28,7 +28,9 @@ export default {
 }
 
 body {
-	background-color: sandybrown;
+	/* background-image: url("./assets/images/icon-above-font.png");
+	background-repeat: no-repeat; */
+	background-color: rgb(231, 231, 148);
 	min-height: 100vh;
 	display: flex;
 	font-weight: 400;
@@ -76,9 +78,9 @@ html,
 	text-align: left;
 }
 .auth-inner {
-	width: 450px;
+	width: 600px;
 	margin: auto;
-	background-color: #ffffff;
+	background-color: sandybrown;
 	box-shadow: 0px 14px 80px rgba(34, 35, 58, 0.2);
 	padding: 40px 55px 45px 55px;
 	border-radius: 15px;

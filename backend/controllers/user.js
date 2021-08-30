@@ -101,3 +101,9 @@ exports.login = (req, res, next) => {
 	// 	})
 	// 	.catch(error => res.status(502).json({ error }));
 };
+
+exports.getUser = (req, res, next) => {
+	console.log(res);
+	// user
+	return res;
+};
