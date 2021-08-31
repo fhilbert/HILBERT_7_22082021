@@ -21,8 +21,8 @@
     {
       "text": "il fait beau",
       "day": "28/08 8:00",
-      "reminder": true,
-      "id": 5
+      "reminder": false,
+      "id": 4
     }
   ]
 }

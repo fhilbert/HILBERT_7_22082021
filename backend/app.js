@@ -14,8 +14,8 @@ const cors = require("cors"); // CORS - Permit access to API
 // Database
 const datab = require("./config/database.js");
 const db = require("./models");
-db.sequelize.sync();
-// db.sequelize.sync({ force: true });
+// db.sequelize.sync();
+db.sequelize.sync({ force: true });
 
 // Test DB
 datab

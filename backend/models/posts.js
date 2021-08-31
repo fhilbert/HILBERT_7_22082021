@@ -8,15 +8,6 @@ module.exports = (sequelize, Sequelize) => {
 				allowNull: false,
 				primaryKey: true,
 			},
-			idUsers: {
-				type: Sequelize.INTEGER,
-				// allowNull: false,
-				allowNull: true,
-				references: {
-					model: "Users",
-					key: "id",
-				},
-			},
 			content: {
 				type: Sequelize.STRING(255),
 				allowNull: false,
@@ -29,18 +20,13 @@ module.exports = (sequelize, Sequelize) => {
 		{
 			sequelize,
 			tableName: "Posts",
-			timestamps: false,
+			timestamps: true,
 			indexes: [
 				{
 					name: "PRIMARY",
 					unique: true,
 					using: "BTREE",
 					fields: [{ name: "id" }],
-				},
-				{
-					name: "fk_post_user_idx",
-					using: "BTREE",
-					fields: [{ name: "idUsers" }],
 				},
 			],
 		}
