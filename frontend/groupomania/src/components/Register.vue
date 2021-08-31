@@ -41,7 +41,7 @@ export default {
 	},
 	methods: {
 		async handleSubmit() {
-			const response = await axios.post("/auth/signup", {
+			const response = await axios.post("auth/signup", {
 				firstName: this.firstName,
 				lastName: this.lastName,
 				email: this.email,

@@ -18,6 +18,9 @@
 				<li class="nav-item">
 					<router-link to="./register" class="nav-link">Sign Up</router-link>
 				</li>
+				<li class="nav-item">
+					<router-link to="./login" class="nav-link">Sign Out</router-link>
+				</li>
 			</ul>
 		</div>
 		<!-- </dir> -->

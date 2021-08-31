@@ -41,9 +41,13 @@
 							</div>
 						</div>
 						<div class="p-3">
-							<input type="text" class="form-control" id="Bio " placeholder="Bio" pattern="[A-Za-z ]{1,32}" required />
+							<input type="text" class="form-control" id="Bio " placeholder="Bio" pattern="[A-Za-z ]{1,32}" />
 						</div>
-						<Button @btn_click="$emit('toggle_add_post')" :text="Enregitrer" :color="green" />
+						<label for="photo_profile">Choisir une photo :</label>
+
+						<input class="btn" type="file" id="photo_profile" name="photo_profile" accept="image/png, image/jpeg" />
+
+						<!-- <Button @btn_click="$emit('toggle_add_post')" :text="Enregitrer" :color="green" /> -->
 
 						<div class="text-center">
 							<p id="error" class="primary"></p>
