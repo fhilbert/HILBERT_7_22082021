@@ -1,29 +1,30 @@
 <template>
-	<form @submit.prevent="handleSubmit">
-		<h3>Sign Up</h3>
-		<br />
-		<div class="form-group">
-			<label>Prénom</label>
-			<input type="text" class="form-control" v-model="firstName" placeholder="First Name" />
-		</div>
-		<div class="form-group">
-			<label>Nom</label>
-			<input type="text" class="form-control" v-model="lastName" placeholder="Last Name" />
-		</div>
-		<div class="form-group">
-			<label>Email</label>
-			<input type="email" class="form-control" v-model="email" placeholder="Email" />
-		</div>
-		<div class="form-group">
-			<label>Password</label>
-			<input type="password" class="form-control" v-model="password" placeholder="Password" />
-		</div>
-		<div class="form-group">
-			<label>Confirm Password</label>
-			<input type="password" class="form-control" v-model="passwordConfirm" placeholder="Password" />
-		</div>
-		<button class="btn btn-primary btn-block">Sign Up</button>
-	</form>
+	<div class="container">
+		<form @submit.prevent="handleSubmit">
+			<h3>Sign Up</h3>
+			<div class="form-group">
+				<label>Prénom</label>
+				<input type="text" class="form-control" v-model="firstName" placeholder="First Name" />
+			</div>
+			<div class="form-group">
+				<label>Nom</label>
+				<input type="text" class="form-control" v-model="lastName" placeholder="Last Name" />
+			</div>
+			<div class="form-group">
+				<label>Email</label>
+				<input type="email" class="form-control" v-model="email" placeholder="Email" />
+			</div>
+			<div class="form-group">
+				<label>Password</label>
+				<input type="password" class="form-control" v-model="password" placeholder="Password" />
+			</div>
+			<div class="form-group">
+				<label>Confirm Password</label>
+				<input type="password" class="form-control" v-model="passwordConfirm" placeholder="Password" />
+			</div>
+			<button class="btn btn-primary btn-block">Sign Up</button>
+		</form>
+	</div>
 </template>
 <script>
 import axios from "axios";
@@ -74,3 +75,11 @@ export default {
 	},
 };
 </script>
+<style>
+.container {
+	background-color: sandybrown;
+	margin-top: 100px;
+	height: 80vh;
+	width: 60vw;
+}
+</style>

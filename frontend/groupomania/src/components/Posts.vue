@@ -1,9 +1,7 @@
 <template>
 	<div>
 		<div :key="post.id" v-for="post in posts">
-			{{ post.text }}
-			<!-- <Post @delete_post="$emit('delete_post', post.id)" :post="post" /> -->
-			<div>toto</div>
+			<Post @delete_post="$emit('delete_post', post.id)" :post="post" />
 		</div>
 	</div>
 </template>

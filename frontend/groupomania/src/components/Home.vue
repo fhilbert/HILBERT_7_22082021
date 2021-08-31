@@ -4,17 +4,19 @@
 		<div v-show="showAddPost">
 			<AddPost @add_post="addPost" />
 		</div>
-
+		<!-- <router-view :showAddPost="showAddPost"></router-view> -->
 		<Posts @delete_post="deletePost" :posts="posts" />
+
+		<!-- <Footer /> -->
 	</div>
 </template>
 <script>
 import axios from "axios";
 
 import Header from "./Header.vue";
+import Footer from "./Footer.vue";
 import Posts from "./Posts.vue";
 import AddPost from "./AddPost.vue";
-import test from "./test.vue";
 
 export default {
 	name: "Home",
@@ -22,60 +24,57 @@ export default {
 		Header,
 		Posts,
 		AddPost,
-		test,
+		Footer,
 	},
-
 	data() {
 		return {
-			// user: null,
-			posts: [],
 			showAddPost: false,
+			posts: [],
 		};
 	},
 	methods: {
-		deletePost(id) {
-			if (confirm("Are you sure ?")) {
-				this.posts = this.posts.filter(post => post.id !== id);
-			}
-		},
-		addPost(post) {
-			this.posts = [...this.posts, post];
-		},
 		toggleAddPost() {
 			this.showAddPost = !this.showAddPost;
 		},
-		created() {
-			// const response = await axios.get("/auth/login");
-			// console.log(response);
-			// this.user = response.data;
+		async addPost(post) {
+			const res = await fetch("api/posts", {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify(post),
+			});
+			const data = await res.json();
 
-			this.posts = [
-				{
-					id: 1,
-					text: "Doctors appointment",
-					day: "March 1st  at 2:00pm",
-					reminder: true,
-				},
-				{
-					id: 2,
-					text: "Meeting at School",
-					day: "March 3rd  at 2:30pm",
-					reminder: true,
-				},
-				{
-					id: 3,
-					text: "Food shopping",
-					day: "March 1st  at 4:00pm",
-					reminder: false,
-				},
-				{
-					id: 4,
-					text: "Run trainning",
-					day: "March 2nd  at 6:00pm",
-					reminder: false,
-				},
-			];
+			this.posts = [...this.posts, data];
 		},
+		async deletePost(id) {
+			// if (confirm("Are you sure ?")) {
+			// 	this.posts = this.posts.filter(post => post.id !== id);
+			// }
+			console.log("id", id);
+			const res = await fetch(`api/posts/${id}`, {
+				method: "DELETE",
+			});
+
+			res.status === 200 ? (this.posts = this.posts.filter(post => post.id !== id)) : alert("Error deleting post");
+		},
+		async fetchPosts() {
+			const res = await fetch("api/posts");
+
+			const data = await res.json();
+			return data;
+		},
+		async fetchPost(id) {
+			const res = await fetch(`api/posts/${id}`);
+
+			const data = await res.json();
+			return data;
+		},
+	},
+	async created() {
+		this.posts = await this.fetchPosts();
+		console.log("thisposts", this.posts);
 	},
 };
 </script>

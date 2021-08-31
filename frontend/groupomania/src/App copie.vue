@@ -1,45 +1,32 @@
 <template>
-	<div class="container">
-		<form @submit.prevent="handleSubmit">
-			<h3>Login</h3>
-			<br /><br />
-			<div class="form-group">
-				<label>Email</label>
-				<input type="email" class="form-control" v-model="email" placeholder="Email" />
+	<div id="app">
+		<!-- <Nav /> -->
+		<div class="auth-wrapper">
+			<div class="auth-inner">
+				<router-view />
 			</div>
-			<div class="form-group">
-				<label>Password</label>
-				<input type="password" class="form-control" v-model="password" placeholder="Password" />
-			</div>
-			<button class="btn btn-primary btn-block">Login</button>
-		</form>
+		</div>
 	</div>
 </template>
+
 <script>
-import axios from "axios";
+// import Nav from "./components/Nav.vue";
 
 export default {
-	name: "Login",
-	data() {
-		return {
-			email: "",
-			password: "",
-		};
-	},
-	methods: {
-		async handleSubmit() {
-			const response = await axios.post("/auth/login", {
-				email: this.email,
-				password: this.password,
-				passwordConfirm: this.passwordConfirm,
-			});
-			localStorage.setItem("token", response.data.token);
-			this.$router.push("/posts");
-		},
+	name: "App",
+	components: {
+		// Nav,
 	},
 };
 </script>
-<style scoped>
+
+<style>
+/* @import url("https://fonts.googleapsis.com/css?family=Fira+Sans:400,500,600,700"); */
+
+* {
+	box-sizing: border-box;
+}
+
 body {
 	/* background-image: url("./assets/images/icon-above-font.png");
 	background-repeat: no-repeat; */
@@ -48,12 +35,6 @@ body {
 	display: flex;
 	font-weight: 400;
 	font-family: "Fira Sans", sans-serif;
-}
-.container {
-	background-color: slategrey;
-	margin-top: 100px;
-	height: 50vh;
-	width: 60vw;
 }
 h1,
 h2,
