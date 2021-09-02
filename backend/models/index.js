@@ -52,14 +52,4 @@ db.Comment.belongsTo(db.User, {
 db.User.belongsToMany(db.Post, { through: "Likes" });
 db.Post.belongsToMany(db.User, { through: "Likes" });
 
-// Comments -- Posts
-// db.Post.hasMany(db.Comment, {
-// 	foreignKey: "postId",
-// 	as: "Comment",
-// });
-// db.Comment.belongsTo(db.Post, {
-// 	foreignKey: "postId",
-// 	as: "Post",
-// });
-
 module.exports = db;

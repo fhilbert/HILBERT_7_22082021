@@ -5,6 +5,9 @@ const MIME_TYPES = {
 	"image/jpeg": ".jpg",
 	"image/png": ".png",
 };
+console.log("---------");
+console.log("multer");
+
 const storage = multer.diskStorage({
 	destination: (req, file, callback) => {
 		callback(null, "images");

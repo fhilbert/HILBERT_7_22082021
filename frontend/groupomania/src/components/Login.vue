@@ -1,23 +1,23 @@
 <template>
-	<div class="container">
+	<div class="card">
 		<form @submit.prevent="handleSubmit">
-			<h3>Login</h3>
-			<br /><br />
-			<div class="form-group">
-				<label>Email</label>
-				<input type="email" class="form-control" v-model="email" placeholder="Email" />
+			<h1 class="card__title">Login</h1>
+			<p class="card__subtitle">
+				Pas inscrit ? <span class="card__action" @click="createAccount()">Créer un compte</span>
+			</p>
+			<br />
+			<div class="card__form">
+				<input type="email" class="card__form-input" v-model="email" placeholder="Email" />
 			</div>
-			<div class="form-group">
-				<label>Password</label>
-				<input type="password" class="form-control" v-model="password" placeholder="Password" />
+			<div class="card__form">
+				<input type="password" class="card__form-input" v-model="password" placeholder="Password" />
 			</div>
-			<button class="btn btn-primary btn-block">Login</button>
+			<button class="button">Connexion</button>
 		</form>
 	</div>
 </template>
 <script>
 import axios from "axios";
-
 export default {
 	name: "Login",
 	data() {
@@ -27,6 +27,9 @@ export default {
 		};
 	},
 	methods: {
+		createAccount() {
+			this.$router.push("/register");
+		},
 		async handleSubmit() {
 			const response = await axios.post("auth/login", {
 				email: this.email,
@@ -49,39 +52,12 @@ body {
 	font-weight: 400;
 	font-family: "Fira Sans", sans-serif;
 }
-.container {
-	background-color: slategrey;
-	margin-top: 100px;
-	height: 50vh;
-	width: 60vw;
-}
-h1,
-h2,
-h3,
-h4,
-label,
-span {
-	font-weight: 500;
-	font-family: "Fira Sans", sans-serif;
-}
-body,
-html,
-#app,
-#root,
-.auto-wrapper {
-	width: 100%;
-	height: 100%;
-}
-
 #app {
 	display: flex;
 	justify-content: center;
-
 	flex-direction: column;
-
 	text-align: center;
 }
-
 .navbar-light {
 	background-color: #ffffff;
 	box-shadow: 0px 14px 80px rgba(34, 35, 58, 0.2);
@@ -89,7 +65,6 @@ html,
 .nav-item {
 	margin-left: 10px;
 }
-
 .auto-wrapper {
 	display: flex;
 	justify-content: center;
@@ -105,12 +80,10 @@ html,
 	border-radius: 15px;
 	transition: all 0.3s;
 }
-
 .auto-wrapper .form-control:focus {
 	border-color: #167bff;
 	box-shadow: none;
 }
-
 .auto-wrapper h3 {
 	text-align: center;
 	margin: 0;

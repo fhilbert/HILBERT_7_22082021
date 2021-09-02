@@ -101,9 +101,43 @@ exports.login = (req, res, next) => {
 	// 	})
 	// 	.catch(error => res.status(502).json({ error }));
 };
+exports.getOneProfile = (req, res, next) => {
+	console.log("getOneProfile");
+	console.log("--------");
+	console.log(req.params.id);
 
-exports.getUser = (req, res, next) => {
-	console.log(res);
-	// user
-	return res;
+	db.User.findOne({ where: { id: req.params.id } })
+		.then(user => {
+			res.status(200).json(user);
+		})
+		.catch(error => res.status(404).json({ error }));
+};
+exports.deleteProfile = async (req, res, next) => {
+	console.log("--------");
+	console.log("deleteProfile");
+	console.log("--------");
+	console.log(req.params.id);
+	await db.User.destroy({ where: { id: req.params.id } })
+		.then(() => res.status(200).json({ message: "Objet supprimé !" }))
+		.catch(error => res.status(400).json({ error }));
+
+	db.User.findOne({ where: { id: req.params.id } })
+		.then(user => {
+			//console.log(user);
+
+			const filename = sauce.imageUrl.split("/images/")[1];
+			fs.unlink(`images/${filename}`, () => {
+				db.User.destroy({ where: { id: req.params.id } })
+					.then(() => res.status(200).json({ message: "Objet supprimé !" }))
+					.catch(error => res.status(400).json({ error }));
+			});
+		})
+		.catch(error => res.status(500).json({ error }));
+};
+exports.getAllProfiles = (req, res, next) => {
+	console.log("--------");
+	console.log("deleteProfile");
+	db.User.findAll()
+		.then(post => res.status(200).json(post))
+		.catch(error => console.log(error));
 };

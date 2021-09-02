@@ -1,16 +1,20 @@
 <template>
 	<form @submit.prevent="onSubmit" class="add-form">
 		<div class="form-control">
-			<label>Post</label>
-			<input type="text" v-model="text" name="text" placeholder="Add Post" />
+			<label>Ajouter une publication</label>
+			<input type="text-area" v-model="text" name="text" placeholder="Add Post" />
 		</div>
-		<div class="form-control">
+		<!-- <div class="form-control">
 			<label>Day & Time</label>
 			<input type="text" v-model="day" name="day" placeholder="Add Day & Time" />
-		</div>
-		<div class="form-control form-control-check">
+		</div> -->
+		<!-- <div class="form-control form-control-check">
 			<label>Set Reminder</label>
 			<input type="checkbox" v-model="reminder" name="reminder" />
+		</div> -->
+		<div class="actions">
+			<button class="button button-size">Choisir une image</button>
+			<button class="button  button-size">Pulier</button>
 		</div>
 
 		<input type="submit" value="Save Post" class="btn btn-block" />
@@ -84,5 +88,13 @@ export default {
 .form-control-check input {
 	flex: 2;
 	height: 20px;
+}
+
+.actions {
+	display: flex;
+	justify-content: space-between;
+}
+.button-size {
+	width: 25%;
 }
 </style>

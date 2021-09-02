@@ -1,28 +1,24 @@
 <template>
-	<div class="container">
+	<div class="card">
 		<form @submit.prevent="handleSubmit">
-			<h3>Sign Up</h3>
-			<div class="form-group">
-				<label>Prénom</label>
-				<input type="text" class="form-control" v-model="firstName" placeholder="First Name" />
+			<h1 class="card__title">Inscription</h1>
+			<p class="card__subtitle">
+				Déjà inscrit ? <span class="card__action" @click="loginAccount()">Se connecter</span>
+			</p>
+			<div class="card__form">
+				<input type="email" class="card__form-input" v-model="email" placeholder="Email" />
 			</div>
-			<div class="form-group">
-				<label>Nom</label>
-				<input type="text" class="form-control" v-model="lastName" placeholder="Last Name" />
+			<div class="card__form">
+				<input type="text" class="card__form-input" v-model="firstName" placeholder="First Name" />
+				<input type="text" class="card__form-input" v-model="lastName" placeholder="Last Name" />
 			</div>
-			<div class="form-group">
-				<label>Email</label>
-				<input type="email" class="form-control" v-model="email" placeholder="Email" />
+			<div class="card__form">
+				<input type="password" class="card__form-input" v-model="password" placeholder="Password" />
 			</div>
-			<div class="form-group">
-				<label>Password</label>
-				<input type="password" class="form-control" v-model="password" placeholder="Password" />
+			<div class="card__form">
+				<input type="password" class="card__form-input" v-model="passwordConfirm" placeholder="Confirm Password" />
 			</div>
-			<div class="form-group">
-				<label>Confirm Password</label>
-				<input type="password" class="form-control" v-model="passwordConfirm" placeholder="Password" />
-			</div>
-			<button class="btn btn-primary btn-block">Sign Up</button>
+			<button class="button">Inscription</button>
 		</form>
 	</div>
 </template>
@@ -40,6 +36,9 @@ export default {
 		};
 	},
 	methods: {
+		loginAccount() {
+			this.$router.push("/");
+		},
 		async handleSubmit() {
 			const response = await axios.post("auth/signup", {
 				firstName: this.firstName,
@@ -49,7 +48,7 @@ export default {
 				passwordConfirm: this.passwordConfirm,
 			});
 			console.log(response);
-			this.$router.push("./login");
+			this.$router.push("/");
 
 			// const url = "http://localhost:3000/api/auth/signup";
 

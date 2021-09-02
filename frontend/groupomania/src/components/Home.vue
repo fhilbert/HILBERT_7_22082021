@@ -1,6 +1,6 @@
 <template>
-	<div class="container">
-		<Header @toggle_add_post="toggleAddPost" title="Post Tracker" :showAddPost="showAddPost" />
+	<div class="toto">
+		<Header @toggle_add_post="toggleAddPost" title="Publications" :showAddPost="showAddPost" />
 		<div v-show="showAddPost">
 			<AddPost @add_post="addPost" />
 		</div>
@@ -90,13 +90,15 @@ export default {
 
 body {
 	font-family: "Poppins", sans-serif;
+	width: 50vw;
+	margin: 0 25vw;
 }
 
 .container {
 	max-width: 500px;
 	margin: 30px auto;
-	overflow: auto;
-	min-height: 300px;
+	/* overflow: auto;
+	min-height: 300px; */
 	border: 1px solid steelblue;
 	padding: 30px;
 	border-radius: 5px;

@@ -4,7 +4,7 @@ Content-Type:application/json
 {
     "firstName":"frank11",
     "lastName":"hilbert",
-    "email":"frank6@gmail.com",
+    "email":"f@gmail.com",
     "password":"Tr123456",
     "bio":"cont"
     
@@ -19,11 +19,14 @@ Content-Type:application/json
     
 }
 ###
-GET  http://localhost:3000/api/auth/user
+GET  http://localhost:3000/api/auth/profile/
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2MzAyNDc3MDgsImV4cCI6MTYzMDMzNDEwOH0.xHcx9CRobM0SRuOxgGOtIiq-6QKlaZ_9jH9RekUNW3c
 
 
 
+###
+DELETE http://localhost:3000/api/auth/profile/3
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpCJ9.eyJpYXQiOjE2MzA0ODU0MTgsImV4cCI6MTYzMDU3MTgxOH0.ERS-ZrkjHSxJHwvV6iWXv3YXPS1vR1sNpX-6adA7uQc
 ###
 POST  http://localhost:3000/api/posts
 Content-Type:application/json
@@ -66,25 +69,79 @@ Content-Type:application/json
     "email":"jeanfrancois@gmail.com",
     "password":"1234"
 }
-###
+### ----------- POSTS
 GET http://localhost:3000/api/posts/
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MTFiYjViOWNiYWUxZDAzYmNiMDRkMjYiLCJpYXQiOjE2MjkyMDc2NzAsImV4cCI6MTYyOTI5NDA3MH0.drRjVbFwsMEyZd9YPvXGncC2C4wUt-RsxEJs7DFn8sE
 
 ###
-GET http://localhost:3000/api/posts/3
+GET http://localhost:3000/api/posts/2
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MTFiYjViOWNiYWUxZDAzYmNiMDRkMjYiLCJpYXQiOjE2MjkyMDc2NzAsImV4cCI6MTYyOTI5NDA3MH0.drRjVbFwsMEyZd9YPvXGncC2C4wUt-RsxEJs7DFn8sE
 
 ###
-DELETE http://localhost:3000/api/posts/3
+POST  http://localhost:3000/api/posts/
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2MzA0ODkzMDMsImV4cCI6MTYzMDU3NTcwM30.LKT-FUiqbmE_lifedmE4-7nUQPpvdXnA6cDXp5fa0-w
+Content-Type:application/json
+
+{
+        "content":"je suis le troisieme post",
+        "attachment":"tohbbto",
+        "Userid":4
+ 
+}
+###
+DELETE http://localhost:3000/api/posts/5
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpCJ9.eyJpYXQiOjE2MzA0ODU0MTgsImV4cCI6MTYzMDU3MTgxOH0.ERS-ZrkjHSxJHwvV6iWXv3YXPS1vR1sNpX-6adA7uQc
+###
+
+
+### --------------- COMMENTS
+POST  http://localhost:3000/api/posts/comments
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2MzA0ODkzMDMsImV4cCI6MTYzMDU3NTcwM30.LKT-FUiqbmE_lifedmE4-7nUQPpvdXnA6cDXp5fa0-w
+Content-Type:application/json
+
+{
+        "comment":"je suis le troisieme commentaire",
+        "Postid":3,
+        "Userid":4
+ 
+}
+###
+GET http://localhost:3000/api/posts/comments
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MTFiYjViOWNiYWUxZDAzYmNiMDRkMjYiLCJpYXQiOjE2MjkyMDc2NzAsImV4cCI6MTYyOTI5NDA3MH0.drRjVbFwsMEyZd9YPvXGncC2C4wUt-RsxEJs7DFn8sE
 
 ###
-GET http://localhost:3000/api/posts/comments/
+GET http://localhost:3000/api/posts/comments/2
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MTFiYjViOWNiYWUxZDAzYmNiMDRkMjYiLCJpYXQiOjE2MjkyMDc2NzAsImV4cCI6MTYyOTI5NDA3MH0.drRjVbFwsMEyZd9YPvXGncC2C4wUt-RsxEJs7DFn8sE
+###
+DELETE http://localhost:3000/api/posts/comments/3
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpCJ9.eyJpYXQiOjE2MzA0ODU0MTgsImV4cCI6MTYzMDU3MTgxOH0.ERS-ZrkjHSxJHwvV6iWXv3YXPS1vR1sNpX-6adA7uQc
+###
+### --------------- LIKES
+POST  http://localhost:3000/api/posts/likes
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2MzA0ODkzMDMsImV4cCI6MTYzMDU3NTcwM30.LKT-FUiqbmE_lifedmE4-7nUQPpvdXnA6cDXp5fa0-w
+Content-Type:application/json
+
+{
+        "valeur":1,
+        "Postid":3,
+        "Userid":4
+ }
+###
+GET http://localhost:3000/api/posts/likes
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MTFiYjViOWNiYWUxZDAzYmNiMDRkMjYiLCJpYXQiOjE2MjkyMDc2NzAsImV4cCI6MTYyOTI5NDA3MH0.drRjVbFwsMEyZd9YPvXGncC2C4wUt-RsxEJs7DFn8sE
 
 ###
-GET http://localhost:3000/api/posts/likes/2
+GET http://localhost:3000/api/posts/likes/3
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MTFiYjViOWNiYWUxZDAzYmNiMDRkMjYiLCJpYXQiOjE2MjkyMDc2NzAsImV4cCI6MTYyOTI5NDA3MH0.drRjVbFwsMEyZd9YPvXGncC2C4wUt-RsxEJs7DFn8sE
+###
+DELETE http://localhost:3000/api/posts/likes/3
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpCJ9.eyJpYXQiOjE2MzA0ODU0MTgsImV4cCI6MTYzMDU3MTgxOH0.ERS-ZrkjHSxJHwvV6iWXv3YXPS1vR1sNpX-6adA7uQc
+###
+
+
+
+
+
 
 
 #jean francois

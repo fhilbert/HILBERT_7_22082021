@@ -1,5 +1,6 @@
 --  mysql -u root -p  
 
+
 INSERT INTO `groupomania_dev`.`Users` (`id`, `email`, `lastName`, `firstName`, `password`, `bio`, `isAdmin`) 
 VALUES 
 ('1', 'frank1@gmail.com', 'hilbert', 'tom', '1234', 'bio1', '0'),
