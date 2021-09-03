@@ -6,6 +6,8 @@ const auth = require("../middleware/auth");
 // const isOwner = require("../middleware/isOwner.js");
 const multer = require("../middleware/multer-config");
 
+router.post("/", auth, multer, postCtrl.createPost);
+// router.post("/", multer, postCtrl.createPost);
 // router.post("/", auth, multer, postCtrl.postCheck, postCtrl.createPost);
 // router.post("/:id/like", auth, postCtrl.dealLike);
 
@@ -37,7 +39,7 @@ router.post("/likes/", postCtrl.createLike);
 // ------- POSTS
 
 // checked routes
-router.post("/", postCtrl.createPost);
+// router.post("/", postCtrl.createPost);
 router.get("/:id", postCtrl.getOnePost);
 router.get("/", postCtrl.getAllPosts);
 router.delete("/:id", postCtrl.deletePost);

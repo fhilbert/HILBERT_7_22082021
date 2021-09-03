@@ -1,7 +1,7 @@
 <template>
 	<div class="card">
 		<form @submit.prevent="handleSubmit">
-			<h1 class="card__title">Login</h1>
+			<h1 class="card__title">Connexion</h1>
 			<p class="card__subtitle">
 				Pas inscrit ? <span class="card__action" @click="createAccount()">Créer un compte</span>
 			</p>

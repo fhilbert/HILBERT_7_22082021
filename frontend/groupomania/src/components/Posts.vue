@@ -17,6 +17,6 @@ export default {
 	components: {
 		Post,
 	},
-	emits: ["delete_post", "toggle-reminder"],
+	emits: ["delete_post"],
 };
 </script>

@@ -37,33 +37,47 @@ export default {
 			this.showAddPost = !this.showAddPost;
 		},
 		async addPost(post) {
-			const res = await fetch("api/posts", {
-				method: "POST",
-				headers: {
-					"Content-Type": "application/json",
-				},
-				body: JSON.stringify(post),
-			});
-			const data = await res.json();
 
-			this.posts = [...this.posts, data];
+			const res = await axios.post("/posts", {
+				content: this.content,
+				attachment: this.attachment,
+				UserId:this.UserId
+			});
+
+			console.log('post',post);
+
+			// const res = await fetch("api/posts", {
+			// 	method: "POST",
+			// 	headers: {
+			// 		"Content-Type": "application/json",
+			// 	},
+			// 	body: JSON.stringify(post),
+			// });
+			// const data = await res.json();
+
+			// this.posts = [...this.posts, data];
 		},
 		async deletePost(id) {
 			// if (confirm("Are you sure ?")) {
 			// 	this.posts = this.posts.filter(post => post.id !== id);
 			// }
 			console.log("id", id);
-			const res = await fetch(`api/posts/${id}`, {
-				method: "DELETE",
-			});
+
+			const res = await axios.delete(`/posts/${id}`);
 
 			res.status === 200 ? (this.posts = this.posts.filter(post => post.id !== id)) : alert("Error deleting post");
+
 		},
 		async fetchPosts() {
-			const res = await fetch("api/posts");
+			const response = await axios.get("/posts");
+			console.log('response');
+			console.log(stringify(response));
 
-			const data = await res.json();
-			return data;
+			// const res = await fetch("api/posts");
+
+			// const data = await res.json();
+			// return data;
+			return response;
 		},
 		async fetchPost(id) {
 			const res = await fetch(`api/posts/${id}`);
@@ -73,8 +87,16 @@ export default {
 		},
 	},
 	async created() {
-		this.posts = await this.fetchPosts();
-		console.log("thisposts", this.posts);
+		const response = await axios.get("/posts", {
+	    	params: {
+    	    	date: 'YYYY-MM-DD'
+    			}
+			});
+
+			this.posts= response.data
+			console.log('this.posts');
+			console.log('posts',this.posts);
+
 	},
 };
 </script>

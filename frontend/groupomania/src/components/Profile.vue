@@ -1,5 +1,34 @@
 <template>
-	<div class="container">
+	<div class="card">
+		<h1></h1>
+		<form @submit.prevent="handleSubmit">
+			<div>
+				<img src="../images/IMG_7377.jpg" alt="photo" />
+				<button class="button">Connexion</button>
+			</div>
+			<div>
+				<div class="card__subtitle">Frank</div>
+				<div class="card__subtitle">HILBERT</div>
+				<div class="card__subtitle">frank@gmail.com</div>
+			</div>
+			<div>
+				<button class="button">Supprimer mon compte</button>
+				<button class="button">Valider</button>
+			</div>
+			<div>
+				<div>
+					Bio
+				</div>
+			</div>
+
+			<div class="card__form">
+				<input type="email" class="card__form-input" v-model="email" placeholder="Email" />
+			</div>
+			<button class="button">Inscription</button>
+		</form>
+	</div>
+	<!-- 
+	<div class="card">
 		<div class="col mt-5">
 			<div class="row d-flex flex-column-reverse flex-md-row">
 				<div class="col-12 greybg mx-auto my-3 p-3 shadow">
@@ -47,7 +76,7 @@
 
 						<input class="btn" type="file" id="photo_profile" name="photo_profile" accept="image/png, image/jpeg" />
 
-						<!-- <Button @btn_click="$emit('toggle_add_post')" :text="Enregitrer" :color="green" /> -->
+						<Button @btn_click="$emit('toggle_add_post')" :text="Enregitrer" :color="green" />
 
 						<div class="text-center">
 							<p id="error" class="primary"></p>
@@ -56,7 +85,7 @@
 				</div>
 			</div>
 		</div>
-	</div>
+	</div> -->
 </template>
 <script>
 import Button from "./Button.vue";

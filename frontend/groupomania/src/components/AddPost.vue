@@ -1,8 +1,21 @@
 <template>
 	<form @submit.prevent="onSubmit" class="add-form">
+		<label for="story">Tell us your story:</label>
+
+<textarea id="story" name="story"
+          rows="5" cols="33">
+It was a dark and stormy night...
+</textarea>
+
 		<div class="form-control">
 			<label>Ajouter une publication</label>
-			<input type="text-area" v-model="text" name="text" placeholder="Add Post" />
+			<input type="textarea"           rows="5" cols="50">
+
+  				 <nom>demande</nom>
+  				 <libellé>formulez votre demande</libellé>
+			</input>
+
+			<input type="text" v-model="content" name="text" placeholder="Exprimez-vous" />
 		</div>
 		<!-- <div class="form-control">
 			<label>Day & Time</label>
@@ -14,7 +27,7 @@
 		</div> -->
 		<div class="actions">
 			<button class="button button-size">Choisir une image</button>
-			<button class="button  button-size">Pulier</button>
+			<button class="button  button-size">Publier</button>
 		</div>
 
 		<input type="submit" value="Save Post" class="btn btn-block" />
@@ -26,29 +39,27 @@ export default {
 	name: "AddPost",
 	data() {
 		return {
-			text: "",
-			day: "",
-			reminder: false,
+			content: "",
+			attachment: "",
 		};
 	},
 	methods: {
 		onSubmit() {
-			if (!this.text) {
+			if (!this.content) {
 				alert("Please add a post");
 				return;
 			}
 
 			const newPost = {
-				text: this.text,
-				day: this.day,
-				reminder: this.reminder,
+				content: this.content,
+				attachment: this.attachment
+			
 			};
 
 			this.$emit("add_post", newPost);
 
-			this.text = "";
-			this.day = "";
-			this.reminder = false;
+			this.content = "";
+			this.attachment = "";
 		},
 	},
 };
@@ -95,6 +106,6 @@ export default {
 	justify-content: space-between;
 }
 .button-size {
-	width: 25%;
+	width: 30%;
 }
 </style>

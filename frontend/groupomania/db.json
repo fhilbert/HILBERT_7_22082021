@@ -2,54 +2,54 @@
   "posts": [
     {
       "id": 2,
-      "text": "Meeting at School",
+      "content": "Meeting at School",
       "day": "",
       "reminder": true
     },
     {
       "id": 3,
-      "text": "Food shopping",
+      "content": "Food shopping",
       "day": "",
       "reminder": false
     },
     {
-      "text": "new post",
+      "content": "new post",
       "day": "",
       "reminder": false,
       "id": 4
     },
     {
-      "text": "il fait beau",
+      "content": "il fait beau",
       "day": "",
       "reminder": false,
       "id": 5
     },
     {
-      "text": "je teste le biniou",
+      "content": "je teste le biniou",
       "day": "",
       "reminder": false,
       "id": 6
     },
     {
-      "text": "il rest de la place",
+      "content": "il rest de la place",
       "day": "",
       "reminder": false,
       "id": 7
     },
     {
-      "text": "encore un messge",
+      "content": "encore un messge",
       "day": "",
       "reminder": false,
       "id": 8
     },
     {
-      "text": "je voudrai voire quelle est limite de grandeur du post car je dois regarder ou regler",
+      "content": "je voudrai voire quelle est limite de grandeur du post car je dois regarder ou regler",
       "day": "",
       "reminder": false,
       "id": 9
     },
     {
-      "text": "post de plus pour rien",
+      "content": "post de plus pour rien",
       "day": "",
       "reminder": false,
       "id": 10

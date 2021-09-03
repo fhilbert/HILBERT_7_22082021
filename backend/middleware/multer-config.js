@@ -7,10 +7,11 @@ const MIME_TYPES = {
 };
 console.log("---------");
 console.log("multer");
+console.log("---------");
 
 const storage = multer.diskStorage({
 	destination: (req, file, callback) => {
-		callback(null, "images");
+		callback(null, "./images");
 	},
 	filename: (req, file, callback) => {
 		const name = file.originalname.split(" ").join("_").split(".")[0];

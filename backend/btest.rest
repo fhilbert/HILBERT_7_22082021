@@ -79,12 +79,12 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MTFiY
 
 ###
 POST  http://localhost:3000/api/posts/
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2MzA0ODkzMDMsImV4cCI6MTYzMDU3NTcwM30.LKT-FUiqbmE_lifedmE4-7nUQPpvdXnA6cDXp5fa0-w
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2MzA2MjIxMzEsImV4cCI6MTYzMDcwODUzMX0.zRNdU2zhiNE54bUXBnSoeCuW2iag5e4XCzx8bcN94OY
 Content-Type:application/json
 
 {
-        "content":"je suis le troisieme post",
-        "attachment":"tohbbto",
+        "content":"je suis le   ieme post",
+        "attachment":"IMG_7377.jpg",
         "Userid":4
  
 }

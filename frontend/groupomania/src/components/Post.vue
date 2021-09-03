@@ -6,9 +6,13 @@
 				<img class="post_owner_photo" src="../images/IMG_7377.jpg" alt="photo" />
 				<div class="post_owner">
 					<div class="owner_name">
-						Frank Hilbert
+						{{ post.UserId }}
 					</div>
-					<div>Publié le 02/09/2021 à 21:12</div>
+					<div>Publié le</div>
+					<!-- <div>{{post.createdAt}}</div> -->
+					<div>{{ moment(post.createdAt).fromNow() }}</div>
+					<div>à</div>
+					<div>{{ post.createdAt }}</div>
 				</div>
 			</div>
 			<div class="post_header_right">
@@ -18,7 +22,7 @@
 		<!-- <i @click="onDelete(post.id)" class="fas fa-trash-alt"></i> -->
 		<br />
 		<img src="../images/etretat.jpg" alt="photo" />
-		{{ post.text }}
+		{{ post.content }}
 		<div class="thumb">
 			<div class="like"><i class="far fa-thumbs-up"></i></div>
 			<div class="dislike"><i class="far fa-thumbs-down"></i></div>
@@ -87,5 +91,22 @@ export default {
 	border-top: solid black 2px;
 	display: flex;
 	justify-content: space-around;
+}
+.like {
+	margin-top: 10px;
+
+	border: seagreen;
+	color: seagreen;
+	width: 2.4em;
+	height: 2.4em;
+	font-size: 1.5em;
+}
+.dislike {
+	margin-top: 10px;
+	border: red;
+	color: red;
+	width: 2.4em;
+	height: 2.4em;
+	font-size: 1.5em;
 }
 </style>
