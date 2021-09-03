@@ -8,11 +8,12 @@
 					<div class="owner_name">
 						{{ post.UserId }}
 					</div>
-					<div>Publié le</div>
-					<!-- <div>{{post.createdAt}}</div> -->
-					<div>{{ moment(post.createdAt).fromNow() }}</div>
-					<div>à</div>
-					<div>{{ post.createdAt }}</div>
+					<div class="published">
+						<div class="space">Publié le</div>
+						<div class="space">{{ moment(post.createdAt).format("DD-MM-YYYY") }}</div>
+						<div class="space">à</div>
+						<div class="space">{{ moment(post.createdAt).format("HH:MM") }}</div>
+					</div>
 				</div>
 			</div>
 			<div class="post_header_right">
@@ -32,11 +33,21 @@
 </template>
 
 <script>
+const moment = require("moment");
+
 export default {
 	name: "Post",
 	props: {
 		post: Object,
 	},
+	data() {
+		return {
+			moment: moment,
+			content: "",
+			createAt: "",
+		};
+	},
+
 	methods: {
 		onDelete(id) {
 			console.log(id);
@@ -75,7 +86,12 @@ export default {
 	flex-direction: column;
 	margin-left: 20px;
 }
-
+.published {
+	display: flex;
+}
+.space {
+	padding-right: 5px;
+}
 .post_owner_photo {
 	width: 60px;
 	height: 60px;
