@@ -37,25 +37,27 @@ export default {
 			this.showAddPost = !this.showAddPost;
 		},
 		async addPost(post) {
-
-			const res = await axios.post("/posts", {
-				content: this.content,
-				attachment: this.attachment,
-				UserId:this.UserId
-			});
-
-			console.log('post',post);
-
-			// const res = await fetch("api/posts", {
-			// 	method: "POST",
-			// 	headers: {
-			// 		"Content-Type": "application/json",
-			// 	},
-			// 	body: JSON.stringify(post),
+			const data = await axios.post("/posts", post);
+			// body: JSON.stringify(post),
+			// body: post,
+			// content: this.content,
+			// attachment: this.attachment,
+			// UserId: this.Userid,
 			// });
 			// const data = await res.json();
-
 			// this.posts = [...this.posts, data];
+			// console.log("post", post);
+			// console.log("res", res);
+			// // // const res = await fetch("/posts", {
+			// // // 	method: "POST",
+			// // // 	headers: {
+			// // // 		"Content-Type": "application/json",
+			// // // 	},
+			// // // 	body: JSON.stringify(post),
+			// // // });
+			// // // const data = await res.json();
+			console.log(data.data);
+			this.posts = [...this.posts, data.data];
 		},
 		async deletePost(id) {
 			// if (confirm("Are you sure ?")) {
@@ -66,11 +68,10 @@ export default {
 			const res = await axios.delete(`/posts/${id}`);
 
 			res.status === 200 ? (this.posts = this.posts.filter(post => post.id !== id)) : alert("Error deleting post");
-
 		},
 		async fetchPosts() {
 			const response = await axios.get("/posts");
-			console.log('response');
+			console.log("response");
 			console.log(stringify(response));
 
 			// const res = await fetch("api/posts");
@@ -88,15 +89,14 @@ export default {
 	},
 	async created() {
 		const response = await axios.get("/posts", {
-	    	params: {
-    	    	date: 'YYYY-MM-DD'
-    			}
-			});
+			params: {
+				date: "YYYY-MM-DD",
+			},
+		});
 
-			this.posts= response.data
-			console.log('this.posts');
-			console.log('posts',this.posts);
-
+		this.posts = response.data;
+		console.log("this.posts");
+		console.log("posts", this.posts);
 	},
 };
 </script>

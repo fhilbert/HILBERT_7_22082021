@@ -4,6 +4,7 @@
 		<div class="post_header">
 			<div class="post_header_left">
 				<img class="post_owner_photo" src="../images/IMG_7377.jpg" alt="photo" />
+				<!-- <img class="post_owner_photo" src="../images/IMG_7377.jpg" alt="photo" /> -->
 				<div class="post_owner">
 					<div class="owner_name">
 						{{ post.UserId }}
@@ -20,20 +21,19 @@
 				<i @click="onDelete(post.id)" class="fas fa-trash-alt"></i>
 			</div>
 		</div>
-		<!-- <i @click="onDelete(post.id)" class="fas fa-trash-alt"></i> -->
 		<br />
-		<img src="../images/etretat.jpg" alt="photo" />
+		<img :src="post.attachment" alt="photo" />
 		{{ post.content }}
 		<div class="thumb">
-			<div class="like"><i class="far fa-thumbs-up"></i></div>
-			<div class="dislike"><i class="far fa-thumbs-down"></i></div>
+			<div class="like" @click="onLike(post.id)"><i class="far fa-thumbs-up"></i></div>
+			<div class="dislike" @click="onDislike(post.id)"><i class="far fa-thumbs-down"></i></div>
 		</div>
-		<!-- <p>{{ post.day }}</p> -->
 	</div>
 </template>
 
 <script>
 const moment = require("moment");
+import axios from "axios";
 
 export default {
 	name: "Post",
@@ -44,6 +44,7 @@ export default {
 		return {
 			moment: moment,
 			content: "",
+			attachment: "",
 			createAt: "",
 		};
 	},
@@ -52,6 +53,36 @@ export default {
 		onDelete(id) {
 			console.log(id);
 			this.$emit("delete_post", id);
+		},
+		async onLike(id) {
+			console.log(id);
+			console.log("like");
+			const postLike = 1;
+			const like = {
+				like: postLike,
+
+				UserId: 4,
+				PostId: id,
+			};
+			const data = await axios.post("/posts/likes", like);
+
+			// onCreateLike(id, 1);
+		},
+		async onDislike(id) {
+			console.log(id);
+			console.log("dislike");
+			// onCreateLike(id, -1);
+			const postLike = 0;
+			const like = {
+				like: postLike,
+
+				UserId: 4,
+				PostId: id,
+			};
+			const data = await axios.post("/posts/likes", like);
+		},
+		onCreateLike(id, like) {
+			console.log("onCreate", like);
 		},
 	},
 };

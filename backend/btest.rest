@@ -83,9 +83,9 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2MzA2MjIxM
 Content-Type:application/json
 
 {
-        "content":"je suis le   ieme post",
-        "attachment":"IMG_7377.jpg",
-        "Userid":4
+        "content":"Souir hier",
+        "attachment":"/Users/frankhilbert/Documents/Developpement/HILBERT_7_22082021/frontend/groupomania/src/images/IMG_7377.jpg",
+        "UserId":4
  
 }
 ###

@@ -1,40 +1,19 @@
 <template>
-	<form @submit.prevent="onSubmit" class="add-form">
-		<label for="story">Tell us your story:</label>
-
-<textarea id="story" name="story"
-          rows="5" cols="33">
-It was a dark and stormy night...
-</textarea>
-
-		<div class="form-control">
-			<label>Ajouter une publication</label>
-			<input type="textarea"           rows="5" cols="50">
-
-  				 <nom>demande</nom>
-  				 <libellé>formulez votre demande</libellé>
-			</input>
-
-			<input type="text" v-model="content" name="text" placeholder="Exprimez-vous" />
+	<div>
+		<div>Ajouter une publication</div>
+		<textarea v-model="content" placeholder="Exprimez-vous" rows="4" columns="65" max-rows="8"></textarea>
+		<div>
+			<label for="file">(Facultatif)</label><br />
+			<input type="file" ref="file" @change="selectFile()" />
 		</div>
-		<!-- <div class="form-control">
-			<label>Day & Time</label>
-			<input type="text" v-model="day" name="day" placeholder="Add Day & Time" />
-		</div> -->
-		<!-- <div class="form-control form-control-check">
-			<label>Set Reminder</label>
-			<input type="checkbox" v-model="reminder" name="reminder" />
-		</div> -->
-		<div class="actions">
-			<button class="button button-size">Choisir une image</button>
-			<button class="button  button-size">Publier</button>
-		</div>
-
-		<input type="submit" value="Save Post" class="btn btn-block" />
-	</form>
+		<div><img :src="this.attachment" alt="photo" /></div>
+		<button type="submit" @click.prevent="buttonNewMessage">Envoyer</button> -->
+	</div>
 </template>
 
 <script>
+import axios from "axios";
+
 export default {
 	name: "AddPost",
 	data() {
@@ -44,7 +23,12 @@ export default {
 		};
 	},
 	methods: {
-		onSubmit() {
+		onclick() {
+			console.log("choisir", 1);
+		},
+		buttonNewMessage() {
+			console.log("this.content", this.content);
+
 			if (!this.content) {
 				alert("Please add a post");
 				return;
@@ -52,10 +36,72 @@ export default {
 
 			const newPost = {
 				content: this.content,
-				attachment: this.attachment
-			
+				attachment: this.attachment,
+				UserId: 4,
 			};
+			// const response = axios.post("/posts", newPost);
 
+			console.log("newPost", newPost);
+			this.$emit("add_post", newPost);
+
+			this.content = "";
+			this.attachment = "";
+
+			// let token = localStorage.getItem("token");
+			// const data = new FormData();
+			// if (this.file !== null) {
+			// 	data.append("title", this.title);
+			// 	data.append("content", this.content);
+			// 	data.append("image", this.file, this.file.name);
+			// } else {
+			// 	data.append("title", this.title);
+			// 	data.append("content", this.content);
+			// }
+			// axios
+			// 	.post("http://localhost:3000/api/messages/", data, {
+			// 		headers: { Authorization: "Bearer " + token },
+			// 	})
+			// 	.then(() => {
+			// 		alert("Votre message a bien été envoyé !");
+			// 		document.location.reload();
+			// 		this.$router.push("/feed");
+			// 	})
+			// 	.catch(error => {
+			// 		this.error = error.response.data;
+			// });
+		},
+		selectFile(event) {
+			// this.file = event.target.files[0];
+
+			// console.log(this.$refs.file.files[0]);
+			this.file = this.$refs.file.files[0];
+
+			this.attachment = this.file.name;
+			console.log("this", this.content);
+			console.log("this at", this.attachment);
+		},
+		onFilePicked(event) {
+			this.file = event.target.files[0];
+		},
+		removeFile() {
+			this.$refs["file-input"].reset();
+		},
+		submitForm() {
+			console.log("this.content", this.content);
+
+			if (!this.content) {
+				alert("Please add a post");
+				return;
+			}
+
+			const newPost = {
+				content: this.content,
+				attachment: this.files,
+				UserId: 4,
+			};
+			// const response = axios.post("/posts", newPost);
+
+			console.log("newPost", newPost);
 			this.$emit("add_post", newPost);
 
 			this.content = "";
@@ -77,7 +123,15 @@ export default {
 .form-control label {
 	display: block;
 }
-
+#uploadInput {
+	display: inline-block;
+}
+textarea {
+	font-size: 1.2rem;
+	width: 100%;
+	margin-bottom: 10px;
+	border-radius: 15px;
+}
 .form-control input {
 	width: 100%;
 	height: 40px;
@@ -107,5 +161,48 @@ export default {
 }
 .button-size {
 	width: 30%;
+}
+
+/* ----- */
+
+.feed {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+form {
+	background-color: #192a48;
+	width: 50%;
+	padding: 10px;
+	color: white;
+	margin-bottom: 40px;
+}
+textarea {
+	width: 80%;
+	margin-bottom: 10px;
+}
+label {
+	font-size: 12px;
+}
+input {
+	border: solid rgb(206, 206, 206) 1px;
+	text-decoration: none;
+	margin-bottom: 20px;
+	width: 50%;
+}
+button {
+	background-color: #c46e78;
+	color: white;
+	padding: 6px;
+	margin-bottom: 10px;
+	border: none;
+	text-decoration: none;
+}
+.error {
+	font-size: 13px;
+	background-color: rgb(231, 185, 185);
+	color: rgb(53, 21, 21);
+	margin: 20px;
+	padding: 10px;
 }
 </style>

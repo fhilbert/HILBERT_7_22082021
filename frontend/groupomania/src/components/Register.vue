@@ -49,36 +49,8 @@ export default {
 			});
 			console.log(response);
 			this.$router.push("/");
-
-			// const url = "http://localhost:3000/api/auth/signup";
-
-			// const response = await axios.post("/auth/signup", data);
-
-			// const options = {
-			// 	method: "POST",
-			// 	headers: {
-			// 		Accept: "application/json",
-			// 		"Content-Type": "application/json",
-			// 	},
-			// 	body: JSON.stringify(data),
-			// };
-			// fetch(url, options)
-			// 	.then(res => res.json())
-			// 	.then(data => {
-			// 		console.log(data);
-			// 		console.log("Enregistré ");
-			// 		this.$router.push("./login");
-			// 	})
-			// 	.catch(error => console.log("Erreur : " + error));
 		},
 	},
 };
 </script>
-<style>
-.container {
-	background-color: sandybrown;
-	margin-top: 100px;
-	height: 80vh;
-	width: 60vw;
-}
-</style>
+<style></style>

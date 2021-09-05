@@ -3,13 +3,15 @@ const db = require("../models");
 exports.createPost = (req, res, next) => {
 	console.log("--------");
 	console.log("createPost");
+	console.log(req.body);
+
 	const newPost = {
 		content: req.body.content,
 		attachment: req.body.attachment,
 		Userid: req.body.Userid,
 	};
 	db.Post.create(newPost)
-		.then(() => res.status(201).json({ message: "Utilisateur crée !" }))
+		.then(() => res.status(201).json({ message: "post crée !" }))
 		.catch(error => res.status(400).json({ error }));
 
 	res.json(newPost);

@@ -21,6 +21,21 @@ img {
 	max-width: 100%;
 	border-radius: 8px;
 }
+.img__profile {
+	width: 100%;
+	height: 260px;
+	object-fit: cover;
+}
+.photo__profile {
+	width: 50%;
+	border-radius: 15px;
+}
+.card__profile {
+	width: 50%;
+	background-color: moccasin;
+	border-radius: 15px;
+
+}
 
 .card {
 	max-width: 100%;
