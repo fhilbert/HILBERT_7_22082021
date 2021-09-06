@@ -1,7 +1,7 @@
 <template>
 	<div>
 		<div>Ajouter une publication</div>
-		<textarea v-model="content" placeholder="Exprimez-vous" rows="4" columns="65" max-rows="8"></textarea>
+		<textarea v-model="content" placeholder="  Exprimez-vous" rows="4" columns="65" max-rows="8"></textarea>
 		<div>
 			<label for="file">(Facultatif)</label><br />
 			<input type="file" ref="file" @change="selectFile()" />
@@ -176,10 +176,6 @@ form {
 	padding: 10px;
 	color: white;
 	margin-bottom: 40px;
-}
-textarea {
-	width: 80%;
-	margin-bottom: 10px;
 }
 label {
 	font-size: 12px;

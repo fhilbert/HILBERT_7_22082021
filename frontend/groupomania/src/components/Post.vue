@@ -23,11 +23,49 @@
 		</div>
 		<br />
 		<img :src="post.attachment" alt="photo" />
-		{{ post.content }}
+		<div>{{ post.content }}</div>
+
 		<div class="thumb">
-			<div class="like" @click="onLike(post.id)"><i class="far fa-thumbs-up"></i></div>
-			<div class="dislike" @click="onDislike(post.id)"><i class="far fa-thumbs-down"></i></div>
+			<div class="like" @click="onLike(post.id)">
+				<!-- <i :class="like ? 'fas fa-thumbs-up' : 'far fa-thumbs-up'"></i> -->
+				<i class="far fa-thumbs-up">2</i>
+			</div>
+			<div class="dislike" @click="onDislike(post.id)"><i class="far fa-thumbs-down">3</i></div>
 		</div>
+		<!-- <div class="postComment">
+			<div>Commentaires</div>
+			<div class="postComments">
+			<div class="postComments" :key="comment.id" v-for="comment in comments">
+				<div class="commentOwnerPhoto">
+					<img src="../images/IMG_7377.jpg" alt="photo" />
+				</div>
+
+				<div class="commentOwner">
+					<div class="ownerName">
+						{{ comment.UserId }}
+					</div>
+					<div class="commentPublished">
+						<div class="space">Publié le</div>
+						<div class="space">{{ moment(comment.createdAt).format("DD-MM-YYYY") }}</div>
+						<div class="space">à</div>
+						<div class="space">{{ moment(comment.createdAt).format("HH:MM") }}</div>
+					</div>
+				</div>
+				<div class="commentText">Il fait beau le soleil brille</div>
+				<div class="commentText">{{ comment.comment }}</div>
+			</div>
+			<div class="postCommentInput">
+				<div class="commentOwnerPhoto">
+					<img src="../images/IMG_7377.jpg" alt="photo" />
+				</div>
+				<div class="postCommentInputCard">
+					<input class="commentTextInput" value="Commentaire ..." type="text" />
+					<div>
+						<button type="submit"><i class="fas fa-plus-circle"></i></button>
+					</div>
+				</div>
+			</div>
+		</div> -->
 	</div>
 </template>
 
@@ -46,6 +84,7 @@ export default {
 			content: "",
 			attachment: "",
 			createAt: "",
+			// comments: [],
 		};
 	},
 
@@ -57,42 +96,45 @@ export default {
 		async onLike(id) {
 			console.log(id);
 			console.log("like");
+
 			const postLike = 1;
-			const like = {
-				like: postLike,
 
-				UserId: 4,
-				PostId: id,
-			};
-			const data = await axios.post("/posts/likes", like);
-
-			// onCreateLike(id, 1);
+			this.onCreateLike(id, postLike);
 		},
 		async onDislike(id) {
 			console.log(id);
 			console.log("dislike");
-			// onCreateLike(id, -1);
-			const postLike = 0;
-			const like = {
+		},
+		async onCreateLike(id, postLike) {
+			console.log("onCreate", id);
+			console.log("onCreate", postLike);
+
+			const response = await axios.get(`/posts/likes/${id}`);
+			console.log("response", response);
+			if (response.data) {
+				console.log("trouvé");
+				const res = await axios.delete(`/posts/likes/${id}`);
+			} else {
+				console.log("non trouvé");
+			}
+			const newLike = {
 				like: postLike,
 
 				UserId: 4,
 				PostId: id,
 			};
-			const data = await axios.post("/posts/likes", like);
-		},
-		onCreateLike(id, like) {
-			console.log("onCreate", like);
+			console.log("creation", newLike);
+			const data = await axios.post("/posts/likes", newLike);
+			// like = postLike;
 		},
 	},
 };
 </script>
 
 <style scoped>
-.fas {
+.fa-trash-alt {
 	color: red;
 }
-
 .post {
 	background: #f4f4f4;
 	margin: 5px;
@@ -123,7 +165,8 @@ export default {
 .space {
 	padding-right: 5px;
 }
-.post_owner_photo {
+.post_owner_photo,
+commentOwnerPhoto {
 	width: 60px;
 	height: 60px;
 }
