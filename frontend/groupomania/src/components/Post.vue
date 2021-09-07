@@ -4,7 +4,6 @@
 		<div class="post_header">
 			<div class="post_header_left">
 				<img class="post_owner_photo" src="../images/IMG_7377.jpg" alt="photo" />
-				<!-- <img class="post_owner_photo" src="../images/IMG_7377.jpg" alt="photo" /> -->
 				<div class="post_owner">
 					<div class="owner_name">{{ post.UserId }}</div>
 					<div class="published">
@@ -33,30 +32,30 @@
 
 		<div class="postComment">
 			<div class="com">Commentaires</div>
-			<!-- <div class="postComments" :key="comment.id" v-for="comment in comments"> -->
-			<div class="commentHeader">
-				<div class="commentHeaderLeft">
-					<img class="commentOwnerPhoto" src="../images/IMG_7377.jpg" alt="photo" />
-					<div class="commentOwner">
-						<div class="published">
-							<div class="ownerName">
-								<!-- {{ comment.UserId }} -->
-								Frank HILBERT
+			<div class="postComments" :key="comment.id" v-for="comment in comments">
+				<div class="commentHeader">
+					<div class="commentHeaderLeft">
+						<img class="commentOwnerPhoto" src="../images/IMG_7377.jpg" alt="photo" />
+						<div class="commentOwner">
+							<div class="published">
+								<div class="ownerName">
+									{{ comment.UserId }}
+								</div>
+								<div class="space">le</div>
+								<!-- <div class="space">05/02/2003</div> -->
+								<div class="space">{{ moment(comment.createdAt).format("DD-MM-YYYY") }}</div>
+								<div class="space">à</div>
+								<!-- <div class="space">22:03</div> -->
+								<div class="space">{{ moment(comment.createdAt).format("HH:MM") }}</div>
 							</div>
-							<div class="space">le</div>
-							<div class="space">05/02/2003</div>
-							<!-- <div class="space">{{ moment(comment.createdAt).format("DD-MM-YYYY") }}</div> -->
-							<div class="space">à</div>
-							<div class="space">22:03</div>
-							<!-- <div class="space">{{ moment(comment.createdAt).format("HH:MM") }}</div> -->
-						</div>
 
-						<div class="commentText">Il fait beau le soleil brille</div>
-						<!-- <div class="commentText">{{ comment.comment }}</div> -->
+							<!-- <div class="commentText">Il fait beau le soleil brille</div> -->
+							<div class="commentText">{{ comment.comment }}</div>
+						</div>
 					</div>
-				</div>
-				<div class="commentHeaderRight">
-					<i @click="onDelete(post.id)" class="fas fa-trash-alt"></i>
+					<div class="commentHeaderRight">
+						<i @click="onDeleteComment(comment.id)" class="fas fa-trash-alt"></i>
+					</div>
 				</div>
 			</div>
 			<div class="postCommentInput">
@@ -64,9 +63,9 @@
 				<div class="postCommentInputCard">
 					<div class="commentTextInput">Ceci est la saisie d'un commentaire pour voir la long ueur de la ligne</div>
 					<!-- <input class="commentTextInput" value="Commentaire ..." type="text" /> -->
-					<!-- <div> -->
-					<!-- <button type="submit"><i class="fas fa-plus-circle"></i></button> -->
-					<!-- </div> -->
+					<!-- <div class="check">
+						<button type="submit"><i class="fas fa-plus-circle"></i></button>
+					</div> -->
 					<div class="check"><i class="fas fa-plus-circle"></i></div>
 				</div>
 			</div>
@@ -89,7 +88,7 @@ export default {
 			content: "",
 			attachment: "",
 			createAt: "",
-			// comments: [],
+			comments: [],
 		};
 	},
 
@@ -97,6 +96,14 @@ export default {
 		onDelete(id) {
 			console.log(id);
 			this.$emit("delete_post", id);
+		},
+		async onDeleteComment(id) {
+			console.log(id);
+
+			const res = await axios.delete(`/posts/comments/${id}`);
+			res.status === 200
+				? (this.comments = this.comments.filter(comment => comment.id !== id))
+				: alert("Error deleting post");
 		},
 		async onLike(id) {
 			console.log(id);
@@ -132,6 +139,17 @@ export default {
 			const data = await axios.post("/posts/likes", newLike);
 			// like = postLike;
 		},
+	},
+	async created() {
+		const response = await axios.get("/posts/comments", {
+			params: {
+				date: "YYYY-MM-DD",
+			},
+		});
+
+		this.comments = response.data;
+		console.log("this.comments");
+		console.log("commentss", this.comments);
 	},
 };
 </script>

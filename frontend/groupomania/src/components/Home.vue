@@ -75,7 +75,6 @@ export default {
 		async fetchPosts() {
 			const response = await axios.get("/posts");
 			console.log("response");
-			console.log(stringify(response));
 
 			// const res = await fetch("api/posts");
 

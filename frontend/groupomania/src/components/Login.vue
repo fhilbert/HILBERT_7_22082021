@@ -1,5 +1,6 @@
 <template>
 	<div class="card">
+		<Nav />
 		<form @submit.prevent="handleSubmit">
 			<h1 class="card__title">Connexion</h1>
 			<p class="card__subtitle">
@@ -17,9 +18,14 @@
 	</div>
 </template>
 <script>
+import Nav from "./Nav.vue";
+
 import axios from "axios";
 export default {
 	name: "Login",
+	components: {
+		Nav,
+	},
 	data() {
 		return {
 			email: "",
