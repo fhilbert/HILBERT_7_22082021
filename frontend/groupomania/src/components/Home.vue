@@ -1,5 +1,6 @@
 <template>
-	<div class="toto">
+	<div class="home">
+		<Nav />
 		<Header @toggle_add_post="toggleAddPost" title="Publications" :showAddPost="showAddPost" />
 		<div v-show="showAddPost">
 			<AddPost @add_post="addPost" />
@@ -13,6 +14,7 @@
 <script>
 import axios from "axios";
 
+import Nav from "./Nav.vue";
 import Header from "./Header.vue";
 import Footer from "./Footer.vue";
 import Posts from "./Posts.vue";
@@ -25,6 +27,7 @@ export default {
 		Posts,
 		AddPost,
 		Footer,
+		Nav,
 	},
 	data() {
 		return {

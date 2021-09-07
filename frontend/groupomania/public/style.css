@@ -30,12 +30,6 @@ img {
 	width: 50%;
 	border-radius: 15px;
 }
-.card__profile {
-	width: 50%;
-	background-color: moccasin;
-	border-radius: 15px;
-
-}
 
 .card {
 	max-width: 100%;

@@ -6,9 +6,7 @@
 				<img class="post_owner_photo" src="../images/IMG_7377.jpg" alt="photo" />
 				<!-- <img class="post_owner_photo" src="../images/IMG_7377.jpg" alt="photo" /> -->
 				<div class="post_owner">
-					<div class="owner_name">
-						{{ post.UserId }}
-					</div>
+					<div class="owner_name">{{ post.UserId }}</div>
 					<div class="published">
 						<div class="space">Publié le</div>
 						<div class="space">{{ moment(post.createdAt).format("DD-MM-YYYY") }}</div>
@@ -32,40 +30,47 @@
 			</div>
 			<div class="dislike" @click="onDislike(post.id)"><i class="far fa-thumbs-down">3</i></div>
 		</div>
-		<!-- <div class="postComment">
-			<div>Commentaires</div>
-			<div class="postComments">
-			<div class="postComments" :key="comment.id" v-for="comment in comments">
-				<div class="commentOwnerPhoto">
-					<img src="../images/IMG_7377.jpg" alt="photo" />
-				</div>
 
-				<div class="commentOwner">
-					<div class="ownerName">
-						{{ comment.UserId }}
-					</div>
-					<div class="commentPublished">
-						<div class="space">Publié le</div>
-						<div class="space">{{ moment(comment.createdAt).format("DD-MM-YYYY") }}</div>
-						<div class="space">à</div>
-						<div class="space">{{ moment(comment.createdAt).format("HH:MM") }}</div>
+		<div class="postComment">
+			<div class="com">Commentaires</div>
+			<!-- <div class="postComments" :key="comment.id" v-for="comment in comments"> -->
+			<div class="commentHeader">
+				<div class="commentHeaderLeft">
+					<img class="commentOwnerPhoto" src="../images/IMG_7377.jpg" alt="photo" />
+					<div class="commentOwner">
+						<div class="published">
+							<div class="ownerName">
+								<!-- {{ comment.UserId }} -->
+								Frank HILBERT
+							</div>
+							<div class="space">le</div>
+							<div class="space">05/02/2003</div>
+							<!-- <div class="space">{{ moment(comment.createdAt).format("DD-MM-YYYY") }}</div> -->
+							<div class="space">à</div>
+							<div class="space">22:03</div>
+							<!-- <div class="space">{{ moment(comment.createdAt).format("HH:MM") }}</div> -->
+						</div>
+
+						<div class="commentText">Il fait beau le soleil brille</div>
+						<!-- <div class="commentText">{{ comment.comment }}</div> -->
 					</div>
 				</div>
-				<div class="commentText">Il fait beau le soleil brille</div>
-				<div class="commentText">{{ comment.comment }}</div>
+				<div class="commentHeaderRight">
+					<i @click="onDelete(post.id)" class="fas fa-trash-alt"></i>
+				</div>
 			</div>
 			<div class="postCommentInput">
-				<div class="commentOwnerPhoto">
-					<img src="../images/IMG_7377.jpg" alt="photo" />
-				</div>
+				<img class="commentOwnerPhoto" src="../images/IMG_7377.jpg" alt="photo" />
 				<div class="postCommentInputCard">
-					<input class="commentTextInput" value="Commentaire ..." type="text" />
-					<div>
-						<button type="submit"><i class="fas fa-plus-circle"></i></button>
-					</div>
+					<div class="commentTextInput">Ceci est la saisie d'un commentaire pour voir la long ueur de la ligne</div>
+					<!-- <input class="commentTextInput" value="Commentaire ..." type="text" /> -->
+					<!-- <div> -->
+					<!-- <button type="submit"><i class="fas fa-plus-circle"></i></button> -->
+					<!-- </div> -->
+					<div class="check"><i class="fas fa-plus-circle"></i></div>
 				</div>
 			</div>
-		</div> -->
+		</div>
 	</div>
 </template>
 
@@ -134,6 +139,10 @@ export default {
 <style scoped>
 .fa-trash-alt {
 	color: red;
+	width: 40px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
 }
 .post {
 	background: #f4f4f4;
@@ -147,11 +156,13 @@ export default {
 .post.reminder {
 	border-left: 5px solid green;
 }
-.post_header {
+.post_header,
+.commentHeader {
 	display: flex;
 	justify-content: space-between;
 }
-.post_header_left {
+.post_header_left,
+.commentHeaderLeft {
 	display: flex;
 }
 .post_owner {
@@ -166,9 +177,10 @@ export default {
 	padding-right: 5px;
 }
 .post_owner_photo,
-commentOwnerPhoto {
-	width: 60px;
-	height: 60px;
+.commentOwnerPhoto {
+	width: 50px;
+	height: 50px;
+	object-fit: cover;
 }
 .post h3 {
 	display: flex;
@@ -198,5 +210,53 @@ commentOwnerPhoto {
 	width: 2.4em;
 	height: 2.4em;
 	font-size: 1.5em;
+}
+.com {
+	margin-bottom: 10px;
+}
+.postComments,
+.postCommentInput {
+	margin-bottom: 10px;
+	display: flex;
+}
+.postCommentsCard {
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+	margin-left: 20px;
+}
+.commentOwner {
+	margin-left: 20px;
+	margin-bottom: 10px;
+}
+.commentsPublished {
+	display: flex;
+	font-style: italic;
+}
+.ownerName {
+	color: blue;
+	padding-right: 5px;
+}
+.postCommentInputCard {
+	display: flex;
+	justify-content: space-between;
+
+	margin-left: 20px;
+	background-color: lightsteelblue;
+	border-color: steelblue;
+	width: 100%;
+	border-radius: 15px;
+}
+.commentTextInput {
+	display: flex;
+	padding-left: 5px;
+	width: 90%;
+	align-items: center;
+}
+.check {
+	width: 40px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
 }
 </style>

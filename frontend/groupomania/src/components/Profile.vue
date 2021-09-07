@@ -14,7 +14,7 @@
 				</div>
 			</div>
 			<div class="second__row">
-				<input type="textarea" class="card__form-input" v-model="bio" placeholder="bio" />
+				<textarea v-model="bio" placeholder=" Description" rows="4" columns="65" max-rows="8"></textarea>
 			</div>
 			<div class="third__row">
 				<div class="button__profile">
@@ -23,11 +23,6 @@
 				</div>
 			</div>
 		</form>
-		<input type="textarea">
-   <nom>demande</nom>
-   <libellé>formulez votre demande</libellé>
-</input>
-
 	</div>
 </template>
 <script>
@@ -44,6 +39,13 @@ export default {
 .second__row {
 	width: 100%;
 }
+textarea {
+	font-size: 1.2rem;
+	width: 100%;
+	margin: 10px 0px;
+	border-radius: 15px;
+}
+
 .third_row {
 	display: flex;
 }
@@ -55,8 +57,8 @@ export default {
 	padding: 32px;
 }
 .img__profile {
-	width: 100%;
-	height: 260px;
+	width: 170px;
+	height: 170px;
 	object-fit: cover;
 }
 .photo__profile {
@@ -64,26 +66,20 @@ export default {
 	border-radius: 15px;
 }
 .card__profile {
-	width: 50%;
-	background-color: moccasin;
-	border-radius: 15px;
-}
-.img__profile {
 	width: 100%;
-	height: 260px;
-	object-fit: cover;
+
+	border-radius: 15px;
+	text-align: center;
 }
 .photo__profile {
 	width: 50%;
-	border-radius: 15px;
-}
-.card__profile {
-	width: 50%;
-	background-color: moccasin;
 	border-radius: 15px;
 }
 .user__profile {
-	width: 40%;
+	width: 50%;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-evenly;
 }
 
 .button__profile {
