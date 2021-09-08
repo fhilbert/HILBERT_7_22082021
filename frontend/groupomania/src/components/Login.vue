@@ -1,20 +1,22 @@
 <template>
-	<div class="card">
+	<div class="login">
 		<Nav />
-		<form @submit.prevent="handleSubmit">
-			<h1 class="card__title">Connexion</h1>
-			<p class="card__subtitle">
-				Pas inscrit ? <span class="card__action" @click="createAccount()">Créer un compte</span>
-			</p>
-			<br />
-			<div class="card__form">
-				<input type="email" class="card__form-input" v-model="email" placeholder="Email" />
-			</div>
-			<div class="card__form">
-				<input type="password" class="card__form-input" v-model="password" placeholder="Password" />
-			</div>
-			<button class="button">Connexion</button>
-		</form>
+		<div class="card">
+			<form @submit.prevent="handleSubmit">
+				<h1 class="card__title">Connexion</h1>
+				<p class="card__subtitle">
+					Pas inscrit ? <span class="card__action" @click="createAccount()">Créer un compte</span>
+				</p>
+				<br />
+				<div class="card__form">
+					<input type="email" class="card__form-input" v-model="email" placeholder="Email" />
+				</div>
+				<div class="card__form">
+					<input type="password" class="card__form-input" v-model="password" placeholder="Password" />
+				</div>
+				<button class="button">Connexion</button>
+			</form>
+		</div>
 	</div>
 </template>
 <script>

@@ -40,7 +40,7 @@ CREATE TABLE IF NOT EXISTS `mydb`.`Posts` (
   `idPosts` INT NOT NULL,
   `Users_idUsers` INT NOT NULL,
   `content` TEXT NOT NULL,
-  `attachment` VARCHAR(255) NULL,
+  `image` VARCHAR(255) NULL,
   PRIMARY KEY (`idPosts`, `Users_idUsers`),
   INDEX `fk_Posts_Users1_idx` (`Users_idUsers` ASC) VISIBLE,
   CONSTRAINT `fk_Posts_Users1`

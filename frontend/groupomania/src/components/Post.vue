@@ -19,7 +19,7 @@
 			</div>
 		</div>
 		<br />
-		<img :src="post.attachment" alt="photo" />
+		<img :src="post.image" alt="photo" />
 		<div>{{ post.content }}</div>
 
 		<div class="thumb">
@@ -86,7 +86,7 @@ export default {
 		return {
 			moment: moment,
 			content: "",
-			attachment: "",
+			image: "",
 			createAt: "",
 			comments: [],
 		};

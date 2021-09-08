@@ -27,26 +27,20 @@ db.Like = require("./likes")(sequelize, Sequelize);
 //relations
 
 //  Posts -- Users
-db.User.hasMany(db.Post, {
-	as: "Post",
-});
-db.Post.belongsTo(db.User, {
-	as: "User",
-});
+db.User.hasMany(db.Post);
+db.Post.belongsTo(db.User);
+// db.User.hasMany(db.Post, {
+// 	as: "Post",
+// });
+// db.Post.belongsTo(db.User, {
+// 	as: "User",
+// });
 //  Posts -- Comments
-db.Post.hasMany(db.Comment, {
-	as: "Comment",
-});
-db.Comment.belongsTo(db.Post, {
-	as: "Post",
-});
+db.Post.hasMany(db.Comment);
+db.Comment.belongsTo(db.Post);
 //  Comments -- Users
-db.User.hasMany(db.Comment, {
-	as: "Comment",
-});
-db.Comment.belongsTo(db.User, {
-	as: "User",
-});
+db.User.hasMany(db.Comment);
+db.Comment.belongsTo(db.User);
 //  Posts - Likes - Users
 
 db.User.belongsToMany(db.Post, { through: "Likes" });

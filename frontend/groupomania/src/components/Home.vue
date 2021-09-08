@@ -40,25 +40,12 @@ export default {
 			this.showAddPost = !this.showAddPost;
 		},
 		async addPost(post) {
-			const data = await axios.post("/posts", post);
-			// body: JSON.stringify(post),
-			// body: post,
-			// content: this.content,
-			// attachment: this.attachment,
-			// UserId: this.Userid,
-			// });
-			// const data = await res.json();
-			// this.posts = [...this.posts, data];
-			// console.log("post", post);
-			// console.log("res", res);
-			// // // const res = await fetch("/posts", {
-			// // // 	method: "POST",
-			// // // 	headers: {
-			// // // 		"Content-Type": "application/json",
-			// // // 	},
-			// // // 	body: JSON.stringify(post),
-			// // // });
-			// // // const data = await res.json();
+			console.log("post", post);
+			const data = await axios.post("/posts", post, {
+				// headers: {
+				// 	"Content-Type": "multipart/form-data",
+				// },
+			});
 			console.log(data.data);
 			this.posts = [...this.posts, data.data];
 		},
@@ -67,8 +54,11 @@ export default {
 			// 	this.posts = this.posts.filter(post => post.id !== id);
 			// }
 			console.log("id", id);
+			const token = localStorage.getItem("token");
 
-			const res = await axios.delete(`/posts/${id}`);
+			const res = await axios.delete(`/posts/${id}`, {
+				headers: { Authorization: "Bearer " + token },
+			});
 
 			res.status === 200 ? (this.posts = this.posts.filter(post => post.id !== id)) : alert("Error deleting post");
 		},

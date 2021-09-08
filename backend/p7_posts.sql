@@ -1,6 +1,6 @@
 USE groupomania_dev;
 
-INSERT INTO `groupomania_dev`.`Posts` (`id`, `idUsers`, `content`, `attachment`) 
+INSERT INTO `groupomania_dev`.`Posts` (`id`, `idUsers`, `content`, `image`) 
 VALUES 
 ('1', '1', 'content1', 'photo1'),
 ('2', '2', 'content2', 'photo2'),

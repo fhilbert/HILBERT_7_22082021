@@ -2,12 +2,18 @@
 	<div>
 		<div>Ajouter une publication</div>
 		<textarea v-model="content" placeholder="  Exprimez-vous" rows="4" columns="65" max-rows="8"></textarea>
-		<div>
-			<label for="file">(Facultatif)</label><br />
-			<input type="file" ref="file" @change="selectFile" />
+
+		<input type="file" accept="image/*" @change="onChange" />
+		<div id="preview">
+			<img v-if="item.imageUrl" :src="item.imageUrl" />
 		</div>
-		<div><img v-if="imageUrl" :src="imageUrl" alt="photo" /></div>
-		<button type="submit" @click.prevent="buttonNewMessage">Envoyer</button> -->
+
+		<!-- <div> -->
+		<!-- <label for="file">(Facultatif)</label><br /> -->
+		<!-- <input type="file" ref="file" @change="selectFile()" /> -->
+		<!-- </div> -->
+		<div><img :src="this.image" alt="photo" /></div>
+		<button type="submit" @click.prevent="buttonNewPost">Envoyer</button>
 	</div>
 </template>
 
@@ -21,15 +27,28 @@ export default {
 		return {
 			content: "",
 			image: "",
-			imageUrl: null,
-			file: null,
+			item: {
+				//...
+				image: null,
+				imageUrl: null,
+			},
 		};
 	},
 	methods: {
+		onChange(e) {
+			const file = e.target.files[0];
+			this.image = file;
+			this.item.imageUrl = URL.createObjectURL(file);
+			//
+			this.file = this.$refs.file.files[0];
+
+			this.image = this.file.name;
+		},
+
 		onclick() {
 			console.log("choisir", 1);
 		},
-		buttonNewMessage() {
+		buttonNewPost() {
 			console.log("this.content", this.content);
 
 			if (!this.content) {
@@ -39,20 +58,29 @@ export default {
 
 			// const token = localStorage.getItem("token");
 
+			// const token = localStorage.getItem("token");
+			// //   const token = JSON.parse(localStorage.groupomaniaUser).token                            // on récupère le token dans le localstorage
+			// let decodedToken = jwt.verify(token, process.env.TOKENKEY); // on décode le token avec la fonction verify qui prend le token et la clé secrète
+			// this.sessionUserId = decodedToken.userId; // on récupère le UserId
+			// this.sessionUserAcces = decodedToken.niveau_acces; // on récupère le niveau d'acces
+			// console.log("session", this.sessionUserAcces);
+			// const file = (event.target as HTMLInputElement).files[0];
+
 			const nb = 1;
 			const data = new FormData();
 			if (this.file !== null) {
 				data.append("content", this.content);
-				data.append("image", this.file, this.file.name);
+				// data.append("image", this.item.imageUrl);
+				data.append("image", this.file);
 				data.append("UserId", nb);
 			} else {
 				data.append("content", this.content);
 				data.append("UserId", nb);
 			}
 			console.log("datas", data);
-			this.$emit("add_post", data);
 			this.content = "";
 			this.image = "";
+			this.$emit("add_post", data);
 
 			// const res = axios
 			// 	.post("http://localhost:3000/api/posts/", data, {
@@ -68,17 +96,20 @@ export default {
 			// 	});
 		},
 
+		// headers: {
+		// 	"Content-Type": "multipart/form-data",
+		// },
+
 		selectFile(event) {
 			// this.file = event.target.files[0];
 
 			// console.log(this.$refs.file.files[0]);
-			this.file = this.$refs.file.files[0];
+
+			// this.file = this.$refs.file.files[0];
 
 			// this.image = this.file.name;
-			// console.log("this", this.content);
-			// console.log("this at", this.file);
-			// const bfile = this.$refs.file.files[0];
-			// this.imageUrl = URL.createObjectURL(bfile);
+			console.log("this", this.content);
+			console.log("this at", this.file);
 		},
 		submitForm() {
 			console.log("this.content", this.content);
@@ -88,11 +119,11 @@ export default {
 				return;
 			}
 
-			// const newPost = {
-			// 	content: this.content,
-			// 	image: this.files,
-			// 	UserId: 4,
-			// };
+			const newPost = {
+				content: this.content,
+				image: this.files,
+				UserId: 4,
+			};
 			// const response = axios.post("/posts", newPost);
 
 			console.log("newPost", newPost);
