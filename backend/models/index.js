@@ -41,9 +41,13 @@ db.Comment.belongsTo(db.Post);
 //  Comments -- Users
 db.User.hasMany(db.Comment);
 db.Comment.belongsTo(db.User);
+// Posts -- Likes
+db.Post.hasMany(db.Like);
+db.Like.belongsTo(db.Post);
+
 //  Posts - Likes - Users
 
-db.User.belongsToMany(db.Post, { through: "Likes" });
-db.Post.belongsToMany(db.User, { through: "Likes" });
+// db.User.belongsToMany(db.Post, { through: "Likes" });
+// db.Post.belongsToMany(db.User, { through: "Likes" });
 
 module.exports = db;

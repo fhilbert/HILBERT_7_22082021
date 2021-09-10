@@ -28,6 +28,10 @@ module.exports = (sequelize, Sequelize) => {
 				type: Sequelize.STRING(255),
 				allowNull: true,
 			},
+			photo: {
+				type: Sequelize.STRING(255),
+				allowNull: true,
+			},
 			isAdmin: {
 				type: Sequelize.TINYINT,
 				allowNull: false,

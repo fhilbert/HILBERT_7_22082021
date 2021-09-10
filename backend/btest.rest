@@ -70,9 +70,18 @@ Content-Type:application/json
     
 }
 ###
-GET  http://localhost:3000/api/auth/profile/
+GET  http://localhost:3000/api/auth/profile/1
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2MzAyNDc3MDgsImV4cCI6MTYzMDMzNDEwOH0.xHcx9CRobM0SRuOxgGOtIiq-6QKlaZ_9jH9RekUNW3c
 
+###
+PUT http://localhost:3000/api/auth/profile/3
+Content-Type:application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2MzEyNzM1NzcsImV4cCI6MTYzMTM1OTk3N30.LtkaJ9ImNVW_mmFpceJY7dpi4qjoRLcpV_DEPoMNwdM
+
+{
+        "bio":" je suis le fils de mon papa",
+ 
+}
 
 
 ###
@@ -93,14 +102,6 @@ Content-Type:application/json
 {
     "email":"f.hilbert@wanadoo.fr",
     "password":"Tr123456"
-}
-###
-POST  http://localhost:3000/api/auth/login
-Content-Type:application/json
-
-{
-    "email":"a",
-    "password":"b"
 }
 ###
 POST  http://localhost:3000/api/auth/login
@@ -168,7 +169,7 @@ Content-Type:application/json
         "UserId":1
  }
 ###
-GET http://localhost:3000/api/posts/likes
+GET http://localhost:3000/api/posts/likes/1
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MTFiYjViOWNiYWUxZDAzYmNiMDRkMjYiLCJpYXQiOjE2MjkyMDc2NzAsImV4cCI6MTYyOTI5NDA3MH0.drRjVbFwsMEyZd9YPvXGncC2C4wUt-RsxEJs7DFn8sE
 
 ###

@@ -14,18 +14,18 @@ const User = require("../models/users");
 // validation
 exports.userCheck = (req, res, next) => {
 	// user
-	if (req.body.email === "") return res.status(405).json({ error: "email vide" });
+	if (req.body.email === "") return res.status(405).json({ message: "email vide" });
 	const mailFormat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
 	if (!req.body.email.match(mailFormat)) {
-		return res.status(405).json({ error: "email invalide" });
+		return res.status(405).json({ message: "email invalide" });
 	}
 	// password
 	if (req.body.password === "") {
-		return res.status(405).json({ error: "Mot de passe vide" });
+		return res.status(405).json({ message: "Mot de passe vide" });
 	}
 	const pswdFormat = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/;
 	if (!req.body.password.match(pswdFormat)) {
-		return res.status(405).json({ error: "Mot de passe invalide" });
+		return res.status(405).json({ message: " 8 caractères minimum et au 1 majuscule, 1 minuscule, 1 chiffre" });
 	}
 	next();
 };
@@ -47,7 +47,7 @@ exports.signup = (req, res, next) => {
 			};
 			db.User.create(newUser)
 				.then(() => res.status(201).json({ message: "Utilisateur crée !" }))
-				.catch(error => res.status(400).json({ error }));
+				.catch(error => res.status(400).json({ message: "Déjà inscrit !" }));
 		})
 		.catch(error => res.status(503).json({ error }));
 };
@@ -58,10 +58,10 @@ exports.login = (req, res, next) => {
 	const encMail = enc.toString();
 	console.log(tokenkey);
 
-	db.User.findOne({ where: { email: req.body.email } })
+	const data = db.User.findOne({ where: { email: req.body.email } })
 		// User.findOne({ email: encMail })
 		.then(user => {
-			console.log(user);
+			// console.log(user);
 
 			if (!user) {
 				return res.status(401).json({ error: "Utilisateur non trouvé !" });
@@ -73,13 +73,14 @@ exports.login = (req, res, next) => {
 						return res.status(401).json({ error: "Mot de passe incorrect !" });
 					}
 					res.status(200).json({
-						userId: user._id,
+						userId: user.id,
 						token: jwt.sign({ userId: user._id }, tokenkey, { expiresIn: "24h" }),
 					});
 				})
 				.catch(error => res.status(501).json({ error }));
 		})
 		.catch(error => res.status(502).json({ error }));
+	console.log(data);
 
 	// User.findOne({ email: encMail })
 	// 	.then(user => {
@@ -112,6 +113,27 @@ exports.getOneProfile = (req, res, next) => {
 		})
 		.catch(error => res.status(404).json({ error }));
 };
+
+exports.modifyProfile = (req, res, next) => {
+	console.log("modifyProfile");
+	if (req.file) {
+		db.User.findOne({ where: { id: req.params.id } })
+			.then(user => {
+				// const filename = user.imageUrl.split("/images/")[1];
+				// fs.unlink(`images/${filename}`, err => {
+				// 	if (err) throw err;
+				// 	console.log("unlink img");
+				// });
+				// db.User.update({
+				// 	bio: req.body.bio,
+				// })
+				// 	.then(() => res.status(200).json({ message: "Updated profile" }))
+				// 	.catch(error => res.status(400).json({ error: "Unable to update proofile" }));
+			})
+			.catch(error => res.status(500).json({ error }));
+	}
+};
+
 exports.deleteProfile = async (req, res, next) => {
 	console.log("--------");
 	console.log("deleteProfile");

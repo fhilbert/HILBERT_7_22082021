@@ -32,6 +32,7 @@ export default {
 		return {
 			email: "",
 			password: "",
+			userId,
 		};
 	},
 	methods: {
@@ -39,14 +40,23 @@ export default {
 			this.$router.push("/register");
 		},
 		async handleSubmit() {
+			if (!this.email || !this.password) {
+				this.message = "Certains champs non remplis !!!";
+				return;
+			}
 			const response = await axios.post("auth/login", {
 				email: this.email,
 				password: this.password,
 				passwordConfirm: this.passwordConfirm,
 			});
 			localStorage.setItem("token", response.data.token);
+			localStorage.setItem("login", response.data.userId);
+
 			this.$router.push("/posts");
 		},
+	},
+	created() {
+		localStorage.clear();
 	},
 };
 </script>
@@ -59,6 +69,9 @@ body {
 	display: flex;
 	font-weight: 400;
 	font-family: "Fira Sans", sans-serif;
+}
+.login {
+	max-width: 600px;
 }
 #app {
 	display: flex;

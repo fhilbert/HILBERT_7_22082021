@@ -31,7 +31,7 @@ exports.getOnePost = (req, res, next) => {
 exports.getAllPosts = (req, res, next) => {
 	console.log("--------");
 	console.log("getAllPosts");
-	db.Post.findAll({ include: db.User })
+	db.Post.findAll({ include: db.User, order: [["createdAt", "DESC"]] })
 		.then(posts => res.status(200).json(posts))
 		.catch(error => console.log(error));
 };
@@ -91,7 +91,7 @@ exports.getAllComments = (req, res, next) => {
 	console.log("--------");
 	console.log("getAllComments");
 
-	db.Comment.findAll()
+	db.Comment.findAll({ include: db.User })
 		.then(comment => res.status(200).json(comment))
 		.catch(error => console.log(error));
 };
@@ -127,7 +127,7 @@ exports.getOneLike = (req, res, next) => {
 	console.log("--------");
 	console.log("getOneLike");
 
-	db.Like.findOne({ where: { id: req.params.id } })
+	db.Post.findOne({ include: db.Like, where: { id: req.params.id } })
 		.then(like => {
 			res.status(200).json(like);
 		})
@@ -138,7 +138,7 @@ exports.getAllLikes = (req, res, next) => {
 	console.log("--------");
 	console.log("getAllLikes");
 
-	db.Like.findAll()
+	db.Like.findAll({ include: db.Post })
 		.then(like => res.status(200).json(like))
 		.catch(error => console.log(error));
 };

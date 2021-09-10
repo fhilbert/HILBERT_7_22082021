@@ -48,13 +48,15 @@ export default {
 			});
 			console.log(data.data);
 			this.posts = [...this.posts, data.data];
+			console.log(this.posts);
 		},
 		async deletePost(id) {
 			// if (confirm("Are you sure ?")) {
 			// 	this.posts = this.posts.filter(post => post.id !== id);
 			// }
-			console.log("id", id);
 			const token = localStorage.getItem("token");
+			console.log("id", id);
+			console.log("token", token);
 
 			const res = await axios.delete(`/posts/${id}`, {
 				headers: { Authorization: "Bearer " + token },
@@ -104,20 +106,13 @@ export default {
 
 body {
 	font-family: "Poppins", sans-serif;
-	width: 50vw;
-	margin: 0 25vw;
+	width: 100%;
+	margin: 0 auto;
 }
-
-.container {
-	max-width: 500px;
-	margin: 30px auto;
-	/* overflow: auto;
-	min-height: 300px; */
-	border: 1px solid steelblue;
-	padding: 30px;
-	border-radius: 5px;
+.home {
+	width: 75vw;
+	max-width: 600px;
 }
-
 .btn {
 	display: inline-block;
 	background: #000;

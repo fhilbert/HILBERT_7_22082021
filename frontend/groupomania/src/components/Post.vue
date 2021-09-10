@@ -1,11 +1,16 @@
 <template>
 	<div class="post">
 		<h1></h1>
-		<div class="post_header">
-			<div class="post_header_left">
-				<img class="post_owner_photo" src="../images/IMG_7377.jpg" alt="photo" />
-				<div class="post_owner">
-					<div class="owner_name">{{ post.UserId }}</div>
+		<div class="postHeader">
+			<div class="postHeaderLeft">
+				<img class="postOwnerPhoto" :src="post.User.photo" alt="photo" />
+				<!-- <img class="postOwnerPhoto" src="../images/IMG_7377.jpg" alt="photo" /> -->
+				<div class="postOwner">
+					<div class="ownerName">
+						<strong>{{ post.User.firstName }}</strong>
+						<strong>{{ post.User.lastName }}</strong>
+						{{ post.UserId }}-login-{{ userId }}
+					</div>
 					<div class="published">
 						<div class="space">Publié le</div>
 						<div class="space">{{ moment(post.createdAt).format("DD-MM-YYYY") }}</div>
@@ -14,12 +19,13 @@
 					</div>
 				</div>
 			</div>
-			<div class="post_header_right">
+			<div v-if="post.UserId == userId" class="postHeaderRight">
 				<i @click="onDelete(post.id)" class="fas fa-trash-alt"></i>
 			</div>
 		</div>
 		<br />
 		<img :src="post.image" alt="photo" />
+		<div>{{ post.id }}</div>
 		<div>{{ post.content }}</div>
 
 		<div class="thumb">
@@ -33,14 +39,13 @@
 		<div class="postComment">
 			<div class="com">Commentaires</div>
 			<div class="postComments" :key="comment.id" v-for="comment in comments">
-				<div class="commentHeader">
+				<div v-if="comment.PostId == post.id" class="commentHeader">
 					<div class="commentHeaderLeft">
 						<img class="commentOwnerPhoto" src="../images/IMG_7377.jpg" alt="photo" />
+						<!-- <img class="postOwnerPhoto" :src="comment.User.photo" alt="photo" /> -->
 						<div class="commentOwner">
 							<div class="published">
-								<div class="ownerName">
-									{{ comment.UserId }}
-								</div>
+								<div class="ownerName space">{{ comment.User.firstName }}-{{ comment.User.lastName }}</div>
 								<div class="space">le</div>
 								<!-- <div class="space">05/02/2003</div> -->
 								<div class="space">{{ moment(comment.createdAt).format("DD-MM-YYYY") }}</div>
@@ -48,25 +53,26 @@
 								<!-- <div class="space">22:03</div> -->
 								<div class="space">{{ moment(comment.createdAt).format("HH:MM") }}</div>
 							</div>
-
-							<!-- <div class="commentText">Il fait beau le soleil brille</div> -->
 							<div class="commentText">{{ comment.comment }}</div>
 						</div>
 					</div>
-					<div class="commentHeaderRight">
+					<div v-if="comment.UserId == userId" class="commentHeaderRight">
 						<i @click="onDeleteComment(comment.id)" class="fas fa-trash-alt"></i>
 					</div>
 				</div>
 			</div>
 			<div class="postCommentInput">
+				<!-- <img class="commentOwnerPhoto" :src="comment.User.photo" alt="photo" /> -->
 				<img class="commentOwnerPhoto" src="../images/IMG_7377.jpg" alt="photo" />
 				<div class="postCommentInputCard">
-					<div class="commentTextInput">Ceci est la saisie d'un commentaire pour voir la long ueur de la ligne</div>
+					<div class="commentTextInput">
+						<input type="text" v-model="inputComment" placeholder="commentaire ..." />
+					</div>
+					<button class="check" @click="buttonNewComment()"><i class="fas fa-plus-circle"></i></button>
 					<!-- <input class="commentTextInput" value="Commentaire ..." type="text" /> -->
 					<!-- <div class="check">
 						<button type="submit"><i class="fas fa-plus-circle"></i></button>
 					</div> -->
-					<div class="check"><i class="fas fa-plus-circle"></i></div>
 				</div>
 			</div>
 		</div>
@@ -75,6 +81,8 @@
 
 <script>
 const moment = require("moment");
+const userId = localStorage.getItem("login");
+
 import axios from "axios";
 
 export default {
@@ -89,13 +97,52 @@ export default {
 			image: "",
 			createAt: "",
 			comments: [],
+			userId,
+			inputComment: "",
 		};
 	},
 
 	methods: {
 		onDelete(id) {
 			console.log(id);
-			this.$emit("delete_post", id);
+			this.$emit("deletePost", id);
+		},
+		async buttonNewComment() {
+			console.log("input");
+			console.log(this.inputComment);
+			const userId = localStorage.getItem("login");
+
+			const newComment = {
+				comment: this.inputComment,
+				PostId: 1,
+				UserId: userId,
+			};
+			console.log("newComment", newComment);
+
+			if (!this.inputComment) {
+				return;
+			}
+			const token = localStorage.getItem("token");
+
+			console.log("axios");
+			const data = await axios
+				.post("/posts/comments", newComment, {
+					headers: { Authorization: "Bearer " + token },
+				})
+				.then(() => {
+					alert("Commentaire a bien été envoyé !");
+					// document.location.reload();
+					this.$router.push("/posts");
+				})
+				.catch(error => {
+					this.error = error.response.data;
+				});
+
+			console.log(data.data);
+			this.comments = [...this.comments, data.data];
+			console.log(this.comments);
+
+			this.inputComment = "";
 		},
 		async onDeleteComment(id) {
 			console.log(id);
@@ -148,13 +195,27 @@ export default {
 		});
 
 		this.comments = response.data;
-		console.log("this.comments");
-		console.log("commentss", this.comments);
+		// console.log("this.comments");
+		// console.log("commentss", this.comments);
+		const userId = await localStorage.getItem("login");
+	},
+	beforeMount() {
+		// const userId = localStorage.getItem("login");
 	},
 };
 </script>
 
 <style scoped>
+input {
+	width: 100%;
+	height: 100%;
+	border-radius: 15px;
+	font-size: 1rem;
+	padding-left: 5px;
+}
+strong {
+	margin-left: 5px;
+}
 .fa-trash-alt {
 	color: red;
 	width: 40px;
@@ -174,16 +235,21 @@ export default {
 .post.reminder {
 	border-left: 5px solid green;
 }
-.post_header,
+.postcomments {
+	width: 100%;
+}
+.postHeader,
 .commentHeader {
+	width: 100%;
+
 	display: flex;
 	justify-content: space-between;
 }
-.post_header_left,
+.postHeaderLeft,
 .commentHeaderLeft {
 	display: flex;
 }
-.post_owner {
+.postOwner {
 	display: flex;
 	flex-direction: column;
 	margin-left: 20px;
@@ -194,7 +260,7 @@ export default {
 .space {
 	padding-right: 5px;
 }
-.post_owner_photo,
+.postOwnerPhoto,
 .commentOwnerPhoto {
 	width: 50px;
 	height: 50px;
@@ -253,6 +319,7 @@ export default {
 }
 .ownerName {
 	color: blue;
+	font-style: italic;
 	padding-right: 5px;
 }
 .postCommentInputCard {
@@ -260,7 +327,6 @@ export default {
 	justify-content: space-between;
 
 	margin-left: 20px;
-	background-color: lightsteelblue;
 	border-color: steelblue;
 	width: 100%;
 	border-radius: 15px;
@@ -272,9 +338,14 @@ export default {
 	align-items: center;
 }
 .check {
-	width: 40px;
+	width: 50px;
 	display: flex;
 	align-items: center;
 	justify-content: center;
+	border: none;
+}
+.check i {
+	font-size: 30px;
+	color: rgb(112, 145, 216);
 }
 </style>

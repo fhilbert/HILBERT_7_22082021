@@ -1,13 +1,15 @@
 <template>
 	<div>
-		<div>Ajouter une publication</div>
-		<textarea v-model="content" placeholder="  Exprimez-vous" rows="4" columns="65" max-rows="8"></textarea>
-		<div>
-			<label for="file">(Facultatif)</label><br />
-			<input type="file" ref="file" @change="selectFile" />
-		</div>
-		<div><img v-if="imageUrl" :src="imageUrl" alt="photo" /></div>
-		<button type="submit" @click.prevent="buttonNewMessage">Envoyer</button> -->
+		<form @submit.prevent="buttonNewPost" enctype="multipart/form-data">
+			<div>Ajouter une publication</div>
+			<textarea v-model="content" placeholder="  Exprimez-vous" rows="4" columns="65" max-rows="8"></textarea>
+			<div>
+				<label for="file">(Facultatif)</label><br />
+				<input type="file" ref="file" @change="selectFile" />
+			</div>
+			<div><img v-if="selectedFile" :src="imageUrl" alt="photo" /></div>
+			<button class="button" type="submit" @click.prevent="buttonNewPost">Envoyer</button>
+		</form>
 	</div>
 </template>
 
@@ -20,39 +22,32 @@ export default {
 	data() {
 		return {
 			content: "",
-			image: "",
 			imageUrl: null,
-			file: null,
+			selectedFile: null,
 		};
 	},
 	methods: {
-		onclick() {
-			console.log("choisir", 1);
-		},
-		buttonNewMessage() {
-			console.log("this.content", this.content);
-
+		buttonNewPost() {
 			if (!this.content) {
 				alert("Please add a post");
 				return;
 			}
 
-			// const token = localStorage.getItem("token");
+			const token = localStorage.getItem("token");
+			const userId = localStorage.getItem("login");
 
-			const nb = 1;
 			const data = new FormData();
 			if (this.file !== null) {
 				data.append("content", this.content);
-				data.append("image", this.file, this.file.name);
-				data.append("UserId", nb);
+				data.append("image", this.selectedFile);
+				data.append("UserId", userId);
 			} else {
 				data.append("content", this.content);
-				data.append("UserId", nb);
+				data.append("UserId", userId);
 			}
-			console.log("datas", data);
 			this.$emit("add_post", data);
 			this.content = "";
-			this.image = "";
+			this.selectedFile = "";
 
 			// const res = axios
 			// 	.post("http://localhost:3000/api/posts/", data, {
@@ -72,13 +67,20 @@ export default {
 			// this.file = event.target.files[0];
 
 			// console.log(this.$refs.file.files[0]);
-			this.file = this.$refs.file.files[0];
+			this.selectedFile = this.$refs.file.files[0];
 
-			// this.image = this.file.name;
-			// console.log("this", this.content);
-			// console.log("this at", this.file);
-			// const bfile = this.$refs.file.files[0];
-			// this.imageUrl = URL.createObjectURL(bfile);
+			//
+			let reader = new FileReader();
+			reader.onload = e => {
+				this.previewImage = e.target.result;
+			};
+			reader.readAsDataURL(this.selectedFile);
+			console.log(this.selectedFile);
+
+			//
+
+			const bfile = this.$refs.file.files[0];
+			this.imageUrl = URL.createObjectURL(bfile);
 		},
 		submitForm() {
 			console.log("this.content", this.content);
@@ -106,17 +108,6 @@ export default {
 </script>
 
 <style scoped>
-.add-form {
-	margin-bottom: 40px;
-}
-
-.form-control {
-	margin: 20px 0;
-}
-
-.form-control label {
-	display: block;
-}
 #uploadInput {
 	display: inline-block;
 }
@@ -126,71 +117,35 @@ textarea {
 	margin-bottom: 10px;
 	border-radius: 15px;
 }
-.form-control input {
-	width: 100%;
-	height: 40px;
-	margin: 5px;
-	padding: 3px 7px;
-	font-size: 17px;
-}
 
-.form-control-check {
-	display: flex;
-	align-items: center;
-	justify-content: space-between;
-}
-
-.form-control-check label {
-	flex: 1;
-}
-
-.form-control-check input {
-	flex: 2;
-	height: 20px;
-}
-
-.actions {
-	display: flex;
-	justify-content: space-between;
-}
 .button-size {
 	width: 30%;
 }
 
 /* ----- */
 
-.feed {
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-}
-form {
-	background-color: #192a48;
-	width: 50%;
-	padding: 10px;
-	color: white;
-	margin-bottom: 40px;
-}
 label {
 	font-size: 12px;
 }
 input {
+	color: blue;
 	border: solid rgb(206, 206, 206) 1px;
 	text-decoration: none;
 	margin-bottom: 20px;
 	width: 50%;
 }
 button {
-	background-color: #c46e78;
+	background-color: blue;
 	color: white;
 	padding: 6px;
 	margin-bottom: 10px;
 	border: none;
 	text-decoration: none;
+	width: 150px;
 }
 .error {
 	font-size: 13px;
-	background-color: rgb(231, 185, 185);
+	background-color: blue;
 	color: rgb(53, 21, 21);
 	margin: 20px;
 	padding: 10px;

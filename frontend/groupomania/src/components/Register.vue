@@ -21,6 +21,8 @@
 					<input type="password" class="card__form-input" v-model="passwordConfirm" placeholder="Confirm Password" />
 				</div>
 				<button class="button">Inscription</button>
+				<br />
+				<div>{{ message }}</div>
 			</form>
 		</div>
 	</div>
@@ -42,6 +44,7 @@ export default {
 			email: "",
 			password: "",
 			passwordConfirm: "",
+			message: "",
 		};
 	},
 	methods: {
@@ -49,17 +52,39 @@ export default {
 			this.$router.push("/");
 		},
 		async handleSubmit() {
-			const response = await axios.post("auth/signup", {
-				firstName: this.firstName,
-				lastName: this.lastName,
-				email: this.email,
-				password: this.password,
-				passwordConfirm: this.passwordConfirm,
-			});
-			console.log(response);
-			this.$router.push("/");
+			console.log("this", this.firstName);
+			if (!this.email || !this.firstName || !this.lastName || !this.password || !this.passwordConfirm) {
+				this.message = "Certains champs non remplis !!!";
+				return;
+			}
+			if (this.password !== this.passwordConfirm) {
+				this.message = "Mots de passe diférents !!!";
+				return;
+			}
+
+			const data = await axios
+				.post("auth/signup", {
+					firstName: this.firstName,
+					lastName: this.lastName,
+					email: this.email,
+					password: this.password,
+					passwordConfirm: this.passwordConfirm,
+				})
+				.then(() => {
+					alert("Vous êtes inscrit !");
+					this.$router.push("/login");
+
+					// document.location.reload();
+				})
+				.catch(error => {
+					this.message = error.response.data.message;
+				});
 		},
 	},
 };
 </script>
-<style></style>
+<style>
+.register {
+	max-width: 600px;
+}
+</style>
