@@ -32,7 +32,7 @@ export default {
 		return {
 			email: "",
 			password: "",
-			userId,
+			userId: "",
 		};
 	},
 	methods: {

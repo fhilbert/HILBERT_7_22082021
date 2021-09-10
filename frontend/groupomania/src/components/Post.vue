@@ -19,12 +19,12 @@
 					</div>
 				</div>
 			</div>
-			<div v-if="post.UserId == userId" class="postHeaderRight">
-				<i @click="onDelete(post.id)" class="fas fa-trash-alt"></i>
+			<div v-if="post.UserId == userId" @click="onDelete(post.id)" class="postHeaderRight">
+				<i class="fas fa-trash-alt"></i>
 			</div>
 		</div>
 		<br />
-		<img :src="post.image" alt="photo" />
+		<img class="postPhoto" :src="post.image" alt="photo" />
 		<div>{{ post.id }}</div>
 		<div>{{ post.content }}</div>
 
@@ -41,8 +41,8 @@
 			<div class="postComments" :key="comment.id" v-for="comment in comments">
 				<div v-if="comment.PostId == post.id" class="commentHeader">
 					<div class="commentHeaderLeft">
-						<img class="commentOwnerPhoto" src="../images/IMG_7377.jpg" alt="photo" />
-						<!-- <img class="postOwnerPhoto" :src="comment.User.photo" alt="photo" /> -->
+						<!-- <img class="commentOwnerPhoto" src="../images/IMG_7377.jpg" alt="photo" /> -->
+						<img class="postOwnerPhoto" :src="comment.User.photo" alt="photo" />
 						<div class="commentOwner">
 							<div class="published">
 								<div class="ownerName space">{{ comment.User.firstName }}-{{ comment.User.lastName }}</div>
@@ -56,8 +56,8 @@
 							<div class="commentText">{{ comment.comment }}</div>
 						</div>
 					</div>
-					<div v-if="comment.UserId == userId" class="commentHeaderRight">
-						<i @click="onDeleteComment(comment.id)" class="fas fa-trash-alt"></i>
+					<div v-if="comment.UserId == userId" @click="onDeleteComment(comment.id)" class="commentHeaderRight">
+						<i class="fas fa-trash-alt"></i>
 					</div>
 				</div>
 			</div>
@@ -68,7 +68,7 @@
 					<div class="commentTextInput">
 						<input type="text" v-model="inputComment" placeholder="commentaire ..." />
 					</div>
-					<button class="check" @click="buttonNewComment()"><i class="fas fa-plus-circle"></i></button>
+					<button class="check" @click="buttonNewComment(post.id)"><i class="fas fa-plus-circle"></i></button>
 					<!-- <input class="commentTextInput" value="Commentaire ..." type="text" /> -->
 					<!-- <div class="check">
 						<button type="submit"><i class="fas fa-plus-circle"></i></button>
@@ -99,22 +99,24 @@ export default {
 			comments: [],
 			userId,
 			inputComment: "",
+			photo: "",
 		};
 	},
 
 	methods: {
 		onDelete(id) {
 			console.log(id);
-			this.$emit("deletePost", id);
+			this.$emit("delete_post", id);
 		},
-		async buttonNewComment() {
+		async buttonNewComment(postid) {
 			console.log("input");
+			console.log(postid);
 			console.log(this.inputComment);
 			const userId = localStorage.getItem("login");
 
 			const newComment = {
 				comment: this.inputComment,
-				PostId: 1,
+				PostId: postid,
 				UserId: userId,
 			};
 			console.log("newComment", newComment);
@@ -132,20 +134,19 @@ export default {
 				.then(() => {
 					alert("Commentaire a bien été envoyé !");
 					// document.location.reload();
-					this.$router.push("/posts");
+					// this.$router.push("/posts");
 				})
 				.catch(error => {
 					this.error = error.response.data;
 				});
 
-			console.log(data.data);
 			this.comments = [...this.comments, data.data];
 			console.log(this.comments);
 
 			this.inputComment = "";
 		},
 		async onDeleteComment(id) {
-			console.log(id);
+			console.log("delete comment");
 
 			const res = await axios.delete(`/posts/comments/${id}`);
 			res.status === 200
@@ -218,6 +219,7 @@ strong {
 }
 .fa-trash-alt {
 	color: red;
+	font-size: 25px;
 	width: 40px;
 	display: flex;
 	align-items: center;
@@ -271,6 +273,9 @@ strong {
 	align-items: center;
 	justify-content: space-between;
 	border-radius: 15px;
+}
+.postPhoto {
+	width: 100%;
 }
 .thumb {
 	margin-top: 20px;

@@ -7,7 +7,7 @@ exports.createPost = (req, res, next) => {
 
 	const newPost = {
 		content: req.body.content,
-		image: req.body.image,
+		image: `${req.protocol}://${req.get("host")}/images/${req.file.filename}`,
 		UserId: req.body.UserId,
 	};
 	db.Post.create(newPost)
