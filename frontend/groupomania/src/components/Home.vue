@@ -40,11 +40,10 @@ export default {
 			this.showAddPost = !this.showAddPost;
 		},
 		async addPost(post) {
-			console.log("post", post);
+			const token = localStorage.getItem("token");
+
 			const data = await axios.post("/posts", post, {
-				// headers: {
-				// 	"Content-Type": "multipart/form-data",
-				// },
+				headers: { Authorization: "Bearer " + token },
 			});
 			console.log(data.data);
 			this.posts = [...this.posts, data.data];

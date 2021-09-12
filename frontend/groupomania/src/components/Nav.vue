@@ -8,11 +8,15 @@
 		</div>
 		<div class="items">
 			<div class="item">
+				<router-link to="/users" class="link">Utilisateurs</router-link>
+			</div>
+
+			<div class="item">
 				<router-link to="/profile" class="link">Profile</router-link>
 			</div>
-			<!-- <div class="item">
-					<router-link to="/posts" class="link">Posts</router-link>
-				</div> -->
+			<div class="item">
+				<router-link to="/posts" class="link">Posts</router-link>
+			</div>
 			<div class="item">
 				<router-link to="/" class="link">Connexion</router-link>
 			</div>

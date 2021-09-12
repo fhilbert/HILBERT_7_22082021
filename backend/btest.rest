@@ -6,7 +6,8 @@ Content-Type:application/json
     "lastName":"hilbert",
     "email":"f@gmail.com",
     "password":"Tr123456",
-    "bio":"cont"
+    "bio":"cont",
+    "photo":"http://localhost:3000/images/frank.jpeg"
     
 }
 ###
@@ -18,7 +19,9 @@ Content-Type:application/json
     "lastName":"hilbert",
     "email":"c@gmail.com",
     "password":"Tr123456",
-    "bio":"cont"
+    "bio":"cont",
+        "photo":"http://localhost:3000/images/cathy.jpeg"
+
     
 }
 ###
@@ -30,7 +33,40 @@ Content-Type:application/json
     "lastName":"hilbert",
     "email":"t@gmail.com",
     "password":"Tr123456",
-    "bio":"cont"
+    "isAdmin":1,
+    "bio":"cont",
+            "photo":"http://localhost:3000/mages/tom.jpeg"
+
+    
+}
+###
+POST  http://localhost:3000/api/auth/signup
+Content-Type:application/json
+
+{
+    "firstName":"denis",
+    "lastName":"Wawrziczny",
+    "email":"d@gmail.com",
+    "password":"Tr123456",
+    "isAdmin":1,
+    "bio":"cont",
+            "photo":"http://localhost:3000/images/denis.jpeg"
+
+    
+}
+###
+POST  http://localhost:3000/api/auth/signup
+Content-Type:application/json
+
+{
+    "firstName":"remi",
+    "lastName":"Wawrziczny",
+    "email":"r@gmail.com",
+    "password":"Tr123456",
+    "isAdmin":1,
+    "bio":"cont",
+            "photo":"http://localhost:3000/images/remi.jpeg"
+
     
 }
 ###
@@ -70,7 +106,7 @@ Content-Type:application/json
     
 }
 ###
-GET  http://localhost:3000/api/auth/profile/1
+GET  http://localhost:3000/api/auth/profile/
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2MzAyNDc3MDgsImV4cCI6MTYzMDMzNDEwOH0.xHcx9CRobM0SRuOxgGOtIiq-6QKlaZ_9jH9RekUNW3c
 
 ###

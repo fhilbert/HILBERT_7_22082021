@@ -14,7 +14,9 @@
 				<div class="card__form">
 					<input type="password" class="card__form-input" v-model="password" placeholder="Password" />
 				</div>
-				<button class="button">Connexion</button>
+				<button @click="handleSubmit" class="button">Connexion</button>
+				<br />
+				<div>{{ message }}</div>
 			</form>
 		</div>
 	</div>
@@ -33,6 +35,7 @@ export default {
 			email: "",
 			password: "",
 			userId: "",
+			message: "",
 		};
 	},
 	methods: {
@@ -49,6 +52,11 @@ export default {
 				password: this.password,
 				passwordConfirm: this.passwordConfirm,
 			});
+			// .catch(error => {
+			// 	this.message = "Email et/ou mot de passe incorrect !!!";
+			// 	console.log("login");
+			// 	return;
+			// });
 			localStorage.setItem("token", response.data.token);
 			localStorage.setItem("login", response.data.userId);
 

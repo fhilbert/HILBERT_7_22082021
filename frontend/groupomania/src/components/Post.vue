@@ -30,8 +30,8 @@
 
 		<div class="thumb">
 			<div class="like" @click="onLike(post.id)">
-				<!-- <i :class="like ? 'fas fa-thumbs-up' : 'far fa-thumbs-up'"></i> -->
-				<i class="far fa-thumbs-up">2</i>
+				<i :class="postLike ? 'fas fa-thumbs-up' : 'far fa-thumbs-up'"></i>
+				<!-- <i class="fas fa-thumbs-up">2</i> -->
 			</div>
 			<div class="dislike" @click="onDislike(post.id)"><i class="far fa-thumbs-down">3</i></div>
 		</div>
@@ -100,6 +100,8 @@ export default {
 			userId,
 			inputComment: "",
 			photo: "",
+			postLike: false,
+			postDislike: false,
 		};
 	},
 
@@ -127,6 +129,7 @@ export default {
 			const token = localStorage.getItem("token");
 
 			console.log("axios");
+			console.log(this.comments);
 			const data = await axios
 				.post("/posts/comments", newComment, {
 					headers: { Authorization: "Bearer " + token },
@@ -140,9 +143,9 @@ export default {
 					this.error = error.response.data;
 				});
 
-			this.comments = [...this.comments, data.data];
-			console.log(this.comments);
-
+			console.log("erreur 2");
+			this.comments = [...this.comments, newComment];
+			console.log("erreur 2");
 			this.inputComment = "";
 		},
 		async onDeleteComment(id) {
@@ -153,13 +156,15 @@ export default {
 				? (this.comments = this.comments.filter(comment => comment.id !== id))
 				: alert("Error deleting post");
 		},
-		async onLike(id) {
+		onLike(id) {
 			console.log(id);
 			console.log("like");
+			console.log(postLike);
 
-			const postLike = 1;
+			postLike = !postLike;
+			console.log(postLike);
 
-			this.onCreateLike(id, postLike);
+			// this.onCreateLike(id, postLike);
 		},
 		async onDislike(id) {
 			console.log(id);
@@ -198,10 +203,10 @@ export default {
 		this.comments = response.data;
 		// console.log("this.comments");
 		// console.log("commentss", this.comments);
-		const userId = await localStorage.getItem("login");
+		// // const userId = await localStorage.getItem("login");
 	},
-	beforeMount() {
-		// const userId = localStorage.getItem("login");
+	async beforeMount() {
+		const userId = await localStorage.getItem("login");
 	},
 };
 </script>

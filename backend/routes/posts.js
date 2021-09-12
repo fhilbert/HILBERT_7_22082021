@@ -36,7 +36,7 @@ router.post("/likes/", postCtrl.createLike);
 // ------- POSTS
 
 // checked routes
-router.post("/", multer, postCtrl.createPost);
+router.post("/", auth, multer, postCtrl.createPost);
 router.get("/:id", postCtrl.getOnePost);
 router.get("/", postCtrl.getAllPosts);
 router.delete("/:id", auth, postCtrl.deletePost);

@@ -1,11 +1,13 @@
 <template>
-	<div class="profile">
+	<div class="user">
 		<Nav />
 		<div class="card">
-			<form @submit.prevent="updateUser(profile.id)" enctype="multipart/form-data">
+			<form @submit.prevent="updateUser(user.id)" enctype="multipart/form-data">
 				<div class="first__row">
 					<div class="photo__profile">
-						<img class="img__profile" :src="profile.photo" alt="photo" />
+						<div><img class="img__profile" v-if="selectedFile" :src="imageUrl" alt="photo" /></div>
+
+						<img class="img__profile" :src="user.photo" alt="photo" />
 						<button class="button">Photo</button>
 					</div>
 					<div class="user__profile">
@@ -13,9 +15,9 @@
 							<label class="space">Admin</label>
 							<input type="checkbox" v-model="admin" name="admin" />
 						</div>
-						<div class="card__profile">{{ profile.firstName }}</div>
-						<div class="card__profile">{{ profile.lastName }}</div>
-						<div class="card__profile">{{ profile.email }}</div>
+						<div class="card__profile">{{ user.firstName }}</div>
+						<div class="card__profile">{{ user.lastName }}</div>
+						<div class="card__profile">{{ user.email }}</div>
 					</div>
 				</div>
 				<div class="second__row">
@@ -23,9 +25,19 @@
 				</div>
 				<div class="third__row">
 					<div class="button__profile">
-						<button class="button">Supprimer mon compte</button>
-						<button class="button" @click.prevent="updateUser(profile.id)">Valider profil</button>
+						<button class="button" @click.prevent="deleteUser(user.id)">Supprimer mon compte</button>
+						<button class="button" @click.prevent="updateUser(user.id)">Valider profil</button>
 					</div>
+				</div>
+				<div>
+					<div>
+						<label for="file">(Facultatif)</label><br />
+						<input type="file" ref="file" @change="selectFile" />
+					</div>
+
+					<!-- <div><img v-if="selectedFile" :src="imageUrl" alt="photo" /></div> -->
+					<!-- <div><img v-if="selectedFile" :src="imageUrl" alt="photo" /></div> -->
+					<!-- <button class="button" type="submit" @click.prevent="buttonNewPost">Envoyer</button> -->
 				</div>
 			</form>
 		</div>
@@ -40,7 +52,7 @@ import Footer from "./Footer.vue";
 
 import Button from "./Button.vue";
 export default {
-	name: "Profile",
+	name: "profile",
 	components: {
 		Nav,
 		Footer,
@@ -48,10 +60,29 @@ export default {
 	data() {
 		return {
 			admin: false,
-			profile: Object,
+			user: Object,
+			userId: "",
+			imageUrl: null,
+			selectedFile: null,
 		};
 	},
 	methods: {
+		selectFile(event) {
+			console.log(this.selectedFile);
+
+			this.selectedFile = this.$refs.file.files[0];
+
+			let reader = new FileReader();
+			reader.onload = e => {
+				this.previewImage = e.target.result;
+			};
+			reader.readAsDataURL(this.selectedFile);
+			console.log(this.selectedFile);
+
+			const bfile = this.$refs.file.files[0];
+			this.imageUrl = URL.createObjectURL(bfile);
+		},
+
 		async updateUser(id) {
 			console.log(id);
 		},
@@ -63,34 +94,26 @@ export default {
 			console.log("id", id);
 			console.log("token", token);
 
-			const res = await axios.delete(`/profile/${id}`, {
+			const res = await axios.delete(`/auth/profile/${id}`, {
 				headers: { Authorization: "Bearer " + token },
 			});
 
-			res.status === 200 ? (this.posts = this.posts.filter(post => post.id !== id)) : alert("Error deleting post");
-		},
-		async fetchPosts() {
-			const response = await axios.get("auth/profile");
-			console.log("response");
-
-			// const res = await fetch("api/posts");
-
-			// const data = await res.json();
-			// return data;
-			return response;
+			res.status === 200 ? (this.users = this.users.filter(user => user.id !== id)) : alert("Error deleting user");
+			document.location.reload();
+			this.$router.push("/login");
 		},
 	},
 	async created() {
-		const login = localStorage.getItem("login");
-		const response = await axios.get(`/auth/profile/${login}`);
+		const userId = localStorage.getItem("login");
+		const response = await axios.get(`/auth/profile/${userId}`);
 
-		this.profile = response.data;
-		console.log("this.profile", this.profile);
+		this.user = response.data;
+		console.log("this.user", this.user);
 	},
 };
 </script>
 
-<style>
+<style scoped>
 .profile {
 	max-width: 600px;
 }

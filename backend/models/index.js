@@ -27,7 +27,7 @@ db.Like = require("./likes")(sequelize, Sequelize);
 //relations
 
 //  Posts -- Users
-db.User.hasMany(db.Post);
+db.User.hasMany(db.Post, { onDelete: "cascade", hooks: true });
 db.Post.belongsTo(db.User);
 // db.User.hasMany(db.Post, {
 // 	as: "Post",
@@ -36,13 +36,18 @@ db.Post.belongsTo(db.User);
 // 	as: "User",
 // });
 //  Posts -- Comments
-db.Post.hasMany(db.Comment);
+db.Post.hasMany(db.Comment, {
+	foreignKey: {
+		name: "PostId",
+		allowNull: false,
+	},
+});
 db.Comment.belongsTo(db.Post);
 //  Comments -- Users
-db.User.hasMany(db.Comment);
+db.User.hasMany(db.Comment, { onDelete: "CASCADE", foreignKey: { allowNull: false }, hooks: true });
 db.Comment.belongsTo(db.User);
 // Posts -- Likes
-db.Post.hasMany(db.Like);
+db.Post.hasMany(db.Like, { onDelete: "CASCADE", foreignKey: { allowNull: false }, hooks: true });
 db.Like.belongsTo(db.Post);
 
 //  Posts - Likes - Users
