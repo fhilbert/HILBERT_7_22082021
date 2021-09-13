@@ -1,5 +1,5 @@
 <template>
-	<div>
+	<div class="addPost">
 		<form @submit.prevent="buttonNewPost" enctype="multipart/form-data">
 			<div>Ajouter une publication</div>
 			<textarea v-model="content" placeholder="  Exprimez-vous" rows="4" columns="65" max-rows="8"></textarea>
@@ -7,7 +7,8 @@
 				<label for="file">(Facultatif)</label><br />
 				<input type="file" ref="file" @change="selectFile" />
 			</div>
-			<div><img v-if="selectedFile" :src="imageUrl" alt="photo" /></div>
+
+			<div class="postPhoto"><img v-if="selectedFile" :src="imageUrl" alt="photo" /></div>
 			<button class="button" type="submit" @click.prevent="buttonNewPost">Envoyer</button>
 		</form>
 	</div>
@@ -24,6 +25,7 @@ export default {
 			content: "",
 			imageUrl: null,
 			selectedFile: null,
+			image: "",
 		};
 	},
 	methods: {
@@ -64,11 +66,7 @@ export default {
 		},
 
 		selectFile(event) {
-			// this.file = event.target.files[0];
-
-			// console.log(this.$refs.file.files[0]);
 			this.selectedFile = this.$refs.file.files[0];
-
 			//
 			let reader = new FileReader();
 			reader.onload = e => {
@@ -117,6 +115,10 @@ textarea {
 	margin-bottom: 10px;
 	border-radius: 15px;
 }
+img {
+	width: 100%;
+	border-radius: 15px;
+}
 
 .button-size {
 	width: 30%;
@@ -139,7 +141,7 @@ button {
 	color: white;
 	padding: 6px;
 	margin-bottom: 10px;
-	border: none;
+	border-radius: 15px;
 	text-decoration: none;
 	width: 150px;
 }

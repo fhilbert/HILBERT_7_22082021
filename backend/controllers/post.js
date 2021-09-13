@@ -40,20 +40,28 @@ exports.deletePost = async (req, res, next) => {
 	console.log("--------");
 	console.log("deletePost");
 	console.log(req.params.id);
-	await db.Post.destroy({ where: { id: req.params.id } })
-		.then(() => res.status(200).json({ message: "Objet supprimé !" }))
-		.catch(error => res.status(400).json({ error }));
+	// await db.Post.destroy({ where: { id: req.params.id } })
+	// 	.then(() => res.status(200).json({ message: "Objet supprimé !" }))
+	// 	.catch(error => res.status(400).json({ error }));
 
 	db.Post.findOne({ where: { id: req.params.id } })
 		.then(post => {
-			//console.log(post);
-
-			const filename = sauce.imageUrl.split("/images/")[1];
-			fs.unlink(`images/${filename}`, () => {
-				db.Post.destroy({ where: { id: req.params.id } })
-					.then(() => res.status(200).json({ message: "Objet supprimé !" }))
-					.catch(error => res.status(400).json({ error }));
-			});
+			console.log(post);
+			// if (post.image) {
+			// 	console.log(post.image.split("/images/")[1]);
+			// 	const filename = post.image.split("/images/")[1];
+			// 	fs.unlink(`images/${filename}`, () => {
+			// 		post
+			// 			.destroy()
+			// 			.then(() => res.status(200).json({ message: "Objet supprimé !" }))
+			// 			.catch(error => res.status(400).json({ error }));
+			// 	});
+			// } else {
+			post
+				.destroy()
+				.then(() => res.status(200).json({ message: "Objet supprimé !" }))
+				.catch(error => res.status(400).json({ error }));
+			// }
 		})
 		.catch(error => res.status(500).json({ error }));
 };

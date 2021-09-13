@@ -116,22 +116,36 @@ exports.getOneProfile = (req, res, next) => {
 
 exports.modifyProfile = (req, res, next) => {
 	console.log("modifyProfile");
-	if (req.file) {
-		db.User.findOne({ where: { id: req.params.id } })
-			.then(user => {
-				// const filename = user.imageUrl.split("/images/")[1];
-				// fs.unlink(`images/${filename}`, err => {
-				// 	if (err) throw err;
-				// 	console.log("unlink img");
-				// });
-				// db.User.update({
-				// 	bio: req.body.bio,
-				// })
-				// 	.then(() => res.status(200).json({ message: "Updated profile" }))
-				// 	.catch(error => res.status(400).json({ error: "Unable to update proofile" }));
-			})
-			.catch(error => res.status(500).json({ error }));
-	}
+	db.User.findOne({ where: { id: req.params.id } })
+		.then(user => {
+			console.log(req.body);
+			console.log(req.file);
+			console.log("-----");
+			const filename = user.image.split("/images/")[1];
+
+			// console.log(user);
+			// if (user.image.split("/images/")[1]) {
+			// const filename = user.image.split("/images/")[1];
+			// 	fs.unlink(`images/${filename}`, err => {
+			// 		if (err) throw err;
+			// 		console.log("unlink img");
+			// 	});
+			// }
+
+			console.log("-----");
+			console.log(req.body);
+
+			user
+				.update({
+					image: `${req.protocol}://${req.get("host")}/images/${req.file.filename}`,
+					bio: req.body.bio,
+					isAdmin: req.body.isAdmin,
+				})
+				.then(() => res.status(200).json({ message: "Updated profile" }))
+				.catch(error => res.status(400).json({ error: "Unable to update profile" }));
+		})
+		.catch(error => res.status(500).json({ error }));
+	// }
 };
 
 exports.deleteProfile = async (req, res, next) => {

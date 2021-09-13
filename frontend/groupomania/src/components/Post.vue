@@ -42,7 +42,7 @@
 				<div v-if="comment.PostId == post.id" class="commentHeader">
 					<div class="commentHeaderLeft">
 						<!-- <img class="commentOwnerPhoto" src="../images/IMG_7377.jpg" alt="photo" /> -->
-						<img class="postOwnerPhoto" :src="comment.User.photo" alt="photo" />
+						<img class="postOwnerPhoto" :src="comment.User.image" alt="photo" />
 						<div class="commentOwner">
 							<div class="published">
 								<div class="ownerName space">{{ comment.User.firstName }}-{{ comment.User.lastName }}</div>
@@ -62,7 +62,7 @@
 				</div>
 			</div>
 			<div class="postCommentInput">
-				<!-- <img class="commentOwnerPhoto" :src="comment.User.photo" alt="photo" /> -->
+				<!-- <img class="commentOwnerPhoto" :src="comment.User.image" alt="photo" /> -->
 				<img class="commentOwnerPhoto" src="../images/IMG_7377.jpg" alt="photo" />
 				<div class="postCommentInputCard">
 					<div class="commentTextInput">
@@ -99,7 +99,6 @@ export default {
 			comments: [],
 			userId,
 			inputComment: "",
-			photo: "",
 			postLike: false,
 			postDislike: false,
 		};

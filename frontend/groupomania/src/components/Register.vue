@@ -1,6 +1,6 @@
 <template>
 	<div class="register">
-		<Nav />
+		<!-- <Nav /> -->
 		<div class="card">
 			<form @submit.prevent="handleSubmit">
 				<h1 class="card__title">Inscription</h1>
@@ -85,6 +85,8 @@ export default {
 </script>
 <style>
 .register {
-	max-width: 600px;
+	display: flex;
+	margin-top: 100px;
+	justify-content: center;
 }
 </style>

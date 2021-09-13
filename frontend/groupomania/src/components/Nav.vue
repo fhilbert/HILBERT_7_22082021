@@ -3,28 +3,28 @@
 		<!-- <dir class="container"> -->
 		<div class="logo">
 			<router-link to="./">
-				Home
+				<img class="logoImg" src="../images/icon-left-font-monochrome-black.svg" alt="logo" />
 			</router-link>
 		</div>
 		<div class="items">
 			<div class="item">
-				<router-link to="/users" class="link">Utilisateurs</router-link>
+				<router-link to="/users" class="link"><i class="fas fa-users" title="Utilisateurs"></i></router-link>
 			</div>
 
 			<div class="item">
-				<router-link to="/profile" class="link">Profile</router-link>
+				<router-link to="/profile" class="link"><i class="far fa-grin" title="Profil"></i></router-link>
 			</div>
 			<div class="item">
-				<router-link to="/posts" class="link">Posts</router-link>
+				<router-link to="/posts" class="link"><i class="fas fa-scroll" title="Publications"></i></router-link>
 			</div>
 			<div class="item">
-				<router-link to="/" class="link">Connexion</router-link>
+				<router-link to="/" class="link deconnexion"><i class="fas fa-bolt" title="Connexion"></i></router-link>
 			</div>
 			<div class="item">
-				<router-link to="/register" class="link">Inscription</router-link>
+				<router-link to="/register" class="link"><i class="far fa-keyboard" title="Inscription"></i></router-link>
 			</div>
 			<div class="item">
-				<router-link to="/login" class="link">Deconnexion</router-link>
+				<router-link to="/login" class="link"><i class="fas fa-power-off" title="Déconnexion"></i></router-link>
 			</div>
 			<br />
 			<br />
@@ -41,24 +41,55 @@ export default {
 </script>
 <style>
 nav {
+	margin-top: 15px;
 	display: block;
 	display: flex;
 	font-size: 1.1em;
-	/* justify-content: space-around;
-	align-items: flex-end; */
+	width: 100vw;
+	height: 5vw;
+	background-color: lightgrey;
+	align-content: center;
+
+	/* justify-content: space-around;*/
 }
 .logo {
 	width: 30%;
+	margin-left: 15px;
 	text-decoration: none;
+	display: flex;
+	/* justify-content: center; */
+	align-items: center;
+}
+.logoImg {
+	width: 250px;
+	/* height: 80px; */
+	font-size: 65px;
+	color: rgb(255, 0, 0);
+	filter: invert(10%) sepia(99%) saturate(6480%) hue-rotate(1deg) brightness(106%) contrast(98%);
 }
 .items {
-	width: 70%;
+	width: 40%;
 	text-decoration: none;
 	display: flex;
 	justify-content: space-evenly;
+	transition: transform 400ms ease-in-out;
+}
+.item {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+nav a {
+	color: darkblue;
 }
 nav a:hover {
-	color: #0065fc;
-	border-top: 3px solid #0065fc;
+	color: #fff;
+	/* border-top: 3px solid #0065fc; */
+	transition: transform 400ms ease-in-out;
+
+	transform: scale(2);
+}
+.deconnexion :hover {
+	content: "deconnexion";
 }
 </style>

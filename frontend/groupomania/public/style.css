@@ -13,8 +13,7 @@ body {
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	min-height: 100vh;
-	padding: 32px;
+	/* min-height: 100vh; */
 }
 
 .img__profile {
@@ -88,4 +87,7 @@ body {
 	flex: 1;
 	min-width: 100px;
 	color: black;
+}
+.space {
+	padding-right: 5px;
 }

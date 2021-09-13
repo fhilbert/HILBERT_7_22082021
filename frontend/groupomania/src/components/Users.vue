@@ -1,6 +1,5 @@
 <template>
 	<div class="Users">
-		<Nav />
 		<h1>Liste des utilisateurs</h1>
 
 		<div class="usersCard">
@@ -8,7 +7,7 @@
 			<div class="cardUsers" :key="user.id" v-for="user in users">
 				<div class="cardLeft">
 					<div class="cardPhoto">
-						<img :src="user.photo" alt="user" />
+						<img :src="user.image" alt="user" />
 					</div>
 					<div class="cardContact">
 						<div>{{ user.firstName }}</div>
@@ -35,7 +34,6 @@ import Button from "./Button.vue";
 export default {
 	name: "Users",
 	components: {
-		Nav,
 		Footer,
 	},
 	data() {
@@ -94,7 +92,10 @@ export default {
 
 <style scoped>
 body {
-	width: 100%;
+	width: 100vw;
+}
+.Users {
+	margin: 40px 15vw 0 15vw;
 }
 h1 {
 	margin-bottom: 40px;

@@ -7,7 +7,7 @@ Content-Type:application/json
     "email":"f@gmail.com",
     "password":"Tr123456",
     "bio":"cont",
-    "photo":"http://localhost:3000/images/frank.jpeg"
+    "image":"http://localhost:3000/images/frank.jpeg"
     
 }
 ###
@@ -20,7 +20,7 @@ Content-Type:application/json
     "email":"c@gmail.com",
     "password":"Tr123456",
     "bio":"cont",
-        "photo":"http://localhost:3000/images/cathy.jpeg"
+        "image":"http://localhost:3000/images/cathy.jpeg"
 
     
 }
@@ -35,7 +35,7 @@ Content-Type:application/json
     "password":"Tr123456",
     "isAdmin":1,
     "bio":"cont",
-            "photo":"http://localhost:3000/mages/tom.jpeg"
+            "image":"http://localhost:3000/mages/tom.jpeg"
 
     
 }
@@ -50,7 +50,7 @@ Content-Type:application/json
     "password":"Tr123456",
     "isAdmin":1,
     "bio":"cont",
-            "photo":"http://localhost:3000/images/denis.jpeg"
+            "image":"http://localhost:3000/images/denis.jpeg"
 
     
 }
@@ -65,7 +65,7 @@ Content-Type:application/json
     "password":"Tr123456",
     "isAdmin":1,
     "bio":"cont",
-            "photo":"http://localhost:3000/images/remi.jpeg"
+            "image":"http://localhost:3000/images/remi.jpeg"
 
     
 }
@@ -106,16 +106,16 @@ Content-Type:application/json
     
 }
 ###
-GET  http://localhost:3000/api/auth/profile/
+GET  http://localhost:3000/api/auth/profile/1
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2MzAyNDc3MDgsImV4cCI6MTYzMDMzNDEwOH0.xHcx9CRobM0SRuOxgGOtIiq-6QKlaZ_9jH9RekUNW3c
 
 ###
-PUT http://localhost:3000/api/auth/profile/3
+PUT http://localhost:3000/api/auth/profile/1
 Content-Type:application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2MzEyNzM1NzcsImV4cCI6MTYzMTM1OTk3N30.LtkaJ9ImNVW_mmFpceJY7dpi4qjoRLcpV_DEPoMNwdM
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2MzE1MzYwMzEsImV4cCI6MTYzMTYyMjQzMX0.Uct-Ejp_rsTBaYIWoWYCCJkfuVOv5kET-n6EoArdKaU
 
 {
-        "bio":" je suis le fils de mon papa",
+        "bio":" je suis le fils de mon papa"
  
 }
 

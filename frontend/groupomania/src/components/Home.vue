@@ -1,6 +1,12 @@
 <template>
 	<div class="home">
-		<Nav />
+		<!-- <Nav /> -->
+		<div class="homeUser">
+			<div class="space"><img class="imgHomeUser" :src="user.image" alt="photo" /></div>
+			<div class="space">{{ user.firstName }}</div>
+			<div class="space">{{ user.lastName }}</div>
+			<div>est connecté</div>
+		</div>
 		<Header @toggle_add_post="toggleAddPost" title="Publications" :showAddPost="showAddPost" />
 		<div v-show="showAddPost">
 			<AddPost @add_post="addPost" />
@@ -33,6 +39,7 @@ export default {
 		return {
 			showAddPost: false,
 			posts: [],
+			user: Object,
 		};
 	},
 	methods: {
@@ -81,6 +88,10 @@ export default {
 		},
 	},
 	async created() {
+		const userId = localStorage.getItem("login");
+		const res = await axios.get(`/auth/profile/${userId}`);
+		this.user = res.data;
+
 		const response = await axios.get("/posts", {
 			params: {
 				date: "YYYY-MM-DD",
@@ -105,12 +116,14 @@ export default {
 
 body {
 	font-family: "Poppins", sans-serif;
-	width: 100%;
-	margin: 0 auto;
+	width: 100vw;
 }
 .home {
+	margin: 40px auto 0 auto;
 	width: 75vw;
 	max-width: 600px;
+	/* margin: 20px 15vw 0 15vw; */
+	justify-content: center;
 }
 .btn {
 	display: inline-block;
@@ -137,5 +150,15 @@ body {
 .btn-block {
 	display: block;
 	width: 100%;
+}
+.homeUser {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+.imgHomeUser {
+	width: 60px;
+	height: 60px;
+	border-radius: 15px;
 }
 </style>

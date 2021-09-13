@@ -1,6 +1,6 @@
 <template>
 	<div class="login">
-		<Nav />
+		<!-- <Nav /> -->
 		<div class="card">
 			<form @submit.prevent="handleSubmit">
 				<h1 class="card__title">Connexion</h1>
@@ -73,20 +73,24 @@ body {
 	/* background-image: url("./assets/images/icon-above-font.png");
 	background-repeat: no-repeat; */
 	background-color: rgb(231, 231, 148);
-	min-height: 100vh;
+	/* min-height: 100vh; */
 	display: flex;
 	font-weight: 400;
 	font-family: "Fira Sans", sans-serif;
 }
 .login {
-	max-width: 600px;
+	display: flex;
+	margin-top: 100px;
+	justify-content: center;
+
+	/* max-width: 600px; */
 }
-#app {
+/* #app {
 	display: flex;
 	justify-content: center;
 	flex-direction: column;
 	text-align: center;
-}
+} */
 .navbar-light {
 	background-color: #ffffff;
 	box-shadow: 0px 14px 80px rgba(34, 35, 58, 0.2);

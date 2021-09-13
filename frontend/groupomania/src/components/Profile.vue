@@ -1,19 +1,19 @@
 <template>
 	<div class="user">
-		<Nav />
+		<!-- <Nav /> -->
 		<div class="card">
 			<form @submit.prevent="updateUser(user.id)" enctype="multipart/form-data">
 				<div class="first__row">
 					<div class="photo__profile">
 						<div><img class="img__profile" v-if="selectedFile" :src="imageUrl" alt="photo" /></div>
 
-						<img class="img__profile" :src="user.photo" alt="photo" />
+						<img class="img__profile" :src="user.image" alt="photo" />
 						<button class="button">Photo</button>
 					</div>
 					<div class="user__profile">
 						<div class="card__profile">
 							<label class="space">Admin</label>
-							<input type="checkbox" v-model="admin" name="admin" />
+							<input type="checkbox" v-model="isAdmin" name="admin" />
 						</div>
 						<div class="card__profile">{{ user.firstName }}</div>
 						<div class="card__profile">{{ user.lastName }}</div>
@@ -21,7 +21,7 @@
 					</div>
 				</div>
 				<div class="second__row">
-					<textarea placeholder=" Description" rows="4" columns="65" max-rows="8"></textarea>
+					<textarea placeholder=" Description" v-model="bio" rows="4" columns="65" max-rows="8"></textarea>
 				</div>
 				<div class="third__row">
 					<div class="button__profile">
@@ -34,10 +34,6 @@
 						<label for="file">(Facultatif)</label><br />
 						<input type="file" ref="file" @change="selectFile" />
 					</div>
-
-					<!-- <div><img v-if="selectedFile" :src="imageUrl" alt="photo" /></div> -->
-					<!-- <div><img v-if="selectedFile" :src="imageUrl" alt="photo" /></div> -->
-					<!-- <button class="button" type="submit" @click.prevent="buttonNewPost">Envoyer</button> -->
 				</div>
 			</form>
 		</div>
@@ -59,7 +55,8 @@ export default {
 	},
 	data() {
 		return {
-			admin: false,
+			isAdmin: false,
+			bio: "",
 			user: Object,
 			userId: "",
 			imageUrl: null,
@@ -85,6 +82,33 @@ export default {
 
 		async updateUser(id) {
 			console.log(id);
+			/////----------------------------------
+			const token = localStorage.getItem("token");
+			const userId = localStorage.getItem("login");
+
+			const newUser = new FormData();
+			if (this.file !== null) {
+				newUser.append("image", this.selectedFile);
+				newUser.append("isAdmin", this.isAdmin);
+				newUser.append("bio", this.bio);
+			} else {
+				newUser.append("isAdmin", this.isAdmin);
+				newUser.append("bio", this.bio);
+			}
+			axios
+				.put(`http://localhost:3000/api/auth/profile/${userId}`, newUser, {
+					headers: { Authorization: "Bearer " + token },
+				})
+				.then(() => {
+					alert("Votre profil a bien été mis à jour !");
+					document.location.reload();
+				})
+				.catch(error => {
+					this.error = error.response.data;
+				});
+
+			this.bio = "";
+			this.selectedFile = "";
 		},
 		async deleteUser(id) {
 			// if (confirm("Are you sure ?")) {
@@ -114,8 +138,10 @@ export default {
 </script>
 
 <style scoped>
-.profile {
-	max-width: 600px;
+.user {
+	display: flex;
+	margin-top: 100px;
+	justify-content: center;
 }
 .space {
 	padding-right: 5px;

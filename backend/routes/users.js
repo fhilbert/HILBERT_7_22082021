@@ -10,7 +10,7 @@ router.post("/login", userCtrl.userCheck, userCtrl.login);
 
 router.get("/profile", userCtrl.getAllProfiles);
 router.get("/profile/:id", userCtrl.getOneProfile);
-router.put("/profile/:id", auth, userCtrl.modifyProfile);
+router.put("/profile/:id", auth, multer, userCtrl.modifyProfile);
 // router.post("/profile/:id", auth, multer, userCtrl.userCheck, userCtrl.modifyProfile);
 router.delete("/profile/:id", auth, userCtrl.deleteProfile);
 
