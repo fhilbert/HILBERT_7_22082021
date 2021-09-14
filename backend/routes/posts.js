@@ -17,19 +17,20 @@ const multer = require("../middleware/multer-config");
 
 // checked routes
 router.post("/comments/", auth, postCtrl.createComment);
-router.get("/comments/:id", postCtrl.getOneComment);
+// router.get("/comments/:id", postCtrl.getOneComment);
 router.delete("/comments/:id", postCtrl.deleteComment);
-router.get("/comments/", postCtrl.getAllComments);
+router.get("/comments/:id", postCtrl.getAllComments);
 
 //-------------------------
 
 // likes
 // checked routes
 
-router.get("/likes/:id", postCtrl.getOneLike);
-router.get("/likes/", postCtrl.getAllLikes);
+router.get("/like/:id", postCtrl.getOneLike);
+router.get("/likes/:id", postCtrl.getAllLikes); // all likes for a post
+// router.get("/dislikes/:id", postCtrl.getAllDislikes); // all dislikes for a post
 router.delete("/likes/:id", postCtrl.deleteLike);
-router.post("/likes/", postCtrl.createLike);
+router.post("/like/", postCtrl.createLike);
 //-------------------------
 
 //

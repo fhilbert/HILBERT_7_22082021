@@ -52,8 +52,8 @@ export default {
 			const data = await axios.post("/posts", post, {
 				headers: { Authorization: "Bearer " + token },
 			});
-			console.log(data.data);
-			this.posts = [...this.posts, data.data];
+			console.log(data);
+			this.posts = [...this.posts, data];
 			console.log(this.posts);
 		},
 		async deletePost(id) {
@@ -91,6 +91,7 @@ export default {
 		const userId = localStorage.getItem("login");
 		const res = await axios.get(`/auth/profile/${userId}`);
 		this.user = res.data;
+		console.log("this.user", this.user.image);
 
 		const response = await axios.get("/posts", {
 			params: {
@@ -155,10 +156,11 @@ body {
 	display: flex;
 	align-items: center;
 	justify-content: center;
+	font-size: 1.5rem;
 }
 .imgHomeUser {
-	width: 60px;
-	height: 60px;
+	width: 70px;
+	height: 70px;
 	border-radius: 15px;
 }
 </style>

@@ -165,7 +165,7 @@ textarea {
 }
 .card {
 	max-width: 100%;
-	width: 50vw;
+	width: 40vw;
 	background: rgb(184, 214, 219);
 	border-radius: 16px;
 	padding: 32px;

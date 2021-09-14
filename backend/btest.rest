@@ -115,7 +115,11 @@ Content-Type:application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2MzE1MzYwMzEsImV4cCI6MTYzMTYyMjQzMX0.Uct-Ejp_rsTBaYIWoWYCCJkfuVOv5kET-n6EoArdKaU
 
 {
-        "bio":" je suis le fils de mon papa"
+        "bio":" je suis  de mon papa",
+            "isAdmin":0,
+             "image":"http://localhost:3000/images/denis.jpeg"
+
+
  
 }
 
@@ -157,13 +161,14 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MTFiY
 
 ###
 POST  http://localhost:3000/api/posts/
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2MzA2MjIxMzEsImV4cCI6MTYzMDcwODUzMX0.zRNdU2zhiNE54bUXBnSoeCuW2iag5e4XCzx8bcN94OY
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2MzE2MjY5MDYsImV4cCI6MTYzMTcxMzMwNn0.HQDxCyEOQ3pa-JoR8X6dAEQ9dmylh78ZSjkGmE5sarQ
 Content-Type:application/json
 
 {
         "content":" hier",
         "image":"",
         "UserId":1
+        ""
  
 }
 ###
@@ -184,7 +189,7 @@ Content-Type:application/json
  
 }
 ###
-GET http://localhost:3000/api/posts/comments
+GET http://localhost:3000/api/posts/comments/7
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MTFiYjViOWNiYWUxZDAzYmNiMDRkMjYiLCJpYXQiOjE2MjkyMDc2NzAsImV4cCI6MTYyOTI5NDA3MH0.drRjVbFwsMEyZd9YPvXGncC2C4wUt-RsxEJs7DFn8sE
 
 ###
@@ -195,24 +200,24 @@ DELETE http://localhost:3000/api/posts/comments/3
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpCJ9.eyJpYXQiOjE2MzA0ODU0MTgsImV4cCI6MTYzMDU3MTgxOH0.ERS-ZrkjHSxJHwvV6iWXv3YXPS1vR1sNpX-6adA7uQc
 ###
 ### --------------- LIKES
-POST  http://localhost:3000/api/posts/likes
+POST  http://localhost:3000/api/posts/like
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2MzA0ODkzMDMsImV4cCI6MTYzMDU3NTcwM30.LKT-FUiqbmE_lifedmE4-7nUQPpvdXnA6cDXp5fa0-w
 Content-Type:application/json
 
 {
         "valeur":1,
-        "PostId":3,
-        "UserId":1
+        "PostId":2,
+        "UserId":3
  }
 ###
-GET http://localhost:3000/api/posts/likes/1
+GET http://localhost:3000/api/posts/like/1
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MTFiYjViOWNiYWUxZDAzYmNiMDRkMjYiLCJpYXQiOjE2MjkyMDc2NzAsImV4cCI6MTYyOTI5NDA3MH0.drRjVbFwsMEyZd9YPvXGncC2C4wUt-RsxEJs7DFn8sE
 
 ###
 GET http://localhost:3000/api/posts/likes/14
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MTFiYjViOWNiYWUxZDAzYmNiMDRkMjYiLCJpYXQiOjE2MjkyMDc2NzAsImV4cCI6MTYyOTI5NDA3MH0.drRjVbFwsMEyZd9YPvXGncC2C4wUt-RsxEJs7DFn8sE
 ###
-DELETE http://localhost:3000/api/posts/likes/3
+DELETE http://localhost:3000/api/posts/likes/2
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpCJ9.eyJpYXQiOjE2MzA0ODU0MTgsImV4cCI6MTYzMDU3MTgxOH0.ERS-ZrkjHSxJHwvV6iWXv3YXPS1vR1sNpX-6adA7uQc
 ###
 

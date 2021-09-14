@@ -38,16 +38,16 @@ export default {
 			const token = localStorage.getItem("token");
 			const userId = localStorage.getItem("login");
 
-			const data = new FormData();
+			const post = new FormData();
 			if (this.file !== null) {
-				data.append("content", this.content);
-				data.append("image", this.selectedFile);
-				data.append("UserId", userId);
+				post.append("content", this.content);
+				post.append("image", this.selectedFile);
+				post.append("UserId", userId);
 			} else {
-				data.append("content", this.content);
-				data.append("UserId", userId);
+				post.append("content", this.content);
+				post.append("UserId", userId);
 			}
-			this.$emit("add_post", data);
+			this.$emit("add_post", post);
 			this.content = "";
 			this.selectedFile = "";
 

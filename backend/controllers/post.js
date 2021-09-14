@@ -11,7 +11,7 @@ exports.createPost = (req, res, next) => {
 		UserId: req.body.UserId,
 	};
 	db.Post.create(newPost)
-		.then(() => res.status(201).json({ message: "post crée !" }))
+		.then(() => res.status(201).json(newPost))
 		.catch(error => res.status(400).json({ error }));
 
 	res.json(newPost);
@@ -78,10 +78,10 @@ exports.createComment = (req, res, next) => {
 		UserId: req.body.UserId,
 	};
 	db.Comment.create(newComment)
-		.then(() => res.status(201).json({ message: "Comment crée !" }))
+		.then(() => res.status(201).json(newComment))
 		.catch(error => res.status(400).json({ error }));
 
-	res.json(newComment);
+	// res.json(newComment);
 };
 
 exports.getOneComment = (req, res, next) => {
@@ -99,7 +99,7 @@ exports.getAllComments = (req, res, next) => {
 	console.log("--------");
 	console.log("getAllComments");
 
-	db.Comment.findAll({ include: db.User })
+	db.Comment.findAll({ include: db.User, where: { PostId: req.params.id } })
 		.then(comment => res.status(200).json(comment))
 		.catch(error => console.log(error));
 };
@@ -146,7 +146,7 @@ exports.getAllLikes = (req, res, next) => {
 	console.log("--------");
 	console.log("getAllLikes");
 
-	db.Like.findAll({ include: db.Post })
+	db.Post.findOne({ include: db.Like, where: { id: req.params.id } })
 		.then(like => res.status(200).json(like))
 		.catch(error => console.log(error));
 };

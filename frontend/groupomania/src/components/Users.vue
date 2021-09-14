@@ -13,10 +13,12 @@
 						<div>{{ user.firstName }}</div>
 						<div>{{ user.lastName }}</div>
 						<div>{{ user.email }}</div>
+						<div>{{ user.id }}</div>
+						<div>{{ userId }}</div>
 					</div>
 				</div>
 
-				<div class="cardRight" @click="onDeleteUser(user.id)">
+				<div v-if="user.id == userId" class="cardRight" @click="onDeleteUser(user.id)">
 					<i class="fas fa-trash-alt"></i>
 				</div>
 			</div>
@@ -42,7 +44,7 @@ export default {
 			admin: false,
 			profile: Object,
 			imageUrl: null,
-			// userId,
+			userId: "",
 			selectedFile: null,
 		};
 	},
@@ -73,6 +75,8 @@ export default {
 		},
 	},
 	async created() {
+		const userId = await localStorage.getItem("login");
+		this.userId = userId;
 		const response = await axios.get("/auth/profile");
 
 		this.profile = response.data;
@@ -85,7 +89,7 @@ export default {
 	},
 	async beforeMount() {
 		// const userId = await localStorage.getItem("login");
-		// console.log("userId", userId);
+		// // console.log("userId", userId);
 	},
 };
 </script>

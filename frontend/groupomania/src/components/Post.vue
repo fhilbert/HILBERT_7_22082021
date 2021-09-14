@@ -3,13 +3,13 @@
 		<h1></h1>
 		<div class="postHeader">
 			<div class="postHeaderLeft">
-				<img class="postOwnerPhoto" :src="post.User.photo" alt="photo" />
+				<img class="postOwnerPhoto" :src="post.User.image" alt="photo" />
 				<!-- <img class="postOwnerPhoto" src="../images/IMG_7377.jpg" alt="photo" /> -->
 				<div class="postOwner">
 					<div class="ownerName">
 						<strong>{{ post.User.firstName }}</strong>
 						<strong>{{ post.User.lastName }}</strong>
-						{{ post.UserId }}-login-{{ userId }}
+						{{ post.UserId }}
 					</div>
 					<div class="published">
 						<div class="space">Publié le</div>
@@ -29,8 +29,8 @@
 		<div>{{ post.content }}</div>
 
 		<div class="thumb">
-			<div class="like" @click="onLike(post.id)">
-				<i :class="postLike ? 'fas fa-thumbs-up' : 'far fa-thumbs-up'"></i>
+			<div class="like" @click="onCreateLike(postLike, post.id)">
+				<i :class="postLike ? 'fas fa-thumbs-up' : 'far fa-thumbs-up'">{{ nbLikes }}</i>
 				<!-- <i class="fas fa-thumbs-up">2</i> -->
 			</div>
 			<div class="dislike" @click="onDislike(post.id)"><i class="far fa-thumbs-down">3</i></div>
@@ -62,8 +62,8 @@
 				</div>
 			</div>
 			<div class="postCommentInput">
-				<!-- <img class="commentOwnerPhoto" :src="comment.User.image" alt="photo" /> -->
-				<img class="commentOwnerPhoto" src="../images/IMG_7377.jpg" alt="photo" />
+				<!-- <img class="commentOwnerPhoto" :src="user.image" alt="photo" /> -->
+				<!-- <img class="commentOwnerPhoto" src="../images/IMG_7377.jpg" alt="photo" /> -->
 				<div class="postCommentInputCard">
 					<div class="commentTextInput">
 						<input type="text" v-model="inputComment" placeholder="commentaire ..." />
@@ -97,10 +97,13 @@ export default {
 			image: "",
 			createAt: "",
 			comments: [],
+			isAdmin: "",
 			userId,
 			inputComment: "",
-			postLike: false,
+			nbLikes: 0,
+			postLike: true,
 			postDislike: false,
+			// post: Object,
 		};
 	},
 
@@ -111,41 +114,26 @@ export default {
 		},
 		async buttonNewComment(postid) {
 			console.log("input");
-			console.log(postid);
-			console.log(this.inputComment);
 			const userId = localStorage.getItem("login");
-
+			if (!this.inputComment) {
+				return;
+			}
 			const newComment = {
 				comment: this.inputComment,
 				PostId: postid,
 				UserId: userId,
 			};
-			console.log("newComment", newComment);
-
-			if (!this.inputComment) {
-				return;
-			}
+			this.inputComment = "";
 			const token = localStorage.getItem("token");
 
-			console.log("axios");
-			console.log(this.comments);
-			const data = await axios
-				.post("/posts/comments", newComment, {
-					headers: { Authorization: "Bearer " + token },
-				})
-				.then(() => {
-					alert("Commentaire a bien été envoyé !");
-					// document.location.reload();
-					// this.$router.push("/posts");
-				})
-				.catch(error => {
-					this.error = error.response.data;
-				});
+			const data = await axios.post("/posts/comments", newComment, {
+				headers: { Authorization: "Bearer " + token },
+			});
+			console.log(data);
+			this.comments = [...this.comments, data];
 
-			console.log("erreur 2");
-			this.comments = [...this.comments, newComment];
-			console.log("erreur 2");
-			this.inputComment = "";
+			console.log("data");
+			console.log(data);
 		},
 		async onDeleteComment(id) {
 			console.log("delete comment");
@@ -158,54 +146,77 @@ export default {
 		onLike(id) {
 			console.log(id);
 			console.log("like");
-			console.log(postLike);
+			// console.log(postLike);
 
-			postLike = !postLike;
-			console.log(postLike);
+			this.postLike = !this.postLike;
+			// onCreateLike(id, post.id);
+			// console.log(postLike);
 
 			// this.onCreateLike(id, postLike);
 		},
 		async onDislike(id) {
 			console.log(id);
 			console.log("dislike");
+			onCreateLike(id, post.id);
 		},
-		async onCreateLike(id, postLike) {
-			console.log("onCreate", id);
-			console.log("onCreate", postLike);
+		async onCreateLike(valeur, postid) {
+			console.log("onCreate", valeur);
+			console.log("onCreate", postid);
 
-			const response = await axios.get(`/posts/likes/${id}`);
-			console.log("response", response);
+			const response = await axios.get(`/posts/like/${postid}`);
+			console.log("response", response.data);
+			console.log("response", response.data.Likes);
+
 			if (response.data) {
 				console.log("trouvé");
-				const res = await axios.delete(`/posts/likes/${id}`);
+				// const res = await axios.delete(`/posts/likes/${response.Likes.id}`);
 			} else {
 				console.log("non trouvé");
 			}
-			const newLike = {
-				like: postLike,
+			// const newLike = {
+			// 	like: postLike,
 
-				UserId: 4,
-				PostId: id,
-			};
-			console.log("creation", newLike);
-			const data = await axios.post("/posts/likes", newLike);
+			// 	UserId: 4,
+			// 	PostId: id,
+			// };
+			// console.log("creation", newLike);
+			// const data = await axios.post("/posts/likes", newLike);
 			// like = postLike;
 		},
 	},
 	async created() {
-		const response = await axios.get("/posts/comments", {
+		const response = await axios.get(`/posts/comments/${this.post.id}`, {
 			params: {
 				date: "YYYY-MM-DD",
 			},
 		});
+		//tous les likes d'un post
+
+		// const resLike = await axios.get(`/posts/likes/1`);
+		const resLike = await axios.get(`/posts/likes/${this.post.id}`);
+		console.log("resLike ", resLike.data.Likes);
+		console.log("resLike ", resLike.data.Likes.length);
+		// let nblikes = 0;
+		// const nbLikes = resLike.data.Likes.forEach(like => {
+		// 	if (like.valeur === 1) {
+		// 		nbLikes++;
+		// 	}
+		// });
+		// console.log(nbLikes, nbLikes);
+
+		// obtenir le like du post
+		// const resThumb = await axios.get(`/posts/like/${post.id}`);
 
 		this.comments = response.data;
+		this.nbLikes = resLike.data.Likes.length;
+		// this.postLike = resThumb.data;
 		// console.log("this.comments");
 		// console.log("commentss", this.comments);
 		// // const userId = await localStorage.getItem("login");
 	},
 	async beforeMount() {
 		const userId = await localStorage.getItem("login");
+		// const resLike = await axios.get(`/posts/likes/${post.id}`);
 	},
 };
 </script>
@@ -271,6 +282,7 @@ strong {
 	width: 50px;
 	height: 50px;
 	object-fit: cover;
+	border-radius: 15px;
 }
 .post h3 {
 	display: flex;
@@ -280,6 +292,7 @@ strong {
 }
 .postPhoto {
 	width: 100%;
+	border-radius: 15px 15px 0 0;
 }
 .thumb {
 	margin-top: 20px;

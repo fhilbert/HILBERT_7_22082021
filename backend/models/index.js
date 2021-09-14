@@ -49,6 +49,9 @@ db.Comment.belongsTo(db.User);
 // Posts -- Likes
 db.Post.hasMany(db.Like, { onDelete: "CASCADE", foreignKey: { allowNull: false }, hooks: true });
 db.Like.belongsTo(db.Post);
+// Users -- Likes
+db.User.hasMany(db.Like, { onDelete: "CASCADE", foreignKey: { allowNull: false }, hooks: true });
+db.Like.belongsTo(db.User);
 
 //  Posts - Likes - Users
 

@@ -121,33 +121,31 @@ exports.modifyProfile = (req, res, next) => {
 			console.log(req.body);
 			console.log(req.file);
 			console.log("-----");
-			const filename = user.image.split("/images/")[1];
+			if (req.file) {
+				try {
+					const filename = user.image.split("/images/")[1];
+					console.log(user.image.split("/images/")[1]);
+					fs.unlink(`images/${filename}`, err => {
+						if (err) throw err;
+						console.log("unlink img");
+					});
+				} catch (error) {
+					console.log(error);
+				}
+				user.image = `${req.protocol}://${req.get("host")}/images/${req.file.filename}`;
+			}
 
-			// console.log(user);
-			// if (user.image.split("/images/")[1]) {
-			// const filename = user.image.split("/images/")[1];
-			// 	fs.unlink(`images/${filename}`, err => {
-			// 		if (err) throw err;
-			// 		console.log("unlink img");
-			// 	});
-			// }
-
-			console.log("-----");
-			console.log(req.body);
+			user.bio = req.body.bio;
+			req.body.isAdmin === "true" ? (user.isAdmin = 1) : (user.isAdmin = 0);
 
 			user
-				.update({
-					image: `${req.protocol}://${req.get("host")}/images/${req.file.filename}`,
-					bio: req.body.bio,
-					isAdmin: req.body.isAdmin,
-				})
+				.save()
 				.then(() => res.status(200).json({ message: "Updated profile" }))
-				.catch(error => res.status(400).json({ error: "Unable to update profile" }));
+				.catch(error => res.status(400).json({ message: error.message }));
 		})
-		.catch(error => res.status(500).json({ error }));
+		.catch(error => res.status(500).json({ message: error.message }));
 	// }
 };
-
 exports.deleteProfile = async (req, res, next) => {
 	console.log("--------");
 	console.log("deleteProfile");
