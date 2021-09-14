@@ -50,19 +50,6 @@ export default {
 			this.$emit("add_post", post);
 			this.content = "";
 			this.selectedFile = "";
-
-			// const res = axios
-			// 	.post("http://localhost:3000/api/posts/", data, {
-			// 		// headers: { Authorization: "Bearer " + token },
-			// 		headers: { headers: data.getHeaders() },
-			// 	})
-			// 	.then(() => {
-			// 		alert("Votre message a bien été envoyé !");
-			// 		// document.location.reload();
-			// 	})
-			// 	.catch(error => {
-			// 		this.error = error.response.data;
-			// 	});
 		},
 
 		selectFile(event) {
@@ -87,13 +74,6 @@ export default {
 				alert("Please add a post");
 				return;
 			}
-
-			// const newPost = {
-			// 	content: this.content,
-			// 	image: this.files,
-			// 	UserId: 4,
-			// };
-			// const response = axios.post("/posts", newPost);
 
 			console.log("newPost", newPost);
 			this.$emit("add_post", newPost);

@@ -37,7 +37,7 @@ export default {
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400&display=swap");
 
 * {
-	/* box-sizing: border-box; */
+	box-sizing: border-box;
 	margin: 0;
 	padding: 0;
 }

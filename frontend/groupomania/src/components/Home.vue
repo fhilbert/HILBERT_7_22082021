@@ -1,20 +1,22 @@
 <template>
 	<div class="home">
 		<!-- <Nav /> -->
-		<div class="homeUser">
-			<div class="space"><img class="imgHomeUser" :src="user.image" alt="photo" /></div>
-			<div class="space">{{ user.firstName }}</div>
-			<div class="space">{{ user.lastName }}</div>
-			<div>est connecté</div>
-		</div>
-		<Header @toggle_add_post="toggleAddPost" title="Publications" :showAddPost="showAddPost" />
-		<div v-show="showAddPost">
-			<AddPost @add_post="addPost" />
-		</div>
-		<!-- <router-view :showAddPost="showAddPost"></router-view> -->
-		<Posts @delete_post="deletePost" :posts="posts" />
+		<div class="homeFeed">
+			<div class="homeUser">
+				<div class="space"><img class="imgHomeUser" :src="user.image" alt="photo" /></div>
+				<div class="space">{{ user.firstName }}</div>
+				<div class="space">{{ user.lastName }}</div>
+				<div>est connecté</div>
+			</div>
+			<Header @toggle_add_post="toggleAddPost" title="Publications" :showAddPost="showAddPost" />
+			<div v-show="showAddPost">
+				<AddPost @add_post="addPost" />
+			</div>
+			<!-- <router-view :showAddPost="showAddPost"></router-view> -->
+			<Posts @delete_post="deletePost" :posts="posts" @add_comment="addComment" />
 
-		<!-- <Footer /> -->
+			<!-- <Footer /> -->
+		</div>
 	</div>
 </template>
 <script>
@@ -55,6 +57,15 @@ export default {
 			console.log(data);
 			this.posts = [...this.posts, data];
 			console.log(this.posts);
+		},
+		async addComment(comment) {
+			const token = localStorage.getItem("token");
+
+			const data = await axios.post("/posts/comments", newComment, {
+				headers: { Authorization: "Bearer " + token },
+			});
+			console.log(data);
+			this.comments = [...this.comments, data];
 		},
 		async deletePost(id) {
 			// if (confirm("Are you sure ?")) {
@@ -109,17 +120,14 @@ export default {
 <style>
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400&display=swap");
 
-* {
-	box-sizing: border-box;
-	margin: 0;
-	padding: 0;
-}
-
 body {
-	font-family: "Poppins", sans-serif;
-	width: 100vw;
+	/* font-family: "Poppins", sans-serif; */
+	/* width: 100vw; */
 }
 .home {
+	/* width: 100vw; */
+}
+.homeFeed {
 	margin: 40px auto 0 auto;
 	width: 75vw;
 	max-width: 600px;

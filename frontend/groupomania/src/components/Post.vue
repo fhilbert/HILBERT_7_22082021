@@ -4,7 +4,6 @@
 		<div class="postHeader">
 			<div class="postHeaderLeft">
 				<img class="postOwnerPhoto" :src="post.User.image" alt="photo" />
-				<!-- <img class="postOwnerPhoto" src="../images/IMG_7377.jpg" alt="photo" /> -->
 				<div class="postOwner">
 					<div class="ownerName">
 						<strong>{{ post.User.firstName }}</strong>
@@ -98,7 +97,7 @@ export default {
 			createAt: "",
 			comments: [],
 			isAdmin: "",
-			userId,
+			userId: "",
 			inputComment: "",
 			nbLikes: 0,
 			postLike: true,
@@ -124,16 +123,7 @@ export default {
 				UserId: userId,
 			};
 			this.inputComment = "";
-			const token = localStorage.getItem("token");
-
-			const data = await axios.post("/posts/comments", newComment, {
-				headers: { Authorization: "Bearer " + token },
-			});
-			console.log(data);
-			this.comments = [...this.comments, data];
-
-			console.log("data");
-			console.log(data);
+			this.$emit("add_comment", newComment);
 		},
 		async onDeleteComment(id) {
 			console.log("delete comment");
@@ -194,6 +184,7 @@ export default {
 
 		// const resLike = await axios.get(`/posts/likes/1`);
 		const resLike = await axios.get(`/posts/likes/${this.post.id}`);
+
 		console.log("resLike ", resLike.data.Likes);
 		console.log("resLike ", resLike.data.Likes.length);
 		// let nblikes = 0;
@@ -204,8 +195,14 @@ export default {
 		// });
 		// console.log(nbLikes, nbLikes);
 
-		// obtenir le like du post
-		// const resThumb = await axios.get(`/posts/like/${post.id}`);
+		//	obtenir le like du post
+		const userId = localStorage.getItem("login");
+
+		const resThumb = await axios.get(`/posts/like/${this.post.id}`);
+		console.log("resThumb");
+		console.log(resThumb.data.Likes[0].UserId);
+		// console.log(resThumb.Likes.UserId);
+		// console.log(userId);
 
 		this.comments = response.data;
 		this.nbLikes = resLike.data.Likes.length;

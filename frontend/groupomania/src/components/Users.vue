@@ -13,12 +13,10 @@
 						<div>{{ user.firstName }}</div>
 						<div>{{ user.lastName }}</div>
 						<div>{{ user.email }}</div>
-						<div>{{ user.id }}</div>
-						<div>{{ userId }}</div>
 					</div>
 				</div>
 
-				<div v-if="user.id == userId" class="cardRight" @click="onDeleteUser(user.id)">
+				<div v-if="user.id == userId || data.isAdmin == 1" class="cardRight" @click="onDeleteUser(user.id)">
 					<i class="fas fa-trash-alt"></i>
 				</div>
 			</div>
@@ -77,12 +75,18 @@ export default {
 	async created() {
 		const userId = await localStorage.getItem("login");
 		this.userId = userId;
+		const res = await axios.get(`/auth/profile/${userId}`);
+
+		this.data = res.data;
+		console.log("this.user", this.data.isAdmin);
+
 		const response = await axios.get("/auth/profile");
 
 		this.profile = response.data;
 		console.log("this.profile", this.profile);
 
 		this.users = response.data;
+
 		// console.log("this.comments");
 		// console.log("commentss", this.comments);
 		// // const userId = await localStorage.getItem("login");
@@ -95,11 +99,8 @@ export default {
 </script>
 
 <style scoped>
-body {
-	width: 100vw;
-}
 .Users {
-	margin: 40px 15vw 0 15vw;
+	margin-top: 40px;
 }
 h1 {
 	margin-bottom: 40px;
@@ -115,19 +116,15 @@ h1 {
 }
 
 .usersCard {
-	width: 80vw;
-	height: 100%;
 	display: flex;
 	flex-wrap: wrap;
 	justify-content: space-evenly;
-	align-content: space-between;
+	padding: 0 10vw;
 }
 .cardUsers {
 	background-color: mediumaquamarine;
-	max-width: 100%;
 	width: 350px;
 	height: 100px;
-	/* height: 100px; */
 	border-radius: 15px;
 	display: flex;
 	margin: 0em 1em 3em 0em;

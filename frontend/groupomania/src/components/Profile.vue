@@ -34,6 +34,8 @@
 						<label for="file">(Facultatif)</label><br />
 						<input type="file" ref="file" @change="selectFile" />
 					</div>
+					<br />
+					<div>{{ message }}</div>
 				</div>
 			</form>
 		</div>
@@ -61,6 +63,7 @@ export default {
 			userId: "",
 			imageUrl: null,
 			selectedFile: null,
+			message: "",
 		};
 	},
 	methods: {
@@ -100,11 +103,12 @@ export default {
 					headers: { Authorization: "Bearer " + token },
 				})
 				.then(() => {
-					alert("Votre profil a bien été mis à jour !");
-					document.location.reload();
+					// alert("Votre profil a bien été mis à jour !");
+					this.message = "Votre profil a bien été mis à jour !";
+					// document.location.reload();
 				})
 				.catch(error => {
-					this.error = error.response.data;
+					this.message = error.response.data;
 				});
 
 			this.bio = "";

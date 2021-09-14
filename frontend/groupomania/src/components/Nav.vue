@@ -46,6 +46,7 @@ nav {
 	display: flex;
 	font-size: 1.1em;
 	width: 100vw;
+
 	height: 5vw;
 	background-color: lightgrey;
 	align-content: center;
