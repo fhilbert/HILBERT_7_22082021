@@ -14,6 +14,7 @@
 			<div class="item">
 				<router-link to="/profile" class="link"><i class="far fa-grin" title="Profil"></i></router-link>
 			</div>
+			<!-- <div v-if="token" class="item"> -->
 			<div class="item">
 				<router-link to="/posts" class="link"><i class="fas fa-scroll" title="Publications"></i></router-link>
 			</div>
@@ -37,6 +38,13 @@
 <script>
 export default {
 	name: "Nav",
+	// data() {
+	// 	token: "";
+	// },
+	// async created() {
+	// 	const token = localStorage.getItem("token");
+	// 	this.token = token;
+	// },
 };
 </script>
 <style>

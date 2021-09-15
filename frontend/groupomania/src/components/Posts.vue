@@ -1,12 +1,7 @@
 <template>
 	<div>
 		<div :key="post.id" v-for="post in posts">
-			<Post
-				@delete_post="$emit('delete_post', post.id)"
-				:post="post"
-				@add_comment="$emit('add_comment', comment.id)"
-				:comment="comment"
-			/>
+			<Post @delete_post="$emit('delete_post', post.id)" :post="post" @add_comment="$emit('add_comment', comment)" />
 		</div>
 	</div>
 </template>
@@ -19,6 +14,7 @@ export default {
 	props: {
 		posts: Array,
 		comments: Array,
+		comment: Object,
 	},
 	components: {
 		Post,

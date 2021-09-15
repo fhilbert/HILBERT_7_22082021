@@ -14,7 +14,7 @@ exports.createPost = (req, res, next) => {
 		.then(() => res.status(201).json(newPost))
 		.catch(error => res.status(400).json({ error }));
 
-	res.json(newPost);
+	// res.json(newPost);
 };
 
 exports.getOnePost = (req, res, next) => {

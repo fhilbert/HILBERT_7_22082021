@@ -28,7 +28,8 @@
 		<div>{{ post.content }}</div>
 
 		<div class="thumb">
-			<div class="like" @click="onCreateLike(postLike, post.id)">
+			<div class="like" @click="onCreateLike(1, post.id)">
+				<div>{{ like }}</div>
 				<i :class="postLike ? 'fas fa-thumbs-up' : 'far fa-thumbs-up'">{{ nbLikes }}</i>
 				<!-- <i class="fas fa-thumbs-up">2</i> -->
 			</div>
@@ -99,9 +100,11 @@ export default {
 			isAdmin: "",
 			userId: "",
 			inputComment: "",
+			like: 0,
 			nbLikes: 0,
 			postLike: true,
 			postDislike: false,
+			thumbLike: Object,
 			// post: Object,
 		};
 	},
@@ -122,6 +125,8 @@ export default {
 				PostId: postid,
 				UserId: userId,
 			};
+			console.log("newComment");
+			console.log(newComment);
 			this.inputComment = "";
 			this.$emit("add_comment", newComment);
 		},
@@ -184,7 +189,7 @@ export default {
 
 		// const resLike = await axios.get(`/posts/likes/1`);
 		const resLike = await axios.get(`/posts/likes/${this.post.id}`);
-
+		let like = 0;
 		console.log("resLike ", resLike.data.Likes);
 		console.log("resLike ", resLike.data.Likes.length);
 		// let nblikes = 0;
@@ -200,7 +205,20 @@ export default {
 
 		const resThumb = await axios.get(`/posts/like/${this.post.id}`);
 		console.log("resThumb");
-		console.log(resThumb.data.Likes[0].UserId);
+
+		console.log(resThumb.data.Likes[0]);
+		const thumbLike = resThumb.data.Likes;
+		thumbLike.forEach(index => {
+			console.log("thumbLike");
+			console.log(thumbLike[index]);
+			// if (thumbLike[index].UserId == userId) {
+			// 	like = 1;
+			// 	return;
+			// } else like = 0;
+		});
+		this.like = like;
+		// console.log(resThumb.data.Likes[0].UserId);
+		// console.log(resThumb.data.Likes[0].UserId);
 		// console.log(resThumb.Likes.UserId);
 		// console.log(userId);
 
