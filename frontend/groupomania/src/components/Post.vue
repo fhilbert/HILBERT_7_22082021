@@ -8,7 +8,7 @@
 					<div class="ownerName">
 						<strong>{{ post.User.firstName }}</strong>
 						<strong>{{ post.User.lastName }}</strong>
-						{{ post.UserId }}
+						{{ post.UserId }}--{{ userId }}
 					</div>
 					<div class="published">
 						<div class="space">Publié le</div>
@@ -105,7 +105,6 @@ export default {
 			nbLikes: 0,
 			nbDislikes: 0,
 			postLike: true,
-			postDislike: false,
 		};
 	},
 
@@ -193,6 +192,7 @@ export default {
 		let nbLikes = 0;
 		let nbDislikes = 0;
 		const userId = localStorage.getItem("login");
+		this.userId = userId;
 		// console.log("resLike ", resLike.data.Likes);
 		resLike.data.Likes.forEach(e => {
 			// console.log("likeee", e);
