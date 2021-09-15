@@ -13,7 +13,7 @@
 				<AddPost @add_post="addPost" />
 			</div>
 			<!-- <router-view :showAddPost="showAddPost"></router-view> -->
-			<Posts @delete_post="deletePost" :posts="posts" @add_comment="addComment(comment)" />
+			<Posts @delete_post="deletePost" :posts="posts" @add-comment="addComment" />
 
 			<!-- <Footer /> -->
 		</div>
@@ -42,7 +42,6 @@ export default {
 			showAddPost: false,
 			posts: [],
 			user: Object,
-			comment: Object,
 		};
 	},
 	methods: {
@@ -59,16 +58,16 @@ export default {
 			this.posts = [...this.posts, data];
 			console.log(this.posts);
 		},
-		async addComment(comment) {
-			console.log("comment");
-			console.log(comment);
-			// const token = localStorage.getItem("token");
+		async addComment(newComment) {
+			console.log(newComment);
+			console.log("222222222");
+			const token = localStorage.getItem("token");
 
-			// const data = await axios.post("/posts/comments", newComment, {
-			// 	headers: { Authorization: "Bearer " + token },
-			// });
-			// console.log(data);
-			// this.comments = [...this.comments, data];
+			const data = await axios.post("/posts/comments", newComment, {
+				headers: { Authorization: "Bearer " + token },
+			});
+			console.log(data);
+			this.comments = [...this.comments, data];
 		},
 		async deletePost(id) {
 			// if (confirm("Are you sure ?")) {

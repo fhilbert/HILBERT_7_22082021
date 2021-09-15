@@ -29,11 +29,11 @@
 
 		<div class="thumb">
 			<div class="like" @click="onCreateLike(1, post.id)">
-				<div>{{ like }}</div>
-				<i :class="postLike ? 'fas fa-thumbs-up' : 'far fa-thumbs-up'">{{ nbLikes }}</i>
-				<!-- <i class="fas fa-thumbs-up">2</i> -->
+				<i :class="like ? 'fas fa-thumbs-up' : 'far fa-thumbs-up'">{{ nbLikes }}</i>
 			</div>
-			<div class="dislike" @click="onDislike(post.id)"><i class="far fa-thumbs-down">3</i></div>
+			<div class="disLike" @click="onCreateLike(0, post.id)">
+				<i :class="disLike ? 'fas fa-thumbs-up' : 'far fa-thumbs-up'">{{ nbDislikes }}</i>
+			</div>
 		</div>
 
 		<div class="postComment">
@@ -101,11 +101,11 @@ export default {
 			userId: "",
 			inputComment: "",
 			like: 0,
+			disLike: 0,
 			nbLikes: 0,
+			nbDislikes: 0,
 			postLike: true,
 			postDislike: false,
-			thumbLike: Object,
-			// post: Object,
 		};
 	},
 
@@ -151,7 +151,7 @@ export default {
 		},
 		async onDislike(id) {
 			console.log(id);
-			console.log("dislike");
+			console.log("onDislike");
 			onCreateLike(id, post.id);
 		},
 		async onCreateLike(valeur, postid) {
@@ -160,7 +160,7 @@ export default {
 
 			const response = await axios.get(`/posts/like/${postid}`);
 			console.log("response", response.data);
-			console.log("response", response.data.Likes);
+			// console.log("response", response.data.Likes);
 
 			if (response.data) {
 				console.log("trouvé");
@@ -187,47 +187,41 @@ export default {
 		});
 		//tous les likes d'un post
 
-		// const resLike = await axios.get(`/posts/likes/1`);
-		const resLike = await axios.get(`/posts/likes/${this.post.id}`);
+		const resLike = await axios.get(`/posts/like/${this.post.id}`);
 		let like = 0;
-		console.log("resLike ", resLike.data.Likes);
-		console.log("resLike ", resLike.data.Likes.length);
-		// let nblikes = 0;
-		// const nbLikes = resLike.data.Likes.forEach(like => {
-		// 	if (like.valeur === 1) {
-		// 		nbLikes++;
-		// 	}
-		// });
-		// console.log(nbLikes, nbLikes);
+		let disLike = 0;
+		let nbLikes = 0;
+		let nbDislikes = 0;
+		const userId = localStorage.getItem("login");
+		// console.log("resLike ", resLike.data.Likes);
+		resLike.data.Likes.forEach(e => {
+			// console.log("likeee", e);
+			if (e.valeur == 1) {
+				nbLikes++;
+			}
+			if (e.valeur == 0) {
+				nbDislikes++;
+			}
+			if (e.UserId == userId) {
+				if (e.valeur == 1) {
+					like = 1;
+					return;
+				} else {
+					disLike = 1;
+					return;
+				}
+			}
+		});
+		// console.log("like", like);
 
 		//	obtenir le like du post
-		const userId = localStorage.getItem("login");
 
-		const resThumb = await axios.get(`/posts/like/${this.post.id}`);
-		console.log("resThumb");
-
-		console.log(resThumb.data.Likes[0]);
-		const thumbLike = resThumb.data.Likes;
-		thumbLike.forEach(index => {
-			console.log("thumbLike");
-			console.log(thumbLike[index]);
-			// if (thumbLike[index].UserId == userId) {
-			// 	like = 1;
-			// 	return;
-			// } else like = 0;
-		});
 		this.like = like;
-		// console.log(resThumb.data.Likes[0].UserId);
-		// console.log(resThumb.data.Likes[0].UserId);
-		// console.log(resThumb.Likes.UserId);
-		// console.log(userId);
+		this.disLike = disLike;
 
+		this.nbLikes = nbLikes;
+		this.nbDislikes = nbDislikes;
 		this.comments = response.data;
-		this.nbLikes = resLike.data.Likes.length;
-		// this.postLike = resThumb.data;
-		// console.log("this.comments");
-		// console.log("commentss", this.comments);
-		// // const userId = await localStorage.getItem("login");
 	},
 	async beforeMount() {
 		const userId = await localStorage.getItem("login");
@@ -324,7 +318,7 @@ strong {
 	height: 2.4em;
 	font-size: 1.5em;
 }
-.dislike {
+.disLike {
 	margin-top: 10px;
 	border: red;
 	color: red;

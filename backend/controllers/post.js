@@ -4,17 +4,24 @@ exports.createPost = (req, res, next) => {
 	console.log("--------");
 	console.log("createPost");
 	console.log(req.body);
-
-	const newPost = {
+	console.log(req.file);
+	let newPost = {
 		content: req.body.content,
-		image: `${req.protocol}://${req.get("host")}/images/${req.file.filename}`,
 		UserId: req.body.UserId,
 	};
+
+	if (req.body.image) {
+		newPost.image = `${req.protocol}://${req.get("host")}/images/${req.file.filename}`;
+		console.log("55555555555");
+	}
+	// const newPost = {
+	// 	content: req.body.content,
+	// 	image: `${req.protocol}://${req.get("host")}/images/${req.file.filename}`,
+	// 	UserId: req.body.UserId,
+	// };
 	db.Post.create(newPost)
 		.then(() => res.status(201).json(newPost))
 		.catch(error => res.status(400).json({ error }));
-
-	// res.json(newPost);
 };
 
 exports.getOnePost = (req, res, next) => {
@@ -80,8 +87,6 @@ exports.createComment = (req, res, next) => {
 	db.Comment.create(newComment)
 		.then(() => res.status(201).json(newComment))
 		.catch(error => res.status(400).json({ error }));
-
-	// res.json(newComment);
 };
 
 exports.getOneComment = (req, res, next) => {

@@ -167,7 +167,7 @@ Content-Type:application/json
 {
         "content":" hier",
         "image":"",
-        "UserId":1
+        "UserId":"1"
         ""
  
 }
@@ -205,12 +205,12 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2MzA0ODkzM
 Content-Type:application/json
 
 {
-        "valeur":1,
-        "PostId":2,
+        "valeur":0,
+        "PostId":3,
         "UserId":3
  }
 ###
-GET http://localhost:3000/api/posts/like/1
+GET http://localhost:3000/api/posts/likes/1
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MTFiYjViOWNiYWUxZDAzYmNiMDRkMjYiLCJpYXQiOjE2MjkyMDc2NzAsImV4cCI6MTYyOTI5NDA3MH0.drRjVbFwsMEyZd9YPvXGncC2C4wUt-RsxEJs7DFn8sE
 
 ###
