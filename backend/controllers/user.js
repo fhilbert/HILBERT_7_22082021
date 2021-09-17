@@ -1,4 +1,5 @@
 const db = require("../models");
+const fs = require("fs");
 
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
@@ -130,7 +131,7 @@ exports.modifyProfile = (req, res, next) => {
 						console.log("unlink img");
 					});
 				} catch (error) {
-					console.log(error);
+					console.log(error.message);
 				}
 				user.image = `${req.protocol}://${req.get("host")}/images/${req.file.filename}`;
 			}
@@ -153,7 +154,7 @@ exports.deleteProfile = async (req, res, next) => {
 	console.log(req.params.id);
 	await db.User.destroy({ where: { id: req.params.id } })
 		.then(() => res.status(200).json({ message: "Objet supprimé !" }))
-		.catch(error => res.status(400).json({ error }));
+		.catch(error => res.status(400).json({ message: error.message }));
 
 	db.User.findOne({ where: { id: req.params.id } })
 		.then(user => {
@@ -163,15 +164,15 @@ exports.deleteProfile = async (req, res, next) => {
 			fs.unlink(`images/${filename}`, () => {
 				db.User.destroy({ where: { id: req.params.id } })
 					.then(() => res.status(200).json({ message: "Objet supprimé !" }))
-					.catch(error => res.status(400).json({ error }));
+					.catch(error => res.status(400).json({ message: error.message }));
 			});
 		})
-		.catch(error => res.status(500).json({ error }));
+		.catch(error => res.status(500).json({ message: error.message }));
 };
 exports.getAllProfiles = (req, res, next) => {
 	console.log("--------");
 	console.log("deleteProfile");
 	db.User.findAll()
 		.then(post => res.status(200).json(post))
-		.catch(error => console.log(error));
+		.catch(error => console.log({ message: error.message }));
 };

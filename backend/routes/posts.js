@@ -27,9 +27,10 @@ router.get("/comments/:id", postCtrl.getAllComments);
 // checked routes
 
 router.get("/like/:id", postCtrl.getOneLike);
+router.put("/like/:id", postCtrl.updateOneLike);
 router.get("/likes/:id", postCtrl.getAllLikes); // all likes for a post
 // router.get("/dislikes/:id", postCtrl.getAllDislikes); // all dislikes for a post
-router.delete("/likes/:id", postCtrl.deleteLike);
+router.delete("/like/:id", postCtrl.deleteLike);
 router.post("/like/", postCtrl.createLike);
 //-------------------------
 

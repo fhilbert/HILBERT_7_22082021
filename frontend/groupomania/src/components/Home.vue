@@ -13,7 +13,7 @@
 				<AddPost @add_post="addPost" />
 			</div>
 			<!-- <router-view :showAddPost="showAddPost"></router-view> -->
-			<Posts @delete_post="deletePost" :posts="posts" @add-comment="addComment" />
+			<Posts @delete_post="deletePost" :posts="posts" @add-comment="addComment" :isAdmin="isAdmin" />
 
 			<!-- <Footer /> -->
 		</div>
@@ -42,6 +42,7 @@ export default {
 			showAddPost: false,
 			posts: [],
 			user: Object,
+			isAdmin: "",
 		};
 	},
 	methods: {
@@ -60,7 +61,6 @@ export default {
 		},
 		async addComment(newComment) {
 			console.log(newComment);
-			console.log("222222222");
 			const token = localStorage.getItem("token");
 
 			const data = await axios.post("/posts/comments", newComment, {
@@ -87,10 +87,6 @@ export default {
 			const response = await axios.get("/posts");
 			console.log("response");
 
-			// const res = await fetch("api/posts");
-
-			// const data = await res.json();
-			// return data;
 			return response;
 		},
 		async fetchPost(id) {
@@ -104,6 +100,9 @@ export default {
 		const userId = localStorage.getItem("login");
 		const res = await axios.get(`/auth/profile/${userId}`);
 		this.user = res.data;
+		const isAdmin = this.user.isAdmin;
+		this.isAdmin = isAdmin;
+
 		console.log("this.user", this.user.image);
 
 		const response = await axios.get("/posts", {

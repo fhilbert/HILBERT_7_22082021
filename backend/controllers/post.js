@@ -1,27 +1,20 @@
 const db = require("../models");
+const fs = require("fs");
 
 exports.createPost = (req, res, next) => {
 	console.log("--------");
 	console.log("createPost");
 	console.log(req.body);
 	console.log(req.file);
-	let newPost = {
+
+	const newPost = {
 		content: req.body.content,
+		image: `${req.protocol}://${req.get("host")}/images/${req.file.filename}`,
 		UserId: req.body.UserId,
 	};
-
-	if (req.body.image) {
-		newPost.image = `${req.protocol}://${req.get("host")}/images/${req.file.filename}`;
-		console.log("55555555555");
-	}
-	// const newPost = {
-	// 	content: req.body.content,
-	// 	image: `${req.protocol}://${req.get("host")}/images/${req.file.filename}`,
-	// 	UserId: req.body.UserId,
-	// };
 	db.Post.create(newPost)
 		.then(() => res.status(201).json(newPost))
-		.catch(error => res.status(400).json({ error }));
+		.catch(error => res.status(400).json({ message: error.message }));
 };
 
 exports.getOnePost = (req, res, next) => {
@@ -53,24 +46,26 @@ exports.deletePost = async (req, res, next) => {
 
 	db.Post.findOne({ where: { id: req.params.id } })
 		.then(post => {
-			console.log(post);
-			// if (post.image) {
-			// 	console.log(post.image.split("/images/")[1]);
-			// 	const filename = post.image.split("/images/")[1];
-			// 	fs.unlink(`images/${filename}`, () => {
-			// 		post
-			// 			.destroy()
-			// 			.then(() => res.status(200).json({ message: "Objet supprimé !" }))
-			// 			.catch(error => res.status(400).json({ error }));
-			// 	});
-			// } else {
-			post
-				.destroy()
-				.then(() => res.status(200).json({ message: "Objet supprimé !" }))
-				.catch(error => res.status(400).json({ error }));
-			// }
+			// console.log(post);
+			console.log(post.image);
+
+			if (post.image) {
+				console.log(post.image.split("/images/")[1]);
+				const filename = post.image.split("/images/")[1];
+				fs.unlink(`images/${filename}`, () => {
+					post
+						.destroy()
+						.then(() => res.status(200).json({ message: "Objet supprimé !" }))
+						.catch(error => res.status(400).json({ message: error.message }));
+				});
+			} else {
+				post
+					.destroy()
+					.then(() => res.status(200).json({ message: "Objet supprimé !" }))
+					.catch(error => res.status(400).json({ message: error.message }));
+			}
 		})
-		.catch(error => res.status(500).json({ error }));
+		.catch(error => res.status(500).json({ message: error.message }));
 };
 
 //----------------
@@ -86,7 +81,7 @@ exports.createComment = (req, res, next) => {
 	};
 	db.Comment.create(newComment)
 		.then(() => res.status(201).json(newComment))
-		.catch(error => res.status(400).json({ error }));
+		.catch(error => res.status(400).json({ message: error.message }));
 };
 
 exports.getOneComment = (req, res, next) => {
@@ -123,6 +118,7 @@ exports.deleteComment = async (req, res, next) => {
 exports.createLike = (req, res, next) => {
 	console.log("--------");
 	console.log("createLike");
+
 	const newLike = {
 		valeur: req.body.valeur,
 		PostId: req.body.PostId,
@@ -131,20 +127,18 @@ exports.createLike = (req, res, next) => {
 	console.log(req.body);
 	console.log(newLike);
 	db.Like.create(newLike)
-		.then(() => res.status(201).json({ message: "Like crée !" }))
-		.catch(error => res.status(400).json({ error }));
-
-	res.json(newLike);
+		.then(() => res.status(201).json(newLike))
+		.catch(error => res.status(400).json({ message: error.message }));
 };
 exports.getOneLike = (req, res, next) => {
 	console.log("--------");
 	console.log("getOneLike");
 
-	db.Post.findOne({ include: db.Like, where: { id: req.params.id } })
+	db.Like.findOne({ where: { Postid: req.params.id } })
 		.then(like => {
 			res.status(200).json(like);
 		})
-		.catch(error => res.status(404).json({ error }));
+		.catch(error => res.status(404).json({ message: error.message }));
 };
 
 exports.getAllLikes = (req, res, next) => {
@@ -162,6 +156,22 @@ exports.deleteLike = async (req, res, next) => {
 	await db.Like.destroy({ where: { id: req.params.id } })
 		.then(() => res.status(200).json({ message: "Objet supprimé !" }))
 		.catch(error => res.status(400).json({ error }));
+};
+exports.updateOneLike = (req, res, next) => {
+	console.log("updateOneLike");
+	db.Like.findOne({ where: { id: req.params.id } })
+		.then(like => {
+			console.log(req.body);
+
+			like.valeur = req.body.valeur;
+
+			like
+				.save()
+				.then(() => res.status(200).json({ message: "Updated like" }))
+				.catch(error => res.status(400).json({ message: error.message }));
+		})
+		.catch(error => res.status(500).json({ message: error.message }));
+	// }
 };
 
 // ----------------

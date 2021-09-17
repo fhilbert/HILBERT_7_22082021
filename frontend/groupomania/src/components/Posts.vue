@@ -1,7 +1,8 @@
 <template>
 	<div>
+		<!-- <div>{{ isAdmin }}</div> -->
 		<div :key="post.id" v-for="post in posts">
-			<Post @delete_post="$emit('delete_post', post.id)" :post="post" @add_comment="addComment" />
+			<Post @delete_post="$emit('delete_post', post.id)" :post="post" @add_comment="addComment" :isAdmin="isAdmin" />
 			<!-- <Post
 				@delete_post="$emit('delete_post', post.id)"
 				:post="post"
@@ -19,7 +20,7 @@ export default {
 	props: {
 		posts: Array,
 		comments: Array,
-		// newComment: Object,
+		isAdmin: String,
 	},
 	components: {
 		Post,

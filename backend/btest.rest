@@ -210,8 +210,19 @@ Content-Type:application/json
         "UserId":3
  }
 ###
-GET http://localhost:3000/api/posts/likes/1
+GET http://localhost:3000/api/posts/like/21
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MTFiYjViOWNiYWUxZDAzYmNiMDRkMjYiLCJpYXQiOjE2MjkyMDc2NzAsImV4cCI6MTYyOTI5NDA3MH0.drRjVbFwsMEyZd9YPvXGncC2C4wUt-RsxEJs7DFn8sE
+###
+PUT http://localhost:3000/api/posts/like/6
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MTFiYjViOWNiYWUxZDAzYmNiMDRkMjYiLCJpYXQiOjE2MjkyMDc2NzAsImV4cCI6MTYyOTI5NDA3MH0.drRjVbFwsMEyZd9YPvXGncC2C4wUt-RsxEJs7DFn8sE
+Content-Type:application/json
+
+{
+        "valeur":,
+
+ }
+
+
 
 ###
 GET http://localhost:3000/api/posts/likes/14

@@ -60,6 +60,8 @@ export default {
 			});
 
 			res.status === 200 ? (this.users = this.users.filter(user => user.id !== id)) : alert("Error deleting user");
+			// document.location.reload();
+			this.$router.push("/login");
 		},
 		async fetchPosts() {
 			const response = await axios.get("auth/profile");

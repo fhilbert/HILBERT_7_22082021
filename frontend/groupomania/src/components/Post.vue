@@ -11,6 +11,7 @@
 						{{ post.UserId }}--{{ userId }}
 					</div>
 					<div class="published">
+						<!-- <div class="space">{{ this.isAdmin }}</div> -->
 						<div class="space">Publié le</div>
 						<div class="space">{{ moment(post.createdAt).format("DD-MM-YYYY") }}</div>
 						<div class="space">à</div>
@@ -18,7 +19,7 @@
 					</div>
 				</div>
 			</div>
-			<div v-if="post.UserId == userId" @click="onDelete(post.id)" class="postHeaderRight">
+			<div v-if="post.UserId == userId || isAdmin" @click="onDelete(post.id)" class="postHeaderRight">
 				<i class="fas fa-trash-alt"></i>
 			</div>
 		</div>
@@ -28,10 +29,10 @@
 		<div>{{ post.content }}</div>
 
 		<div class="thumb">
-			<div class="like" @click="onCreateLike(1, post.id)">
+			<div class="like" @click="onCreateLike(1)">
 				<i :class="like ? 'fas fa-thumbs-up' : 'far fa-thumbs-up'">{{ nbLikes }}</i>
 			</div>
-			<div class="disLike" @click="onCreateLike(0, post.id)">
+			<div class="disLike" @click="onCreateLike(0)">
 				<i :class="disLike ? 'fas fa-thumbs-up' : 'far fa-thumbs-up'">{{ nbDislikes }}</i>
 			</div>
 		</div>
@@ -56,7 +57,11 @@
 							<div class="commentText">{{ comment.comment }}</div>
 						</div>
 					</div>
-					<div v-if="comment.UserId == userId" @click="onDeleteComment(comment.id)" class="commentHeaderRight">
+					<div
+						v-if="comment.UserId == userId || isAdmin"
+						@click="onDeleteComment(comment.id)"
+						class="commentHeaderRight"
+					>
 						<i class="fas fa-trash-alt"></i>
 					</div>
 				</div>
@@ -89,6 +94,8 @@ export default {
 	name: "Post",
 	props: {
 		post: Object,
+		user: Object,
+		isAdmin: String,
 	},
 	data() {
 		return {
@@ -97,7 +104,7 @@ export default {
 			image: "",
 			createAt: "",
 			comments: [],
-			isAdmin: "",
+			// isAdmin: "",
 			userId: "",
 			inputComment: "",
 			like: 0,
@@ -105,6 +112,7 @@ export default {
 			nbLikes: 0,
 			nbDislikes: 0,
 			postLike: true,
+			newLike: Object,
 		};
 	},
 
@@ -153,29 +161,66 @@ export default {
 			console.log("onDislike");
 			onCreateLike(id, post.id);
 		},
-		async onCreateLike(valeur, postid) {
-			console.log("onCreate", valeur);
-			console.log("onCreate", postid);
+		async onCreateLike(valeurLike) {
+			console.log("onCreate", valeurLike);
 
-			const response = await axios.get(`/posts/like/${postid}`);
-			console.log("response", response.data);
-			// console.log("response", response.data.Likes);
+			// const response = await axios.get(`/posts/like/${this.post.id}`);
 
-			if (response.data) {
-				console.log("trouvé");
-				// const res = await axios.delete(`/posts/likes/${response.Likes.id}`);
+			console.log("userId", userId);
+			console.log("PostId", this.post.id);
+			console.log("like ", this.like);
+			console.log("dislike ", this.disLike);
+
+			const token = localStorage.getItem("token");
+
+			const newLike = {
+				valeur: valeurLike,
+				UserId: userId,
+				PostId: this.post.id,
+			};
+			if (!this.like && !this.disLike) {
+				console.log("create-like");
+				//creation like
+				const data = await axios.post("/posts/like", newLike);
+			} else if ((this.like && valeurLike === 1) || (this.disLike && valeurLike === 0)) {
+				//destroy
+				console.log("destroy-like");
+				const getLike = await axios.get(`/posts/like/${this.post.id}`);
+				// veifier le userid
+				const res = await axios.delete(`/posts/like/${getLike.data.id}`);
+				res.status === 200 ? alert("like/dislike supprimé") : alert("Error deleting post");
 			} else {
-				console.log("non trouvé");
-			}
-			// const newLike = {
-			// 	like: postLike,
+				console.log("update-like", newLike.valeur);
+				// update
+				const getLike = await axios.get(`/posts/like/${this.post.id}`);
+				//-----
+				console.log("newLike", newLike);
 
-			// 	UserId: 4,
-			// 	PostId: id,
-			// };
-			// console.log("creation", newLike);
-			// const data = await axios.post("/posts/likes", newLike);
-			// like = postLike;
+				// await axios.put(`/posts/like/${getLike.data.id}`, newLike);
+
+				await axios
+					.put(`/posts/like/${getLike.data.id}`, newLike, {
+						headers: { Authorization: "Bearer " + token },
+					})
+					.then(() => {
+						alert("Like mis a jour");
+						// this.message = "Votre  a bien été mis à jour !";
+						// document.location.reload();
+					})
+					.catch(error => {
+						this.message = error.response.data;
+					});
+
+				//-----
+			}
+			if (valeurLike == 1) {
+				this.like = !this.like;
+				this.disLike = 0;
+			} else {
+				this.disLike = !this.disLike;
+				this.like = 0;
+			}
+			// document.location.reload();
 		},
 	},
 	async created() {
@@ -186,7 +231,7 @@ export default {
 		});
 		//tous les likes d'un post
 
-		const resLike = await axios.get(`/posts/like/${this.post.id}`);
+		const resLike = await axios.get(`/posts/likes/${this.post.id}`);
 		let like = 0;
 		let disLike = 0;
 		let nbLikes = 0;

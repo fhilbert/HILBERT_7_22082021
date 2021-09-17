@@ -5,15 +5,15 @@
 			<form @submit.prevent="updateUser(user.id)" enctype="multipart/form-data">
 				<div class="first__row">
 					<div class="photo__profile">
-						<div><img class="img__profile" v-if="selectedFile" :src="imageUrl" alt="photo" /></div>
+						<div><img class="imgProfile" v-if="selectedFile" :src="imageUrl" alt="photo" /></div>
 
-						<img class="img__profile" :src="user.image" alt="photo" />
+						<img class="imgProfile" :src="user.image" alt="photo" />
 						<button class="button">Photo</button>
 					</div>
 					<div class="user__profile">
 						<div class="card__profile">
 							<label class="space">Admin</label>
-							<input type="checkbox" v-model="isAdmin" name="admin" />
+							<input type="checkbox" v-model="isAdmin" name="admin" :checked="user.isAdmin" />
 						</div>
 						<div class="card__profile">{{ user.firstName }}</div>
 						<div class="card__profile">{{ user.lastName }}</div>
@@ -21,7 +21,7 @@
 					</div>
 				</div>
 				<div class="second__row">
-					<textarea placeholder=" Description" v-model="bio" rows="4" columns="65" max-rows="8"></textarea>
+					<textarea :placeholder="user.bio" v-model="bio" rows="4" columns="65" max-rows="8"></textarea>
 				</div>
 				<div class="third__row">
 					<div class="button__profile">
@@ -174,9 +174,11 @@ textarea {
 	border-radius: 16px;
 	padding: 32px;
 }
-.img__profile {
+.imgProfile {
 	width: 170px;
 	height: 170px;
+	border-radius: 15px;
+
 	object-fit: cover;
 }
 .photo__profile {
