@@ -1,15 +1,17 @@
 <template>
 	<div class="addPost">
-		<form @submit.prevent="buttonNewPost" enctype="multipart/form-data">
+		<form @submit.prevent="refresh" enctype="multipart/form-data">
+			<!-- <form @submit.prevent="selectFile" enctype="multipart/form-data"> -->
+			<!-- <form enctype="multipart/form-data"> -->
 			<div>Ajouter une publication</div>
 			<textarea v-model="content" placeholder="  Exprimez-vous" rows="4" columns="65" max-rows="8"></textarea>
-			<div>
-				<label for="file">(Facultatif)</label><br />
-				<input type="file" ref="file" @change="selectFile" />
-			</div>
 
 			<div class="postPhoto"><img v-if="selectedFile" :src="imageUrl" alt="photo" /></div>
-			<button class="button" type="submit" @click.prevent="buttonNewPost">Envoyer</button>
+
+			<input id="inputImage" type="file" ref="fileInput" @change="selectFile" />
+			<button class="button" @click="$refs.fileInput.click()"><i class="fas fa-camera"></i></button>
+
+			<button class="button" @click.prevent="buttonNewPost">Envoyer</button>
 		</form>
 	</div>
 </template>
@@ -29,7 +31,11 @@ export default {
 		};
 	},
 	methods: {
+		refresh() {
+			console.log("refresh");
+		},
 		buttonNewPost() {
+			console.log("button new post");
 			if (!this.content) {
 				alert("Please add a post");
 				return;
@@ -53,7 +59,8 @@ export default {
 		},
 
 		selectFile(event) {
-			this.selectedFile = this.$refs.file.files[0];
+			// this.selectedFile = this.$refs.file.files[0];
+			this.selectedFile = event.target.files[0];
 			//
 			let reader = new FileReader();
 			reader.onload = e => {
@@ -64,28 +71,37 @@ export default {
 
 			//
 
-			const bfile = this.$refs.file.files[0];
+			// const bfile = this.$refs.file.files[0];
+			const bfile = event.target.files[0];
 			this.imageUrl = URL.createObjectURL(bfile);
 		},
-		submitForm() {
-			console.log("this.content", this.content);
+		// submitForm() {
+		// 	console.log("this.content", this.content);
 
-			if (!this.content) {
-				alert("Please add a post");
-				return;
-			}
+		// 	if (!this.content) {
+		// 		alert("Please add a post");
+		// 		return;
+		// 	}
 
-			console.log("newPost", newPost);
-			this.$emit("add_post", newPost);
+		// 	console.log("newPost", newPost);
+		// 	this.$emit("add_post", newPost);
 
-			this.content = "";
-			this.image = "";
-		},
+		// 	this.content = "";
+		// 	this.image = "";
+		// },
 	},
 };
 </script>
 
 <style scoped>
+.fa-camera {
+	font-size: 25px;
+}
+
+#inputImage {
+	display: none;
+}
+
 #uploadInput {
 	display: inline-block;
 }

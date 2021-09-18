@@ -42,7 +42,7 @@ export default {
 			showAddPost: false,
 			posts: [],
 			user: Object,
-			isAdmin: "",
+			isAdmin: 0,
 		};
 	},
 	methods: {
@@ -58,6 +58,7 @@ export default {
 			console.log(data);
 			this.posts = [...this.posts, data];
 			console.log(this.posts);
+			document.location.reload();
 		},
 		async addComment(newComment) {
 			console.log(newComment);
@@ -68,6 +69,7 @@ export default {
 			});
 			console.log(data);
 			this.comments = [...this.comments, data];
+			document.location.reload();
 		},
 		async deletePost(id) {
 			// if (confirm("Are you sure ?")) {

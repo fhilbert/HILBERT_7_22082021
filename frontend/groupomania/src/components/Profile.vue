@@ -7,13 +7,15 @@
 					<div class="photo__profile">
 						<div><img class="imgProfile" v-if="selectedFile" :src="imageUrl" alt="photo" /></div>
 
-						<img class="imgProfile" :src="user.image" alt="photo" />
-						<button class="button">Photo</button>
+						<img class="imgProfile" v-if="!selectedFile" :src="user.image" alt="photo" />
+						<input id="inputImage" type="file" ref="fileInput" @change="selectFile" />
+
+						<button class="button" @click="$refs.fileInput.click()"><i class="fas fa-camera"></i></button>
 					</div>
-					<div class="user__profile">
+					<div class="userProfile">
 						<div class="card__profile">
 							<label class="space">Admin</label>
-							<input type="checkbox" v-model="isAdmin" name="admin" :checked="user.isAdmin" />
+							<input type="checkbox" v-model="admin" />
 						</div>
 						<div class="card__profile">{{ user.firstName }}</div>
 						<div class="card__profile">{{ user.lastName }}</div>
@@ -31,8 +33,8 @@
 				</div>
 				<div>
 					<div>
-						<label for="file">(Facultatif)</label><br />
-						<input type="file" ref="file" @change="selectFile" />
+						<!-- <label for="file">(Facultatif)</label><br />
+						<input type="file" ref="file" @change="selectFile" /> -->
 					</div>
 					<br />
 					<div>{{ message }}</div>
@@ -58,6 +60,7 @@ export default {
 	data() {
 		return {
 			isAdmin: false,
+			admin: false,
 			bio: "",
 			user: Object,
 			userId: "",
@@ -70,7 +73,8 @@ export default {
 		selectFile(event) {
 			console.log(this.selectedFile);
 
-			this.selectedFile = this.$refs.file.files[0];
+			// this.selectedFile = this.$refs.file.files[0];
+			this.selectedFile = event.target.files[0];
 
 			let reader = new FileReader();
 			reader.onload = e => {
@@ -79,7 +83,8 @@ export default {
 			reader.readAsDataURL(this.selectedFile);
 			console.log(this.selectedFile);
 
-			const bfile = this.$refs.file.files[0];
+			// const bfile = this.$refs.file.files[0];
+			const bfile = event.target.files[0];
 			this.imageUrl = URL.createObjectURL(bfile);
 		},
 
@@ -92,10 +97,10 @@ export default {
 			const newUser = new FormData();
 			if (this.file !== null) {
 				newUser.append("image", this.selectedFile);
-				newUser.append("isAdmin", this.isAdmin);
+				newUser.append("isAdmin", this.admin);
 				newUser.append("bio", this.bio);
 			} else {
-				newUser.append("isAdmin", this.isAdmin);
+				newUser.append("isAdmin", this.admin);
 				newUser.append("bio", this.bio);
 			}
 			axios
@@ -110,8 +115,6 @@ export default {
 				.catch(error => {
 					this.message = error.response.data;
 				});
-
-			this.bio = "";
 			this.selectedFile = "";
 		},
 		async deleteUser(id) {
@@ -136,12 +139,20 @@ export default {
 		const response = await axios.get(`/auth/profile/${userId}`);
 
 		this.user = response.data;
+		this.admin = this.user.isAdmin;
 		console.log("this.user", this.user);
+		console.log("this.user", this.user.isAdmin);
 	},
 };
 </script>
 
 <style scoped>
+.fa-camera {
+	font-size: 25px;
+}
+#inputImage {
+	display: none;
+}
 .user {
 	display: flex;
 	margin-top: 100px;
@@ -192,11 +203,11 @@ textarea {
 	text-align: center;
 }
 .photo__profile {
-	width: 50%;
+	width: 40%;
 	border-radius: 15px;
 }
-.user__profile {
-	width: 50%;
+.userProfile {
+	width: 60%;
 	display: flex;
 	flex-direction: column;
 	justify-content: space-evenly;

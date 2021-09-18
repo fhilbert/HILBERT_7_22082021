@@ -95,7 +95,7 @@ export default {
 	props: {
 		post: Object,
 		user: Object,
-		isAdmin: String,
+		isAdmin: Number,
 	},
 	data() {
 		return {

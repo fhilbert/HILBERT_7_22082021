@@ -20,7 +20,7 @@ export default {
 	props: {
 		posts: Array,
 		comments: Array,
-		isAdmin: String,
+		isAdmin: Number,
 	},
 	components: {
 		Post,
