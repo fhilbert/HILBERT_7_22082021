@@ -27,10 +27,10 @@
 <script>
 import axios from "axios";
 
-import Nav from "./Nav.vue";
-import Footer from "./Footer.vue";
+import Nav from "../components/Nav.vue";
+import Footer from "../components/Footer.vue";
 
-import Button from "./Button.vue";
+import Button from "../components/Button.vue";
 export default {
 	name: "Users",
 	components: {

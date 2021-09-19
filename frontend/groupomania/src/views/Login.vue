@@ -22,7 +22,7 @@
 	</div>
 </template>
 <script>
-import Nav from "./Nav.vue";
+import Nav from "../components/Nav.vue";
 
 import axios from "axios";
 export default {

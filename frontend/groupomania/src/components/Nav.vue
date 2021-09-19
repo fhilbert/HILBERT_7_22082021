@@ -8,24 +8,34 @@
 		</div>
 		<div class="items">
 			<div class="item">
-				<router-link to="/users" class="link"><i class="fas fa-users" title="Utilisateurs"></i></router-link>
+				<router-link :to="{ name: 'Users' }" class="link"
+					><i class="fas fa-users" title="Utilisateurs"></i
+				></router-link>
 			</div>
 
 			<div class="item">
-				<router-link to="/profile" class="link"><i class="far fa-grin" title="Profil"></i></router-link>
+				<router-link :to="{ name: 'Profile' }" class="link"><i class="far fa-grin" title="Profil"></i></router-link>
 			</div>
 			<!-- <div v-if="token" class="item"> -->
 			<div class="item">
-				<router-link to="/posts" class="link"><i class="fas fa-scroll" title="Publications"></i></router-link>
+				<router-link :to="{ name: 'Home' }" class="link"
+					><i class="fas fa-scroll" title="Publications"></i
+				></router-link>
 			</div>
 			<div class="item">
-				<router-link to="/" class="link deconnexion"><i class="fas fa-bolt" title="Connexion"></i></router-link>
+				<router-link :to="{ name: 'Login' }" class="link deconnexion"
+					><i class="fas fa-bolt" title="Connexion"></i
+				></router-link>
 			</div>
 			<div class="item">
-				<router-link to="/register" class="link"><i class="far fa-keyboard" title="Inscription"></i></router-link>
+				<router-link :to="{ name: 'Register' }" class="link"
+					><i class="far fa-keyboard" title="Inscription"></i
+				></router-link>
 			</div>
 			<div class="item">
-				<router-link to="/login" class="link"><i class="fas fa-power-off" title="Déconnexion"></i></router-link>
+				<router-link :to="{ name: 'Login' }" class="link"
+					><i class="fas fa-power-off" title="Déconnexion"></i
+				></router-link>
 			</div>
 			<br />
 			<br />

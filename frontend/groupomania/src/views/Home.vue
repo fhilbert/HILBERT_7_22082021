@@ -22,11 +22,11 @@
 <script>
 import axios from "axios";
 
-import Nav from "./Nav.vue";
-import Header from "./Header.vue";
-import Footer from "./Footer.vue";
-import Posts from "./Posts.vue";
-import AddPost from "./AddPost.vue";
+import Nav from "../components/Nav.vue";
+import Header from "../components/Header.vue";
+import Footer from "../components/Footer.vue";
+import Posts from "../components/Posts.vue";
+import AddPost from "../components/AddPost.vue";
 
 export default {
 	name: "Home",

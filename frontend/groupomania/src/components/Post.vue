@@ -220,7 +220,7 @@ export default {
 				this.disLike = !this.disLike;
 				this.like = 0;
 			}
-			// document.location.reload();
+			document.location.reload();
 		},
 	},
 	async created() {
