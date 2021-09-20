@@ -1,10 +1,10 @@
 <template>
 	<div class="user">
-		<!-- <Nav /> -->
+		<Nav />
 		<div class="card">
 			<form @submit.prevent="updateUser(user.id)" enctype="multipart/form-data">
-				<div class="first__row">
-					<div class="photo__profile">
+				<div class="firstRow">
+					<div class="photoProfile">
 						<div><img class="imgProfile" v-if="selectedFile" :src="imageUrl" alt="photo" /></div>
 
 						<img class="imgProfile" v-if="!selectedFile" :src="user.image" alt="photo" />
@@ -13,29 +13,25 @@
 						<button class="button" @click="$refs.fileInput.click()"><i class="fas fa-camera"></i></button>
 					</div>
 					<div class="userProfile">
-						<div class="card__profile">
+						<div class="cardProfile">
 							<label class="space">Admin</label>
 							<input type="checkbox" v-model="admin" />
 						</div>
-						<div class="card__profile">{{ user.firstName }}</div>
-						<div class="card__profile">{{ user.lastName }}</div>
-						<div class="card__profile">{{ user.email }}</div>
+						<div class="cardProfile">{{ user.firstName }}</div>
+						<div class="cardProfile">{{ user.lastName }}</div>
+						<div class="cardProfile">{{ user.email }}</div>
 					</div>
 				</div>
-				<div class="second__row">
+				<div class="secondRow">
 					<textarea :placeholder="user.bio" v-model="bio" rows="4" columns="65" max-rows="8"></textarea>
 				</div>
-				<div class="third__row">
+				<div class="thirdRow">
 					<div class="button__profile">
 						<button class="button" @click.prevent="deleteUser(user.id)">Supprimer mon compte</button>
 						<button class="button" @click.prevent="updateUser(user.id)">Valider profil</button>
 					</div>
 				</div>
 				<div>
-					<div>
-						<!-- <label for="file">(Facultatif)</label><br />
-						<input type="file" ref="file" @change="selectFile" /> -->
-					</div>
 					<br />
 					<div>{{ message }}</div>
 				</div>
@@ -116,32 +112,41 @@ export default {
 					this.message = error.response.data;
 				});
 			this.selectedFile = "";
+			document.location.reload();
 		},
 		async deleteUser(id) {
-			// if (confirm("Are you sure ?")) {
-			// 	this.posts = this.posts.filter(post => post.id !== id);
-			// }
+			if (confirm("Are you sure ?")) {
+				this.users = this.users.filter(user => user.id !== id);
+			}
 			const token = localStorage.getItem("token");
 			console.log("id", id);
 			console.log("token", token);
 
-			const res = await axios.delete(`/auth/profile/${id}`, {
-				headers: { Authorization: "Bearer " + token },
-			});
-
-			res.status === 200 ? (this.users = this.users.filter(user => user.id !== id)) : alert("Error deleting user");
-			document.location.reload();
+			await axios
+				.delete(`auth/profile/${id}`, { headers: { Authorization: "Bearer " + token } })
+				.then((this.users = this.users.filter(user => user.id !== id)))
+				.catch(error => {
+					this.message = error.response.data;
+				});
 			this.$router.push("/login");
 		},
 	},
 	async created() {
 		const userId = localStorage.getItem("login");
-		const response = await axios.get(`/auth/profile/${userId}`);
+		const token = localStorage.getItem("token");
 
-		this.user = response.data;
-		this.admin = this.user.isAdmin;
-		console.log("this.user", this.user);
-		console.log("this.user", this.user.isAdmin);
+		await axios
+			.get(`auth/profile/${userId}`, { headers: { Authorization: "Bearer " + token } })
+			.then(response => {
+				this.user = response.data;
+				this.admin = this.user.isAdmin;
+				console.log("this.user", this.user);
+
+				console.log("this admin ", this.admin);
+			})
+			.catch(error => {
+				this.message = error.response.data;
+			});
 	},
 };
 </script>
@@ -154,18 +159,14 @@ export default {
 	display: none;
 }
 .user {
-	display: flex;
-	margin-top: 100px;
-	justify-content: center;
+	/* display: flex;
+	margin-top: 100px; */
+	/* justify-content: center; */
 }
-.space {
-	padding-right: 5px;
-}
-
-.first__row {
+.firstRow {
 	display: flex;
 }
-.second__row {
+.secondRow {
 	width: 100%;
 }
 textarea {
@@ -174,16 +175,12 @@ textarea {
 	margin: 10px 0px;
 	border-radius: 15px;
 }
-
-.third_row {
+.thirdRow {
 	display: flex;
 }
-.card {
-	max-width: 100%;
-	width: 40vw;
-	background: rgb(184, 214, 219);
-	border-radius: 16px;
-	padding: 32px;
+.photoProfile {
+	width: 40%;
+	border-radius: 15px;
 }
 .imgProfile {
 	width: 170px;
@@ -192,25 +189,16 @@ textarea {
 
 	object-fit: cover;
 }
-.photo__profile {
-	width: 50%;
-	border-radius: 15px;
-}
-.card__profile {
-	width: 100%;
-
-	border-radius: 15px;
-	text-align: center;
-}
-.photo__profile {
-	width: 40%;
-	border-radius: 15px;
-}
 .userProfile {
 	width: 60%;
 	display: flex;
 	flex-direction: column;
 	justify-content: space-evenly;
+}
+.cardProfile {
+	width: 100%;
+	border-radius: 15px;
+	text-align: center;
 }
 
 .button__profile {

@@ -1,6 +1,5 @@
 <template>
 	<nav class="nav">
-		<!-- <dir class="container"> -->
 		<div class="logo">
 			<router-link to="./">
 				<img class="logoImg" src="../images/icon-left-font-monochrome-black.svg" alt="logo" />
@@ -42,37 +41,27 @@
 			<br />
 			<br />
 		</div>
-		<!-- </dir> -->
 	</nav>
 </template>
 <script>
 export default {
 	name: "Nav",
-	// data() {
-	// 	token: "";
-	// },
-	// async created() {
-	// 	const token = localStorage.getItem("token");
-	// 	this.token = token;
-	// },
 };
 </script>
 <style>
 nav {
-	margin-top: 15px;
+	margin-bottom: 15px;
 	display: block;
 	display: flex;
 	font-size: 1.1em;
-	width: 100vw;
+	/* width: 100%; */
 
-	height: 5vw;
+	height: 100%;
 	background-color: lightgrey;
 	align-content: center;
-
-	/* justify-content: space-around;*/
 }
 .logo {
-	width: 30%;
+	width: 45%;
 	margin-left: 15px;
 	text-decoration: none;
 	display: flex;
@@ -81,13 +70,12 @@ nav {
 }
 .logoImg {
 	width: 250px;
-	/* height: 80px; */
-	font-size: 65px;
+	font-size: 60px;
 	color: rgb(255, 0, 0);
 	filter: invert(10%) sepia(99%) saturate(6480%) hue-rotate(1deg) brightness(106%) contrast(98%);
 }
 .items {
-	width: 40%;
+	width: 70%;
 	text-decoration: none;
 	display: flex;
 	justify-content: space-evenly;
@@ -110,5 +98,17 @@ nav a:hover {
 }
 .deconnexion :hover {
 	content: "deconnexion";
+}
+@media screen and (max-width: 420px) {
+	nav {
+		display: inline-block;
+	}
+	.logo {
+		width: 100vw;
+	}
+	.items {
+		height: 50px;
+		width: 100vw;
+	}
 }
 </style>

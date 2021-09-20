@@ -8,7 +8,6 @@
 					<div class="ownerName">
 						<strong>{{ post.User.firstName }}</strong>
 						<strong>{{ post.User.lastName }}</strong>
-						{{ post.UserId }}--{{ userId }}
 					</div>
 					<div class="published">
 						<!-- <div class="space">{{ this.isAdmin }}</div> -->
@@ -48,10 +47,8 @@
 							<div class="published">
 								<div class="ownerName space">{{ comment.User.firstName }}-{{ comment.User.lastName }}</div>
 								<div class="space">le</div>
-								<!-- <div class="space">05/02/2003</div> -->
 								<div class="space">{{ moment(comment.createdAt).format("DD-MM-YYYY") }}</div>
 								<div class="space">à</div>
-								<!-- <div class="space">22:03</div> -->
 								<div class="space">{{ moment(comment.createdAt).format("HH:MM") }}</div>
 							</div>
 							<div class="commentText">{{ comment.comment }}</div>
@@ -139,11 +136,16 @@ export default {
 		},
 		async onDeleteComment(id) {
 			console.log("delete comment");
+			const token = localStorage.getItem("token");
 
-			const res = await axios.delete(`/posts/comments/${id}`);
-			res.status === 200
-				? (this.comments = this.comments.filter(comment => comment.id !== id))
-				: alert("Error deleting post");
+			await axios
+				.delete(`/posts/comments/${id}`)
+				.then(response => {
+					this.comments = this.comments.filter(comment => comment.id !== id);
+				})
+				.catch(error => {
+					this.message = error.response.data;
+				});
 		},
 		onLike(id) {
 			console.log(id);
@@ -181,18 +183,49 @@ export default {
 			if (!this.like && !this.disLike) {
 				console.log("create-like");
 				//creation like
-				const data = await axios.post("/posts/like", newLike);
+				await axios
+					.post("/posts/like", newLike, { headers: { Authorization: "Bearer " + token } })
+					.then(response => {
+						console.log(response.data);
+					})
+					.catch(error => {
+						this.message = error.response.data;
+					});
 			} else if ((this.like && valeurLike === 1) || (this.disLike && valeurLike === 0)) {
 				//destroy
 				console.log("destroy-like");
-				const getLike = await axios.get(`/posts/like/${this.post.id}`);
+
+				const getLike = await axios
+					.get(`/posts/like/${this.post.id}`)
+					.then(response => {
+						console.log(response.data);
+					})
+					.catch(error => {
+						this.message = error.response.data;
+					});
+				// const getLike = await axios.get(`/posts/like/${this.post.id}`);
+
 				// veifier le userid
-				const res = await axios.delete(`/posts/like/${getLike.data.id}`);
-				res.status === 200 ? alert("like/dislike supprimé") : alert("Error deleting post");
+				await axios
+					.delete(`/posts/like/${getLike.data.id}`)
+					.then(response => {
+						console.log(response.data);
+					})
+					.catch(error => {
+						this.message = error.response.data;
+					});
 			} else {
 				console.log("update-like", newLike.valeur);
 				// update
-				const getLike = await axios.get(`/posts/like/${this.post.id}`);
+				const getLike = await axios
+					.get(`/posts/like/${this.post.id}`)
+					.then(response => {
+						console.log(response.data);
+					})
+					.catch(error => {
+						this.message = error.response.data;
+					});
+				// const getLike = await axios.get(`/posts/like/${this.post.id}`);
 				//-----
 				console.log("newLike", newLike);
 
@@ -202,7 +235,7 @@ export default {
 					.put(`/posts/like/${getLike.data.id}`, newLike, {
 						headers: { Authorization: "Bearer " + token },
 					})
-					.then(() => {
+					.then(response => {
 						alert("Like mis a jour");
 						// this.message = "Votre  a bien été mis à jour !";
 						// document.location.reload();
@@ -224,6 +257,15 @@ export default {
 		},
 	},
 	async created() {
+		// await axios
+		// 	.get(`/posts/comments/${this.post.id}`, { params: { date: "YYYY-MM-DD" } })
+		// 	.then(response => {
+		// 		console.log("comments", response.data);
+		// 	})
+		// 	.catch(error => {
+		// 		this.message = error.response.data;
+		// 	});
+
 		const response = await axios.get(`/posts/comments/${this.post.id}`, {
 			params: {
 				date: "YYYY-MM-DD",
@@ -299,12 +341,7 @@ strong {
 	margin: 5px;
 	padding: 10px 20px;
 	border-radius: 15px;
-
 	cursor: pointer;
-}
-
-.post.reminder {
-	border-left: 5px solid green;
 }
 .postcomments {
 	width: 100%;
@@ -410,11 +447,11 @@ strong {
 .commentTextInput {
 	display: flex;
 	padding-left: 5px;
-	width: 90%;
+	width: 95%;
 	align-items: center;
 }
 .check {
-	width: 50px;
+	width: 40px;
 	display: flex;
 	align-items: center;
 	justify-content: center;

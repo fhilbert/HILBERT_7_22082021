@@ -1,18 +1,18 @@
 <template>
 	<div class="login">
-		<!-- <Nav /> -->
+		<Nav />
 		<div class="card">
 			<form @submit.prevent="handleSubmit">
-				<h1 class="card__title">Connexion</h1>
-				<p class="card__subtitle">
-					Pas inscrit ? <span class="card__action" @click="createAccount()">Créer un compte</span>
+				<h1 class="cardTitle">Connexion</h1>
+				<p class="cardSubtitle">
+					Pas inscrit ? <span class="cardAction" @click="createAccount()">Créer un compte</span>
 				</p>
 				<br />
-				<div class="card__form">
-					<input type="email" class="card__form-input" v-model="email" placeholder="Email" />
+				<div class="cardForm">
+					<input type="email" class="cardFormInput" v-model="email" placeholder="Email" />
 				</div>
-				<div class="card__form">
-					<input type="password" class="card__form-input" v-model="password" placeholder="Password" />
+				<div class="cardForm">
+					<input type="password" class="cardFormInput" v-model="password" placeholder="Password" />
 				</div>
 				<button @click="handleSubmit" class="button">Connexion</button>
 				<br />
@@ -68,29 +68,10 @@ export default {
 	},
 };
 </script>
-<style scoped>
-body {
-	/* background-image: url("./assets/images/icon-above-font.png");
-	background-repeat: no-repeat; */
-	background-color: rgb(231, 231, 148);
-	display: flex;
-	font-weight: 400;
-	font-family: "Fira Sans", sans-serif;
-}
+<style>
 .login {
-	display: flex;
-	margin-top: 100px;
-	justify-content: center;
-}
-.forgot-password,
-.forgot-password a {
-	text-align: right;
-	font-size: 13px;
-	padding-top: 10px;
-	color: #7f7d7d;
-	margin: 0;
-}
-.forgot-password a {
-	color: #167bff;
+	/* display: flex; */
+	/* margin-top: 100px; */
+	/* justify-content: center; */
 }
 </style>

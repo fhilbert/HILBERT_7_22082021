@@ -8,10 +8,9 @@ const multer = require("../middleware/multer-config");
 router.post("/signup", userCtrl.userCheck, userCtrl.signup);
 router.post("/login", userCtrl.userCheck, userCtrl.login);
 
-router.get("/profile", userCtrl.getAllProfiles);
-router.get("/profile/:id", userCtrl.getOneProfile);
+router.get("/profile", auth, userCtrl.getAllProfiles);
+router.get("/profile/:id", auth, userCtrl.getOneProfile);
 router.put("/profile/:id", auth, multer, userCtrl.modifyProfile);
-// router.post("/profile/:id", auth, multer, userCtrl.userCheck, userCtrl.modifyProfile);
 router.delete("/profile/:id", auth, userCtrl.deleteProfile);
 
 // router.get("/user", auth);

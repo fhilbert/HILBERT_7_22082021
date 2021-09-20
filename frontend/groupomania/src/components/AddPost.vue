@@ -17,7 +17,6 @@
 </template>
 
 <script>
-import axios from "axios";
 import jwt from "jsonwebtoken";
 
 export default {
@@ -61,7 +60,6 @@ export default {
 		selectFile(event) {
 			// this.selectedFile = this.$refs.file.files[0];
 			this.selectedFile = event.target.files[0];
-			//
 			let reader = new FileReader();
 			reader.onload = e => {
 				this.previewImage = e.target.result;
@@ -69,26 +67,10 @@ export default {
 			reader.readAsDataURL(this.selectedFile);
 			console.log(this.selectedFile);
 
-			//
-
 			// const bfile = this.$refs.file.files[0];
 			const bfile = event.target.files[0];
 			this.imageUrl = URL.createObjectURL(bfile);
 		},
-		// submitForm() {
-		// 	console.log("this.content", this.content);
-
-		// 	if (!this.content) {
-		// 		alert("Please add a post");
-		// 		return;
-		// 	}
-
-		// 	console.log("newPost", newPost);
-		// 	this.$emit("add_post", newPost);
-
-		// 	this.content = "";
-		// 	this.image = "";
-		// },
 	},
 };
 </script>

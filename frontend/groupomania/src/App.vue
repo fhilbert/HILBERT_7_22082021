@@ -1,14 +1,12 @@
 <template>
 	<div>
-		<Nav />
+		<!-- <Nav /> -->
 		<!-- <Header @toggle_add_post="toggleAddPost" title="Post Tracker" :showAddPost="showAddPost" /> -->
 		<router-view></router-view>
 		<!-- <Footer /> -->
 	</div>
 </template>
 <script>
-import axios from "axios";
-
 import Nav from "./components/Nav.vue";
 import Header from "./components/Header.vue";
 import Footer from "./components/Footer.vue";
@@ -16,7 +14,6 @@ import Footer from "./components/Footer.vue";
 export default {
 	name: "App",
 	components: {
-		Nav,
 		Header,
 		Footer,
 	},
@@ -44,33 +41,6 @@ export default {
 
 body {
 	font-family: "Poppins", sans-serif;
-	width: 100%;
-}
-
-.btn {
-	display: inline-block;
-	background: #000;
-	color: #fff;
-	border: none;
-	padding: 10px 20px;
-	margin: 5px;
-	border-radius: 5px;
-	cursor: pointer;
-	text-decoration: none;
-	font-size: 15px;
-	font-family: inherit;
-}
-
-.btn:focus {
-	outline: none;
-}
-
-.btn:active {
-	transform: scale(0.98);
-}
-
-.btn-block {
-	display: block;
 	width: 100%;
 }
 </style>

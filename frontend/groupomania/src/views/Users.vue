@@ -1,9 +1,8 @@
 <template>
 	<div class="Users">
+		<Nav />
 		<h1>Liste des utilisateurs</h1>
-
 		<div class="usersCard">
-			<!-- <div :key="user.id" v-for="user in users"> -->
 			<div class="cardUsers" :key="user.id" v-for="user in users">
 				<div class="cardLeft">
 					<div class="cardPhoto">
@@ -15,12 +14,10 @@
 						<div>{{ user.email }}</div>
 					</div>
 				</div>
-
 				<div v-if="user.id == userId || data.isAdmin == 1" class="cardRight" @click="onDeleteUser(user.id)">
 					<i class="fas fa-trash-alt"></i>
 				</div>
 			</div>
-			<!-- <Post @delete_post="$emit('delete_post', post.id)" :post="post" /> -->
 		</div>
 	</div>
 </template>
@@ -35,6 +32,7 @@ export default {
 	name: "Users",
 	components: {
 		Footer,
+		Nav,
 	},
 	data() {
 		return {
@@ -48,61 +46,68 @@ export default {
 	},
 	methods: {
 		async onDeleteUser(id) {
-			// if (confirm("Are you sure ?")) {
-			// 	this.posts = this.posts.filter(post => post.id !== id);
-			// }
+			if (confirm("Are you sure ?")) {
+				this.users = this.users.filter(user => user.id !== id);
+			}
 			const token = localStorage.getItem("token");
 			console.log("id", id);
 			console.log("token", token);
 
-			const res = await axios.delete(`auth/profile/${id}`, {
-				headers: { Authorization: "Bearer " + token },
-			});
+			await axios
+				.delete(`auth/profile/${id}`, { headers: { Authorization: "Bearer " + token } })
+				.then((this.users = this.users.filter(user => user.id !== id)))
+				.catch(error => {
+					this.message = error.response.data;
+				});
 
-			res.status === 200 ? (this.users = this.users.filter(user => user.id !== id)) : alert("Error deleting user");
-			// document.location.reload();
 			this.$router.push("/login");
-		},
-		async fetchPosts() {
-			const response = await axios.get("auth/profile");
-			console.log("response");
-
-			// const res = await fetch("api/posts");
-
-			// const data = await res.json();
-			// return data;
-			return response;
 		},
 	},
 	async created() {
 		const userId = await localStorage.getItem("login");
+		const token = localStorage.getItem("token");
 		this.userId = userId;
-		const res = await axios.get(`/auth/profile/${userId}`);
 
-		this.data = res.data;
-		console.log("this.user", this.data.isAdmin);
+		await axios
+			.get(`auth/profile/${userId}`, { headers: { Authorization: "Bearer " + token } })
+			.then(response => {
+				this.data = response.data;
+				console.log("this.user", this.data.isAdmin);
+			})
+			.catch(error => {
+				this.message = error.response.data;
+			});
 
-		const response = await axios.get("/auth/profile");
+		await axios
+			.get(`auth/profile`, { headers: { Authorization: "Bearer " + token } })
+			.then(response => {
+				this.profile = response.data;
+				console.log("this.profile", this.profile);
 
-		this.profile = response.data;
-		console.log("this.profile", this.profile);
+				this.users = response.data;
+			})
+			.catch(error => {
+				this.message = error.response.data;
+			});
 
-		this.users = response.data;
+		// const res = await axios.get(`/auth/profile/${userId}`);
 
-		// console.log("this.comments");
-		// console.log("commentss", this.comments);
-		// // const userId = await localStorage.getItem("login");
-	},
-	async beforeMount() {
-		// const userId = await localStorage.getItem("login");
-		// // console.log("userId", userId);
+		// this.data = res.data;
+		// console.log("this.user", this.data.isAdmin);
+
+		// const response = await axios.get("/auth/profile");
+
+		// this.profile = response.data;
+		// console.log("this.profile", this.profile);
+
+		// this.users = response.data;
 	},
 };
 </script>
 
 <style scoped>
 .Users {
-	margin-top: 40px;
+	/* margin-top: 40px; */
 }
 h1 {
 	margin-bottom: 40px;

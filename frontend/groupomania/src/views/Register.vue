@@ -1,24 +1,22 @@
 <template>
 	<div class="register">
-		<!-- <Nav /> -->
+		<Nav />
 		<div class="card">
 			<form @submit.prevent="handleSubmit">
-				<h1 class="card__title">Inscription</h1>
-				<p class="card__subtitle">
-					Déjà inscrit ? <span class="card__action" @click="loginAccount()">Se connecter</span>
-				</p>
-				<div class="card__form">
-					<input type="email" class="card__form-input" v-model="email" placeholder="Email" />
+				<h1 class="cardTitle">Inscription</h1>
+				<p class="cardSubtitle">Déjà inscrit ? <span class="cardAction" @click="loginAccount()">Se connecter</span></p>
+				<div class="cardForm">
+					<input type="email" class="cardFormInput" v-model="email" placeholder="Email" />
 				</div>
-				<div class="card__form">
-					<input type="text" class="card__form-input" v-model="firstName" placeholder="First Name" />
-					<input type="text" class="card__form-input" v-model="lastName" placeholder="Last Name" />
+				<div class="cardForm">
+					<input type="text" class="cardFormInput" v-model="firstName" placeholder="First Name" />
+					<input type="text" class="cardFormInput" v-model="lastName" placeholder="Last Name" />
 				</div>
-				<div class="card__form">
-					<input type="password" class="card__form-input" v-model="password" placeholder="Password" />
+				<div class="cardForm">
+					<input type="password" class="cardFormInput" v-model="password" placeholder="Password" />
 				</div>
-				<div class="card__form">
-					<input type="password" class="card__form-input" v-model="passwordConfirm" placeholder="Confirm Password" />
+				<div class="cardForm">
+					<input type="password" class="cardFormInput" v-model="passwordConfirm" placeholder="Confirm Password" />
 				</div>
 				<button class="button">Inscription</button>
 				<br />
@@ -85,8 +83,8 @@ export default {
 </script>
 <style>
 .register {
-	display: flex;
+	/* display: flex;
 	margin-top: 100px;
-	justify-content: center;
+	justify-content: center; */
 }
 </style>
