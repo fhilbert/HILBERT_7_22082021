@@ -1,17 +1,16 @@
 <template>
 	<div class="addPost">
 		<form @submit.prevent="refresh" enctype="multipart/form-data">
-			<!-- <form @submit.prevent="selectFile" enctype="multipart/form-data"> -->
-			<!-- <form enctype="multipart/form-data"> -->
 			<div>Ajouter une publication</div>
 			<textarea v-model="content" placeholder="  Exprimez-vous" rows="4" columns="65" max-rows="8"></textarea>
 
 			<div class="postPhoto"><img v-if="selectedFile" :src="imageUrl" alt="photo" /></div>
 
 			<input id="inputImage" type="file" ref="fileInput" @change="selectFile" />
-			<button class="button" @click="$refs.fileInput.click()"><i class="fas fa-camera"></i></button>
-
-			<button class="button" @click.prevent="buttonNewPost">Envoyer</button>
+			<div class="buttons">
+				<button class="button" @click="$refs.fileInput.click()"><i class="fas fa-camera"></i></button>
+				<button class="button" @click.prevent="buttonNewPost">Envoyer</button>
+			</div>
 		</form>
 	</div>
 </template>
@@ -26,7 +25,7 @@ export default {
 			content: "",
 			imageUrl: null,
 			selectedFile: null,
-			image: "",
+			image: null,
 		};
 	},
 	methods: {
@@ -98,10 +97,6 @@ img {
 	border-radius: 15px;
 }
 
-.button-size {
-	width: 30%;
-}
-
 /* ----- */
 
 label {
@@ -114,7 +109,11 @@ input {
 	margin-bottom: 20px;
 	width: 50%;
 }
-button {
+.buttons {
+	display: flex;
+	justify-content: space-evenly;
+}
+.button {
 	background-color: blue;
 	color: white;
 	padding: 6px;
@@ -122,6 +121,8 @@ button {
 	border-radius: 15px;
 	text-decoration: none;
 	width: 150px;
+	height: 35px;
+	font-size: 1.2rem;
 }
 .error {
 	font-size: 13px;

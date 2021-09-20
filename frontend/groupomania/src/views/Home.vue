@@ -51,6 +51,7 @@ export default {
 		},
 		async addPost(post) {
 			const token = localStorage.getItem("token");
+			this.posts = [...this.posts, post];
 
 			await axios
 				.post("/posts", post, { headers: { Authorization: "Bearer " + token } })
@@ -62,7 +63,7 @@ export default {
 				.catch(error => {
 					this.message = error.response.data;
 				});
-			document.location.reload();
+			// document.location.reload();
 		},
 		async addComment(newComment) {
 			console.log(newComment);
@@ -73,13 +74,19 @@ export default {
 					headers: { Authorization: "Bearer " + token },
 				})
 				.then(response => {
-					// console.log(response.data);
-					this.comments = [...this.comments, response.data];
+					console.log("this.comments ");
+					console.log(this.comments);
+
+					this.comments = [...this.comments, newComment];
+					console.log("this.comments ");
+					console.log(this.comments);
 				})
 				.catch(error => {
 					this.message = error.response.data;
 				});
-			document.location.reload();
+			console.log(token);
+
+			// document.location.reload();
 		},
 		async deletePost(id) {
 			if (confirm("Are you sure ?")) {

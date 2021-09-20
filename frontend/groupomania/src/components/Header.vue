@@ -3,8 +3,8 @@
 		<h1>{{ title }}</h1>
 		<Button
 			@btn_click="$emit('toggle_add_post')"
-			:text="showAddPost ? 'Close' : 'Add Post'"
-			:color="showAddPost ? 'salmon' : 'green'"
+			:text="showAddPost ? 'Fermer' : 'Ajout Post'"
+			:color="showAddPost ? 'blue' : 'green'"
 		/>
 	</header>
 </template>

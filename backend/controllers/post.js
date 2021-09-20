@@ -5,13 +5,19 @@ exports.createPost = (req, res, next) => {
 	console.log("--------");
 	console.log("createPost");
 	console.log(req.body);
-	console.log(req.file);
-
+	console.log("---------");
 	const newPost = {
 		content: req.body.content,
-		image: `${req.protocol}://${req.get("host")}/images/${req.file.filename}`,
+		image: req.file ? `${req.protocol}://${req.get("host")}/images/${req.file.filename}` : null,
 		UserId: req.body.UserId,
 	};
+	console.log(newPost);
+
+	// const newPost = {
+	// 	content: req.body.content,
+	// 	image: `${req.protocol}://${req.get("host")}/images/${req.file.filename}`,
+	// 	UserId: req.body.UserId,
+	// };
 	db.Post.create(newPost)
 		.then(() => res.status(201).json(newPost))
 		.catch(error => res.status(400).json({ message: error.message }));

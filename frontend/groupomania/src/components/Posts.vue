@@ -27,7 +27,7 @@ export default {
 	},
 	methods: {
 		async addComment(newComment) {
-			console.log("newComment", newComment);
+			// console.log("newComment", newComment);
 			this.$emit("add-comment", newComment);
 		},
 	},

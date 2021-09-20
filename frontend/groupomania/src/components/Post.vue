@@ -23,7 +23,7 @@
 			</div>
 		</div>
 		<br />
-		<img class="postPhoto" :src="post.image" alt="photo" />
+		<img v-if="post.image" class="postPhoto" :src="post.image" alt="photo" />
 		<div>{{ post.id }}</div>
 		<div>{{ post.content }}</div>
 
@@ -132,6 +132,7 @@ export default {
 			console.log("newComment");
 			console.log(newComment);
 			this.inputComment = "";
+
 			this.$emit("add_comment", newComment);
 		},
 		async onDeleteComment(id) {
@@ -139,7 +140,7 @@ export default {
 			const token = localStorage.getItem("token");
 
 			await axios
-				.delete(`/posts/comments/${id}`)
+				.delete(`/posts/comments/${id}`, { headers: { Authorization: "Bearer " + token } })
 				.then(response => {
 					this.comments = this.comments.filter(comment => comment.id !== id);
 				})
@@ -186,7 +187,12 @@ export default {
 				await axios
 					.post("/posts/like", newLike, { headers: { Authorization: "Bearer " + token } })
 					.then(response => {
-						console.log(response.data);
+						// console.log(response.data);
+						if (valeurLike === 1) {
+							this.nbLikes++;
+						} else {
+							this.nbDislikes++;
+						}
 					})
 					.catch(error => {
 						this.message = error.response.data;
@@ -195,10 +201,14 @@ export default {
 				//destroy
 				console.log("destroy-like");
 
-				const getLike = await axios
+				let getLikeid = 0;
+
+				await axios
 					.get(`/posts/like/${this.post.id}`)
 					.then(response => {
-						console.log(response.data);
+						console.log("getlike");
+						// console.log(response.data);
+						getLikeid = response.data.id;
 					})
 					.catch(error => {
 						this.message = error.response.data;
@@ -207,9 +217,14 @@ export default {
 
 				// veifier le userid
 				await axios
-					.delete(`/posts/like/${getLike.data.id}`)
+					.delete(`/posts/like/${getLikeid}`)
 					.then(response => {
-						console.log(response.data);
+						// console.log(response.data);
+						if (valeurLike === 1) {
+							this.nbLikes--;
+						} else {
+							this.nbDislikes--;
+						}
 					})
 					.catch(error => {
 						this.message = error.response.data;
@@ -217,10 +232,13 @@ export default {
 			} else {
 				console.log("update-like", newLike.valeur);
 				// update
-				const getLike = await axios
+				let getLikeid = 0;
+				await axios
 					.get(`/posts/like/${this.post.id}`)
 					.then(response => {
-						console.log(response.data);
+						// console.log(response.data);
+						getLikeid = response.data.id;
+						console.log(getLikeid);
 					})
 					.catch(error => {
 						this.message = error.response.data;
@@ -232,13 +250,18 @@ export default {
 				// await axios.put(`/posts/like/${getLike.data.id}`, newLike);
 
 				await axios
-					.put(`/posts/like/${getLike.data.id}`, newLike, {
+					.put(`/posts/like/${getLikeid}`, newLike, {
 						headers: { Authorization: "Bearer " + token },
 					})
 					.then(response => {
-						alert("Like mis a jour");
-						// this.message = "Votre  a bien été mis à jour !";
-						// document.location.reload();
+						// alert("Like mis a jour");
+						if (valeurLike === 1) {
+							this.nbLikes++;
+							this.nbDislikes--;
+						} else {
+							this.nbLikes--;
+							this.nbDislikes++;
+						}
 					})
 					.catch(error => {
 						this.message = error.response.data;
@@ -246,14 +269,14 @@ export default {
 
 				//-----
 			}
-			if (valeurLike == 1) {
+			if (valeurLike === 1) {
 				this.like = !this.like;
 				this.disLike = 0;
 			} else {
 				this.disLike = !this.disLike;
 				this.like = 0;
 			}
-			document.location.reload();
+			// document.location.reload();
 		},
 	},
 	async created() {
@@ -265,7 +288,7 @@ export default {
 		// 	.catch(error => {
 		// 		this.message = error.response.data;
 		// 	});
-
+		console.log("createdPost");
 		const response = await axios.get(`/posts/comments/${this.post.id}`, {
 			params: {
 				date: "YYYY-MM-DD",
@@ -281,7 +304,8 @@ export default {
 		const userId = localStorage.getItem("login");
 		this.userId = userId;
 		// console.log("resLike ", resLike.data.Likes);
-		resLike.data.Likes.forEach(e => {
+		const countLikes = resLike.data.Likes;
+		countLikes.forEach(e => {
 			// console.log("likeee", e);
 			if (e.valeur == 1) {
 				nbLikes++;
@@ -410,6 +434,7 @@ strong {
 }
 .com {
 	margin-bottom: 10px;
+	font-size: 1.2rem;
 }
 .postComments,
 .postCommentInput {
