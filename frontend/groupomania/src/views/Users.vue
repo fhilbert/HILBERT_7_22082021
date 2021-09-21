@@ -37,7 +37,6 @@ export default {
 	data() {
 		return {
 			users: [],
-			admin: false,
 			profile: Object,
 			imageUrl: null,
 			userId: "",
@@ -59,8 +58,9 @@ export default {
 				.catch(error => {
 					this.message = error.response.data;
 				});
-
-			this.$router.push("/login");
+			if (!data.isAdmin) {
+				this.$router.push("/login");
+			}
 		},
 	},
 	async created() {

@@ -98,7 +98,7 @@ export default {
 		return {
 			moment: moment,
 			content: "",
-			image: "",
+			// image: "",
 			createAt: "",
 			comments: [],
 			// isAdmin: "",
@@ -131,6 +131,16 @@ export default {
 			};
 			console.log("newComment");
 			console.log(newComment);
+
+			// console.log("this.comments- ");
+			// console.log(this.comments);
+			// this.comments.push(newComment);
+			// console.log("this.comments+ ");
+			// console.log(this.comments);
+
+			// console.log("this.comments ... :");
+			// console.log(...this.comments);
+			// this.comments = [this.comments, newComment];
 			this.inputComment = "";
 
 			this.$emit("add_comment", newComment);
@@ -145,7 +155,7 @@ export default {
 					this.comments = this.comments.filter(comment => comment.id !== id);
 				})
 				.catch(error => {
-					this.message = error.response.data;
+					console.log("il y une erreur : " + error.response);
 				});
 		},
 		onLike(id) {
@@ -195,7 +205,7 @@ export default {
 						}
 					})
 					.catch(error => {
-						this.message = error.response.data;
+						console.log("il y une erreur : " + error.response);
 					});
 			} else if ((this.like && valeurLike === 1) || (this.disLike && valeurLike === 0)) {
 				//destroy
@@ -211,7 +221,7 @@ export default {
 						getLikeid = response.data.id;
 					})
 					.catch(error => {
-						this.message = error.response.data;
+						console.log("il y une erreur : " + error.response);
 					});
 				// const getLike = await axios.get(`/posts/like/${this.post.id}`);
 
@@ -227,7 +237,7 @@ export default {
 						}
 					})
 					.catch(error => {
-						this.message = error.response.data;
+						console.log("il y une erreur : " + error.response);
 					});
 			} else {
 				console.log("update-like", newLike.valeur);
@@ -236,12 +246,11 @@ export default {
 				await axios
 					.get(`/posts/like/${this.post.id}`)
 					.then(response => {
-						// console.log(response.data);
 						getLikeid = response.data.id;
 						console.log(getLikeid);
 					})
 					.catch(error => {
-						this.message = error.response.data;
+						console.log("il y une erreur : " + error.response);
 					});
 				// const getLike = await axios.get(`/posts/like/${this.post.id}`);
 				//-----
@@ -264,7 +273,7 @@ export default {
 						}
 					})
 					.catch(error => {
-						this.message = error.response.data;
+						console.log("il y une erreur : " + error.response);
 					});
 
 				//-----
@@ -333,10 +342,6 @@ export default {
 		this.nbLikes = nbLikes;
 		this.nbDislikes = nbDislikes;
 		this.comments = response.data;
-	},
-	async beforeMount() {
-		const userId = await localStorage.getItem("login");
-		// const resLike = await axios.get(`/posts/likes/${post.id}`);
 	},
 };
 </script>

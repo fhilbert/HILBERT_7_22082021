@@ -1,6 +1,6 @@
 <template>
 	<div class="home">
-		<Nav />
+		<Nav :token="token" />
 		<div class="homeFeed">
 			<div class="homeUser">
 				<div class="space"><img class="imgHomeUser" :src="user.image" alt="photo" /></div>
@@ -43,6 +43,7 @@ export default {
 			posts: [],
 			user: Object,
 			isAdmin: 0,
+			token: "",
 		};
 	},
 	methods: {
@@ -51,7 +52,11 @@ export default {
 		},
 		async addPost(post) {
 			const token = localStorage.getItem("token");
+			console.log("this postsa :");
+			console.log(this.posts);
 			this.posts = [...this.posts, post];
+			console.log("this postsb :");
+			console.log(this.posts);
 
 			await axios
 				.post("/posts", post, { headers: { Authorization: "Bearer " + token } })
@@ -61,28 +66,33 @@ export default {
 					console.log(this.posts);
 				})
 				.catch(error => {
-					this.message = error.response.data;
+					console.log("il y une erreur : " + error.response);
 				});
 			// document.location.reload();
 		},
 		async addComment(newComment) {
 			console.log(newComment);
 			const token = localStorage.getItem("token");
+			console.log("this.commentsa ");
+			console.log(this.comments);
+			// this.comments.push(newComment);
 
 			await axios
 				.post("/posts/comments", newComment, {
 					headers: { Authorization: "Bearer " + token },
 				})
 				.then(response => {
-					console.log("this.comments ");
+					console.log("this.commentsa ");
 					console.log(this.comments);
+					console.log("this.comments ... :");
+					console.log(...this.comments);
+					console.log("comments :");
+					console.log(comments);
 
 					this.comments = [...this.comments, newComment];
-					console.log("this.comments ");
-					console.log(this.comments);
 				})
 				.catch(error => {
-					this.message = error.response.data;
+					console.log("il y une erreuraddComment : " + error.response);
 				});
 			console.log(token);
 
@@ -102,7 +112,7 @@ export default {
 				})
 				.then((this.posts = this.posts.filter(post => post.id !== id)))
 				.catch(error => {
-					this.message = error.response.data;
+					console.log("il y une erreur : " + error.response);
 				});
 		},
 		// async fetchPosts() {
@@ -130,7 +140,7 @@ export default {
 				this.isAdmin = isAdmin;
 			})
 			.catch(error => {
-				this.message = error.response.data;
+				console.log("il y une erreur : " + error.response);
 			});
 
 		console.log("this.user", this.user.image);
@@ -143,7 +153,7 @@ export default {
 				console.log("posts", this.posts);
 			})
 			.catch(error => {
-				this.message = error.response.data;
+				console.log("il y une erreur : " + error.response);
 			});
 	},
 };
