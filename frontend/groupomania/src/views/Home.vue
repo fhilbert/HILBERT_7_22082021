@@ -50,19 +50,20 @@ export default {
 		toggleAddPost() {
 			this.showAddPost = !this.showAddPost;
 		},
-		async addPost(post) {
+		addPost(post) {
 			const token = localStorage.getItem("token");
 			console.log("this postsa :");
 			console.log(this.posts);
-			this.posts = [...this.posts, post];
+			// this.posts = [...this.posts, post];
 			console.log("this postsb :");
 			console.log(this.posts);
 
-			await axios
+			axios
 				.post("/posts", post, { headers: { Authorization: "Bearer " + token } })
 				.then(response => {
 					console.log(response.data);
-					this.posts = [...this.posts, response.data];
+					// this.posts = [...this.posts, response.data];
+					this.posts = [response.data, ...this.posts];
 					console.log(this.posts);
 				})
 				.catch(error => {

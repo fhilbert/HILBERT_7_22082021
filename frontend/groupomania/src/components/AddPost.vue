@@ -43,14 +43,13 @@ export default {
 			const userId = localStorage.getItem("login");
 
 			const post = new FormData();
+			post.append("content", this.content);
+			post.append("UserId", userId);
+
 			if (this.file !== null) {
-				post.append("content", this.content);
 				post.append("image", this.selectedFile);
-				post.append("UserId", userId);
-			} else {
-				post.append("content", this.content);
-				post.append("UserId", userId);
 			}
+
 			this.$emit("add_post", post);
 			this.content = "";
 			this.selectedFile = "";
