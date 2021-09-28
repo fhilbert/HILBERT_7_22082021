@@ -4,6 +4,8 @@ const fs = require("fs");
 exports.createPost = (req, res, next) => {
 	console.log("--------");
 	console.log("createPost");
+	console.log(req.body);
+	console.log("---------");
 	const newPost = {
 		content: req.body.content,
 		image: req.file ? `${req.protocol}://${req.get("host")}/images/${req.file.filename}` : null,
@@ -11,18 +13,27 @@ exports.createPost = (req, res, next) => {
 	};
 	console.log(newPost);
 
+	// const newPost = {
+	// 	content: req.body.content,
+	// 	image: `${req.protocol}://${req.get("host")}/images/${req.file.filename}`,
+	// 	UserId: req.body.UserId,
+	// };
 	db.Post.create(newPost)
 		.then(post => {
 			// console.log(post);
+			//
 
 			db.Post.findOne({ include: db.User, where: { id: post.id } })
 				.then(postuser => {
-					// console.log(postuser);
+					console.log("POSTUSER");
+					console.log(postuser);
 
-					return res.status(201).json(postuser);
+					return res.status(200).json(postuser);
 				})
 				.catch(error => res.status(404).json({ error }));
 			//
+
+			// return res.status(201).json(post);
 		})
 		.catch(error => res.status(400).json({ message: error.message }));
 };
@@ -89,20 +100,8 @@ exports.createComment = (req, res, next) => {
 		PostId: req.body.PostId,
 		UserId: req.body.UserId,
 	};
-
 	db.Comment.create(newComment)
-		.then(comment => {
-			console.log("COMMENT");
-			console.log(comment);
-
-			db.Post.findOne({ include: db.User, where: { id: post.id } })
-				.then(commentuser => {
-					// console.log(postuser);
-
-					return res.status(201).json(commentuser);
-				})
-				.catch(error => res.status(404).json({ error }));
-		})
+		.then(() => res.status(201).json(newComment))
 		.catch(error => res.status(400).json({ message: error.message }));
 };
 

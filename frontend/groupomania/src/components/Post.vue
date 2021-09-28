@@ -169,7 +169,7 @@ export default {
 
 			// this.onCreateLike(id, postLike);
 		},
-		async onDislike(id) {
+		onDislike(id) {
 			console.log(id);
 			console.log("onDislike");
 			onCreateLike(id, post.id);

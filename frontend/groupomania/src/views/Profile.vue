@@ -7,7 +7,7 @@
 					<div class="photoProfile">
 						<div><img class="imgProfile" v-if="selectedFile" :src="imageUrl" alt="photo" /></div>
 
-						<img class="imgProfile" v-if="!selectedFile" :src="user.image" alt="photo" />
+						<img class="imgProfile" v-if="!selectedFile && user.image" :src="user.image" alt="photo" />
 						<input id="inputImage" type="file" ref="fileInput" @change="selectFile" />
 
 						<button class="button" @click="$refs.fileInput.click()"><i class="fas fa-camera"></i></button>
@@ -67,10 +67,9 @@ export default {
 	},
 	methods: {
 		selectFile(event) {
-			console.log(this.selectedFile);
-
 			// this.selectedFile = this.$refs.file.files[0];
 			this.selectedFile = event.target.files[0];
+			console.log(this.selectedFile);
 
 			let reader = new FileReader();
 			reader.onload = e => {
@@ -82,22 +81,22 @@ export default {
 			// const bfile = this.$refs.file.files[0];
 			const bfile = event.target.files[0];
 			this.imageUrl = URL.createObjectURL(bfile);
+			this.user.image = this.imageUrl;
 		},
 
-		async updateUser(id) {
+		updateUser(id) {
 			console.log(id);
 			/////----------------------------------
 			const token = localStorage.getItem("token");
 			const userId = localStorage.getItem("login");
 
 			const newUser = new FormData();
+
+			newUser.append("isAdmin", this.admin);
+			newUser.append("bio", this.bio);
+
 			if (this.file !== null) {
 				newUser.append("image", this.selectedFile);
-				newUser.append("isAdmin", this.admin);
-				newUser.append("bio", this.bio);
-			} else {
-				newUser.append("isAdmin", this.admin);
-				newUser.append("bio", this.bio);
 			}
 			axios
 				.put(`http://localhost:3000/api/auth/profile/${userId}`, newUser, {
@@ -112,9 +111,9 @@ export default {
 					this.message = error.response.data;
 				});
 			this.selectedFile = "";
-			document.location.reload();
+			// document.location.reload();
 		},
-		async deleteUser(id) {
+		deleteUser(id) {
 			if (confirm("Are you sure ?")) {
 				this.users = this.users.filter(user => user.id !== id);
 			}
@@ -122,7 +121,7 @@ export default {
 			console.log("id", id);
 			console.log("token", token);
 
-			await axios
+			axios
 				.delete(`auth/profile/${id}`, { headers: { Authorization: "Bearer " + token } })
 				.then((this.users = this.users.filter(user => user.id !== id)))
 				.catch(error => {
@@ -131,11 +130,11 @@ export default {
 			this.$router.push("/login");
 		},
 	},
-	async created() {
+	created() {
 		const userId = localStorage.getItem("login");
 		const token = localStorage.getItem("token");
 
-		await axios
+		axios
 			.get(`auth/profile/${userId}`, { headers: { Authorization: "Bearer " + token } })
 			.then(response => {
 				this.user = response.data;
@@ -174,6 +173,7 @@ textarea {
 	width: 100%;
 	margin: 10px 0px;
 	border-radius: 15px;
+	padding-left: 10px;
 }
 .thirdRow {
 	display: flex;

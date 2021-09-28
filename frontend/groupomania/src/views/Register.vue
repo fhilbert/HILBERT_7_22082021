@@ -9,14 +9,19 @@
 					<input type="email" class="cardFormInput" v-model="email" placeholder="Email" />
 				</div>
 				<div class="cardForm">
-					<input type="text" class="cardFormInput" v-model="firstName" placeholder="First Name" />
-					<input type="text" class="cardFormInput" v-model="lastName" placeholder="Last Name" />
+					<input type="text" class="cardFormInput" v-model="firstName" placeholder=" Prénom" />
+					<input type="text" class="cardFormInput" v-model="lastName" placeholder=" Nom" />
 				</div>
 				<div class="cardForm">
-					<input type="password" class="cardFormInput" v-model="password" placeholder="Password" />
+					<input type="password" class="cardFormInput" v-model="password" placeholder="Mot de Passe" />
 				</div>
 				<div class="cardForm">
-					<input type="password" class="cardFormInput" v-model="passwordConfirm" placeholder="Confirm Password" />
+					<input
+						type="password"
+						class="cardFormInput"
+						v-model="passwordConfirm"
+						placeholder="Confirmation Mot de Passe"
+					/>
 				</div>
 				<button class="button">Inscription</button>
 				<br />

@@ -12,7 +12,7 @@
 					<input type="email" class="cardFormInput" v-model="email" placeholder="Email" />
 				</div>
 				<div class="cardForm">
-					<input type="password" class="cardFormInput" v-model="password" placeholder="Password" />
+					<input type="password" class="cardFormInput" v-model="password" placeholder="Mot de Passe" />
 				</div>
 				<button @click="handleSubmit" class="button">Connexion</button>
 				<br />

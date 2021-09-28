@@ -3,7 +3,7 @@
 		<Nav :token="token" />
 		<div class="homeFeed">
 			<div class="homeUser">
-				<div class="space"><img class="imgHomeUser" :src="user.image" alt="photo" /></div>
+				<div v-if="user.image" class="space"><img class="imgHomeUser" :src="user.image" alt="photo" /></div>
 				<div class="space">Bienvenue</div>
 				<div class="space">{{ user.firstName }}</div>
 				<div class="space">{{ user.lastName }}</div>
@@ -12,7 +12,6 @@
 			<div v-show="showAddPost">
 				<AddPost @add_post="addPost" />
 			</div>
-			<!-- <router-view :showAddPost="showAddPost"></router-view> -->
 			<Posts @delete_post="deletePost" :posts="posts" @add-comment="addComment" :isAdmin="isAdmin" />
 
 			<!-- <Footer /> -->
@@ -52,54 +51,41 @@ export default {
 		},
 		addPost(post) {
 			const token = localStorage.getItem("token");
-			console.log("this postsa :");
-			console.log(this.posts);
-			// this.posts = [...this.posts, post];
-			console.log("this postsb :");
-			console.log(this.posts);
 
 			axios
 				.post("/posts", post, { headers: { Authorization: "Bearer " + token } })
 				.then(response => {
-					console.log(response.data);
+					// console.log(response.data);
 					// this.posts = [...this.posts, response.data];
 					this.posts = [response.data, ...this.posts];
-					console.log(this.posts);
 				})
 				.catch(error => {
 					console.log("il y une erreur : " + error.response);
 				});
-			// document.location.reload();
 		},
-		async addComment(newComment) {
+		addComment(newComment) {
 			console.log(newComment);
 			const token = localStorage.getItem("token");
-			console.log("this.commentsa ");
-			console.log(this.comments);
-			// this.comments.push(newComment);
 
-			await axios
+			axios
 				.post("/posts/comments", newComment, {
 					headers: { Authorization: "Bearer " + token },
 				})
 				.then(response => {
-					console.log("this.commentsa ");
+					console.log("then");
+					console.log(response.data);
+					console.log("this");
 					console.log(this.comments);
-					console.log("this.comments ... :");
-					console.log(...this.comments);
-					console.log("comments :");
-					console.log(comments);
 
-					this.comments = [...this.comments, newComment];
+					this.comments = [...this.comments, response.data];
 				})
 				.catch(error => {
 					console.log("il y une erreuraddComment : " + error.response);
 				});
-			console.log(token);
 
 			// document.location.reload();
 		},
-		async deletePost(id) {
+		deletePost(id) {
 			if (confirm("Are you sure ?")) {
 				this.posts = this.posts.filter(post => post.id !== id);
 			}
@@ -107,7 +93,7 @@ export default {
 			console.log("id", id);
 			console.log("token", token);
 
-			await axios
+			axios
 				.delete(`/posts/${id}`, {
 					headers: { Authorization: "Bearer " + token },
 				})
@@ -129,11 +115,11 @@ export default {
 		// 	return data;
 		// },
 	},
-	async created() {
+	created() {
 		const userId = localStorage.getItem("login");
 		const token = localStorage.getItem("token");
 
-		await axios
+		axios
 			.get(`auth/profile/${userId}`, { headers: { Authorization: "Bearer " + token } })
 			.then(response => {
 				this.user = response.data;
@@ -146,7 +132,7 @@ export default {
 
 		console.log("this.user", this.user.image);
 
-		await axios
+		axios
 			.get("/posts", { params: { date: "YYYY-MM-DD" } })
 			.then(response => {
 				this.posts = response.data;

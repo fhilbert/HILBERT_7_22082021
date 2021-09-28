@@ -90,6 +90,7 @@ textarea {
 	width: 100%;
 	margin-bottom: 10px;
 	border-radius: 15px;
+	padding-left: 10px;
 }
 img {
 	width: 100%;

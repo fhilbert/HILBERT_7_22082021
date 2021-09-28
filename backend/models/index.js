@@ -29,13 +29,6 @@ db.Like = require("./likes")(sequelize, Sequelize);
 //  Posts -- Users
 db.User.hasMany(db.Post, { onDelete: "cascade", hooks: true });
 db.Post.belongsTo(db.User);
-// db.User.hasMany(db.Post, {
-// 	as: "Post",
-// });
-// db.Post.belongsTo(db.User, {
-// 	as: "User",
-// });
-//  Posts -- Comments
 db.Post.hasMany(db.Comment, {
 	foreignKey: {
 		name: "PostId",
@@ -52,10 +45,5 @@ db.Like.belongsTo(db.Post);
 // Users -- Likes
 db.User.hasMany(db.Like, { onDelete: "CASCADE", foreignKey: { allowNull: false }, hooks: true });
 db.Like.belongsTo(db.User);
-
-//  Posts - Likes - Users
-
-// db.User.belongsToMany(db.Post, { through: "Likes" });
-// db.Post.belongsToMany(db.User, { through: "Likes" });
 
 module.exports = db;
