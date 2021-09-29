@@ -76,8 +76,6 @@ export default {
 				.then(() => {
 					alert("Vous êtes inscrit !");
 					this.$router.push("/login");
-
-					// document.location.reload();
 				})
 				.catch(error => {
 					this.message = error.response.data.message;
@@ -86,10 +84,4 @@ export default {
 	},
 };
 </script>
-<style>
-.register {
-	/* display: flex;
-	margin-top: 100px;
-	justify-content: center; */
-}
-</style>
+<style></style>

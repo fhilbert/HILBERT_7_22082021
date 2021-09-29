@@ -2,7 +2,7 @@
 	<div>
 		<!-- <div>{{ isAdmin }}</div> -->
 		<div :key="post.id" v-for="post in posts">
-			<Post @delete_post="$emit('delete_post', post.id)" :post="post" @add_comment="addComment" :isAdmin="isAdmin" />
+			<Post @delete_post="$emit('delete_post', post.id)" :post="post" :isAdmin="isAdmin" />
 			<!-- <Post
 				@delete_post="$emit('delete_post', post.id)"
 				:post="post"
@@ -24,12 +24,6 @@ export default {
 	},
 	components: {
 		Post,
-	},
-	methods: {
-		async addComment(newComment) {
-			// console.log("newComment", newComment);
-			this.$emit("add-comment", newComment);
-		},
 	},
 	emits: ["delete_post"],
 };

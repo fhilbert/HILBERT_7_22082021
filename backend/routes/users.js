@@ -13,10 +13,4 @@ router.get("/profile/:id", auth, userCtrl.getOneProfile);
 router.put("/profile/:id", auth, multer, userCtrl.modifyProfile);
 router.delete("/profile/:id", auth, userCtrl.deleteProfile);
 
-// router.get("/user", auth);
-// router.get("/user", userCtrl.userCheck, userCtrl.getUser);
-// router.get("/:id", userCtrl.userCheck, userCtrl.getUser);
-// router.put("/update", userCtrl.userCheck, userCtrl.updateUser);
-// router.delete("/:id", userCtrl.userCheck, userCtrl.deleteUser);
-
 module.exports = router;

@@ -10,11 +10,10 @@
 						<strong>{{ post.User.lastName }}</strong>
 					</div>
 					<div class="published">
-						<!-- <div class="space">{{ this.isAdmin }}</div> -->
 						<div class="space">Publié le</div>
 						<div class="space">{{ moment(post.createdAt).format("DD-MM-YYYY") }}</div>
 						<div class="space">à</div>
-						<div class="space">{{ moment(post.createdAt).format("HH:MM") }}</div>
+						<div class="space">{{ moment(post.createdAt).format("HH:mm") }}</div>
 					</div>
 				</div>
 			</div>
@@ -41,7 +40,6 @@
 			<div class="postComments" :key="comment.id" v-for="comment in comments">
 				<div v-if="comment.PostId == post.id" class="commentHeader">
 					<div class="commentHeaderLeft">
-						<!-- <img class="commentOwnerPhoto" src="../images/IMG_7377.jpg" alt="photo" /> -->
 						<img class="postOwnerPhoto" :src="comment.User.image" alt="photo" />
 						<div class="commentOwner">
 							<div class="published">
@@ -49,7 +47,7 @@
 								<div class="space">le</div>
 								<div class="space">{{ moment(comment.createdAt).format("DD-MM-YYYY") }}</div>
 								<div class="space">à</div>
-								<div class="space">{{ moment(comment.createdAt).format("HH:MM") }}</div>
+								<div class="space">{{ moment(comment.createdAt).format("HH:mm") }}</div>
 							</div>
 							<div class="commentText">{{ comment.comment }}</div>
 						</div>
@@ -64,17 +62,11 @@
 				</div>
 			</div>
 			<div class="postCommentInput">
-				<!-- <img class="commentOwnerPhoto" :src="user.image" alt="photo" /> -->
-				<!-- <img class="commentOwnerPhoto" src="../images/IMG_7377.jpg" alt="photo" /> -->
 				<div class="postCommentInputCard">
 					<div class="commentTextInput">
 						<input type="text" v-model="inputComment" placeholder="commentaire ..." />
 					</div>
 					<button class="check" @click="buttonNewComment(post.id)"><i class="fas fa-plus-circle"></i></button>
-					<!-- <input class="commentTextInput" value="Commentaire ..." type="text" /> -->
-					<!-- <div class="check">
-						<button type="submit"><i class="fas fa-plus-circle"></i></button>
-					</div> -->
 				</div>
 			</div>
 		</div>
@@ -98,10 +90,8 @@ export default {
 		return {
 			moment: moment,
 			content: "",
-			// image: "",
 			createAt: "",
 			comments: [],
-			// isAdmin: "",
 			userId: "",
 			inputComment: "",
 			like: 0,
@@ -132,19 +122,28 @@ export default {
 			console.log("newComment");
 			console.log(newComment);
 
-			// console.log("this.comments- ");
-			// console.log(this.comments);
-			// this.comments.push(newComment);
-			// console.log("this.comments+ ");
-			// console.log(this.comments);
+			console.log(newComment);
+			const token = localStorage.getItem("token");
 
-			// console.log("this.comments ... :");
-			// console.log(...this.comments);
-			// this.comments = [this.comments, newComment];
+			axios
+				.post("/posts/comments", newComment, {
+					headers: { Authorization: "Bearer " + token },
+				})
+				.then(response => {
+					console.log("then");
+					console.log(response.data);
+					console.log("this");
+					console.log(this.comments);
+
+					this.comments = [...this.comments, response.data];
+				})
+				.catch(error => {
+					console.log("il y une erreuraddComment : " + error.response);
+				});
+
 			this.inputComment = "";
-
-			this.$emit("add_comment", newComment);
 		},
+
 		async onDeleteComment(id) {
 			console.log("delete comment");
 			const token = localStorage.getItem("token");
@@ -161,13 +160,8 @@ export default {
 		onLike(id) {
 			console.log(id);
 			console.log("like");
-			// console.log(postLike);
 
 			this.postLike = !this.postLike;
-			// onCreateLike(id, post.id);
-			// console.log(postLike);
-
-			// this.onCreateLike(id, postLike);
 		},
 		onDislike(id) {
 			console.log(id);
@@ -176,8 +170,6 @@ export default {
 		},
 		async onCreateLike(valeurLike) {
 			console.log("onCreate", valeurLike);
-
-			// const response = await axios.get(`/posts/like/${this.post.id}`);
 
 			console.log("userId", userId);
 			console.log("PostId", this.post.id);
@@ -223,7 +215,6 @@ export default {
 					.catch(error => {
 						console.log("il y une erreur : " + error.response);
 					});
-				// const getLike = await axios.get(`/posts/like/${this.post.id}`);
 
 				// veifier le userid
 				await axios
@@ -252,11 +243,8 @@ export default {
 					.catch(error => {
 						console.log("il y une erreur : " + error.response);
 					});
-				// const getLike = await axios.get(`/posts/like/${this.post.id}`);
 				//-----
 				console.log("newLike", newLike);
-
-				// await axios.put(`/posts/like/${getLike.data.id}`, newLike);
 
 				await axios
 					.put(`/posts/like/${getLikeid}`, newLike, {
@@ -289,14 +277,6 @@ export default {
 		},
 	},
 	async created() {
-		// await axios
-		// 	.get(`/posts/comments/${this.post.id}`, { params: { date: "YYYY-MM-DD" } })
-		// 	.then(response => {
-		// 		console.log("comments", response.data);
-		// 	})
-		// 	.catch(error => {
-		// 		this.message = error.response.data;
-		// 	});
 		console.log("createdPost");
 		const response = await axios.get(`/posts/comments/${this.post.id}`, {
 			params: {

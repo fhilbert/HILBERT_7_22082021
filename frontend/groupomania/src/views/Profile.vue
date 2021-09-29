@@ -67,26 +67,20 @@ export default {
 	},
 	methods: {
 		selectFile(event) {
-			// this.selectedFile = this.$refs.file.files[0];
 			this.selectedFile = event.target.files[0];
-			console.log(this.selectedFile);
 
 			let reader = new FileReader();
 			reader.onload = e => {
 				this.previewImage = e.target.result;
 			};
 			reader.readAsDataURL(this.selectedFile);
-			console.log(this.selectedFile);
 
-			// const bfile = this.$refs.file.files[0];
 			const bfile = event.target.files[0];
 			this.imageUrl = URL.createObjectURL(bfile);
 			this.user.image = this.imageUrl;
 		},
 
 		updateUser(id) {
-			console.log(id);
-			/////----------------------------------
 			const token = localStorage.getItem("token");
 			const userId = localStorage.getItem("login");
 
@@ -103,23 +97,18 @@ export default {
 					headers: { Authorization: "Bearer " + token },
 				})
 				.then(() => {
-					// alert("Votre profil a bien été mis à jour !");
 					this.message = "Votre profil a bien été mis à jour !";
-					// document.location.reload();
 				})
 				.catch(error => {
 					this.message = error.response.data;
 				});
 			this.selectedFile = "";
-			// document.location.reload();
 		},
 		deleteUser(id) {
 			if (confirm("Are you sure ?")) {
 				this.users = this.users.filter(user => user.id !== id);
 			}
 			const token = localStorage.getItem("token");
-			console.log("id", id);
-			console.log("token", token);
 
 			axios
 				.delete(`auth/profile/${id}`, { headers: { Authorization: "Bearer " + token } })
@@ -139,9 +128,6 @@ export default {
 			.then(response => {
 				this.user = response.data;
 				this.admin = this.user.isAdmin;
-				console.log("this.user", this.user);
-
-				console.log("this admin ", this.admin);
 			})
 			.catch(error => {
 				this.message = error.response.data;

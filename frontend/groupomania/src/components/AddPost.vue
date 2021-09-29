@@ -56,16 +56,13 @@ export default {
 		},
 
 		selectFile(event) {
-			// this.selectedFile = this.$refs.file.files[0];
 			this.selectedFile = event.target.files[0];
 			let reader = new FileReader();
 			reader.onload = e => {
 				this.previewImage = e.target.result;
 			};
 			reader.readAsDataURL(this.selectedFile);
-			console.log(this.selectedFile);
 
-			// const bfile = this.$refs.file.files[0];
 			const bfile = event.target.files[0];
 			this.imageUrl = URL.createObjectURL(bfile);
 		},
@@ -96,9 +93,6 @@ img {
 	width: 100%;
 	border-radius: 15px;
 }
-
-/* ----- */
-
 label {
 	font-size: 12px;
 }

@@ -44,15 +44,13 @@ export default {
 		};
 	},
 	methods: {
-		async onDeleteUser(id) {
+		onDeleteUser(id) {
 			if (confirm("Are you sure ?")) {
 				this.users = this.users.filter(user => user.id !== id);
 			}
 			const token = localStorage.getItem("token");
-			console.log("id", id);
-			console.log("token", token);
 
-			await axios
+			axios
 				.delete(`auth/profile/${id}`, { headers: { Authorization: "Bearer " + token } })
 				.then((this.users = this.users.filter(user => user.id !== id)))
 				.catch(error => {
@@ -63,52 +61,35 @@ export default {
 			}
 		},
 	},
-	async created() {
-		const userId = await localStorage.getItem("login");
+	created() {
+		const userId = localStorage.getItem("login");
 		const token = localStorage.getItem("token");
 		this.userId = userId;
 
-		await axios
+		axios
 			.get(`auth/profile/${userId}`, { headers: { Authorization: "Bearer " + token } })
 			.then(response => {
 				this.data = response.data;
-				console.log("this.user", this.data.isAdmin);
 			})
 			.catch(error => {
 				this.message = error.response.data;
 			});
 
-		await axios
+		axios
 			.get(`auth/profile`, { headers: { Authorization: "Bearer " + token } })
 			.then(response => {
 				this.profile = response.data;
-				console.log("this.profile", this.profile);
 
 				this.users = response.data;
 			})
 			.catch(error => {
 				this.message = error.response.data;
 			});
-
-		// const res = await axios.get(`/auth/profile/${userId}`);
-
-		// this.data = res.data;
-		// console.log("this.user", this.data.isAdmin);
-
-		// const response = await axios.get("/auth/profile");
-
-		// this.profile = response.data;
-		// console.log("this.profile", this.profile);
-
-		// this.users = response.data;
 	},
 };
 </script>
 
 <style scoped>
-.Users {
-	/* margin-top: 40px; */
-}
 h1 {
 	margin-bottom: 40px;
 	text-align: center;
@@ -117,9 +98,6 @@ h1 {
 	color: red;
 	font-size: 25px;
 	width: 40px;
-	/* display: flex; */
-	/* align-items: center;
-	justify-content: center; */
 }
 
 .usersCard {
@@ -157,31 +135,11 @@ img {
 	display: flex;
 	flex-direction: column;
 	padding: 10px 0 0 25px;
-	/* align-items: center;
-	justify-content: center; */
 }
 .cardRight {
 	width: 20%;
 	display: flex;
 	align-items: center;
 	justify-content: center;
-}
-.img__profile {
-	width: 170px;
-	height: 170px;
-	object-fit: cover;
-}
-.photo__profile {
-	width: 50%;
-}
-.card__profile {
-	width: 100%;
-
-	border-radius: 15px;
-	text-align: center;
-}
-.photo__profile {
-	width: 50%;
-	border-radius: 15px;
 }
 </style>

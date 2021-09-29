@@ -16,7 +16,6 @@
 				<router-link :to="{ name: 'Profile' }" class="link"><i class="far fa-grin" title="Profil"></i></router-link>
 			</div>
 			<div v-if="userId" class="item">
-				<!-- <div class="item"> -->
 				<router-link :to="{ name: 'Home' }" class="link"
 					><i class="fas fa-scroll" title="Publications"></i
 				></router-link>
@@ -61,7 +60,6 @@ nav {
 	display: block;
 	display: flex;
 	font-size: 1.1em;
-	/* width: 100%; */
 
 	height: 100%;
 	background-color: lightgrey;
@@ -72,7 +70,6 @@ nav {
 	margin-left: 15px;
 	text-decoration: none;
 	display: flex;
-	/* justify-content: center; */
 	align-items: center;
 }
 .logoImg {

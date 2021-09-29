@@ -52,11 +52,7 @@ export default {
 				password: this.password,
 				passwordConfirm: this.passwordConfirm,
 			});
-			// .catch(error => {
-			// 	this.message = "Email et/ou mot de passe incorrect !!!";
-			// 	console.log("login");
-			// 	return;
-			// });
+
 			localStorage.setItem("token", response.data.token);
 			localStorage.setItem("login", response.data.userId);
 
@@ -68,10 +64,4 @@ export default {
 	},
 };
 </script>
-<style>
-.login {
-	/* display: flex; */
-	/* margin-top: 100px; */
-	/* justify-content: center; */
-}
-</style>
+<style></style>

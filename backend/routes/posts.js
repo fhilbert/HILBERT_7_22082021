@@ -3,6 +3,7 @@ const router = express.Router();
 
 const postCtrl = require("../controllers/post");
 const auth = require("../middleware/auth");
+const isOwner = require("../middleware/isOwner");
 // const isOwner = require("../middleware/isOwner.js");
 const multer = require("../middleware/multer-config");
 
@@ -29,10 +30,10 @@ router.post("/like/", postCtrl.createLike);
 // ------- POSTS
 
 // checked routes
-router.post("/", auth, multer, postCtrl.createPost);
+router.post("/", multer, auth, postCtrl.createPost);
 router.get("/:id", postCtrl.getOnePost);
 router.get("/", postCtrl.getAllPosts);
-router.delete("/:id", auth, postCtrl.deletePost);
+router.delete("/:id", auth, isOwner, postCtrl.deletePost);
 //-------------------------
 
 module.exports = router;

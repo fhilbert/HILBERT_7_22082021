@@ -9,20 +9,15 @@ exports.createPost = (req, res, next) => {
 		image: req.file ? `${req.protocol}://${req.get("host")}/images/${req.file.filename}` : null,
 		UserId: req.body.UserId,
 	};
-	console.log(newPost);
+	// console.log(newPost);
 
 	db.Post.create(newPost)
 		.then(post => {
-			// console.log(post);
-
 			db.Post.findOne({ include: db.User, where: { id: post.id } })
 				.then(postuser => {
-					// console.log(postuser);
-
 					return res.status(201).json(postuser);
 				})
 				.catch(error => res.status(404).json({ error }));
-			//
 		})
 		.catch(error => res.status(400).json({ message: error.message }));
 };
@@ -50,14 +45,10 @@ exports.deletePost = async (req, res, next) => {
 	console.log("--------");
 	console.log("deletePost");
 	console.log(req.params.id);
-	// await db.Post.destroy({ where: { id: req.params.id } })
-	// 	.then(() => res.status(200).json({ message: "Objet supprimé !" }))
-	// 	.catch(error => res.status(400).json({ error }));
 
 	db.Post.findOne({ where: { id: req.params.id } })
 		.then(post => {
-			// console.log(post);
-			console.log(post.image);
+			// console.log(post.image);
 
 			if (post.image) {
 				console.log(post.image.split("/images/")[1]);
@@ -95,10 +86,8 @@ exports.createComment = (req, res, next) => {
 			console.log("COMMENT");
 			console.log(comment);
 
-			db.Post.findOne({ include: db.User, where: { id: post.id } })
+			db.Comment.findOne({ include: db.User, where: { id: comment.id } })
 				.then(commentuser => {
-					// console.log(postuser);
-
 					return res.status(201).json(commentuser);
 				})
 				.catch(error => res.status(404).json({ error }));
@@ -193,7 +182,4 @@ exports.updateOneLike = (req, res, next) => {
 				.catch(error => res.status(400).json({ message: error.message }));
 		})
 		.catch(error => res.status(500).json({ message: error.message }));
-	// }
 };
-
-// ----------------

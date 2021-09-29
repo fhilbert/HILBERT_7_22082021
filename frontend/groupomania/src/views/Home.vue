@@ -12,7 +12,7 @@
 			<div v-show="showAddPost">
 				<AddPost @add_post="addPost" />
 			</div>
-			<Posts @delete_post="deletePost" :posts="posts" @add-comment="addComment" :isAdmin="isAdmin" />
+			<Posts @delete_post="deletePost" :posts="posts" :isAdmin="isAdmin" />
 
 			<!-- <Footer /> -->
 		</div>
@@ -63,35 +63,12 @@ export default {
 					console.log("il y une erreur : " + error.response);
 				});
 		},
-		addComment(newComment) {
-			console.log(newComment);
-			const token = localStorage.getItem("token");
 
-			axios
-				.post("/posts/comments", newComment, {
-					headers: { Authorization: "Bearer " + token },
-				})
-				.then(response => {
-					console.log("then");
-					console.log(response.data);
-					console.log("this");
-					console.log(this.comments);
-
-					this.comments = [...this.comments, response.data];
-				})
-				.catch(error => {
-					console.log("il y une erreuraddComment : " + error.response);
-				});
-
-			// document.location.reload();
-		},
 		deletePost(id) {
 			if (confirm("Are you sure ?")) {
 				this.posts = this.posts.filter(post => post.id !== id);
 			}
 			const token = localStorage.getItem("token");
-			console.log("id", id);
-			console.log("token", token);
 
 			axios
 				.delete(`/posts/${id}`, {
@@ -102,18 +79,6 @@ export default {
 					console.log("il y une erreur : " + error.response);
 				});
 		},
-		// async fetchPosts() {
-		// 	const response = await axios.get("/posts");
-		// 	console.log("response");
-
-		// 	return response;
-		// },
-		// async fetchPost(id) {
-		// 	const res = await fetch(`api/posts/${id}`);
-
-		// 	const data = await res.json();
-		// 	return data;
-		// },
 	},
 	created() {
 		const userId = localStorage.getItem("login");
@@ -130,14 +95,12 @@ export default {
 				console.log("il y une erreur : " + error.response);
 			});
 
-		console.log("this.user", this.user.image);
+		// console.log("this.user", this.user.image);
 
 		axios
 			.get("/posts", { params: { date: "YYYY-MM-DD" } })
 			.then(response => {
 				this.posts = response.data;
-				console.log("this.posts");
-				console.log("posts", this.posts);
 			})
 			.catch(error => {
 				console.log("il y une erreur : " + error.response);

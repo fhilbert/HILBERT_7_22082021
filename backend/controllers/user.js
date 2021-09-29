@@ -39,7 +39,6 @@ exports.signup = (req, res, next) => {
 		.hash(req.body.password, 10)
 		.then(hash => {
 			const newUser = {
-				// email: encMail,
 				email: req.body.email,
 				password: hash,
 				firstName: req.body.firstName,
@@ -60,7 +59,6 @@ exports.login = (req, res, next) => {
 	console.log(tokenkey);
 
 	const data = db.User.findOne({ where: { email: req.body.email } })
-		// User.findOne({ email: encMail })
 		.then(user => {
 			// console.log(user);
 
@@ -82,26 +80,6 @@ exports.login = (req, res, next) => {
 		})
 		.catch(error => res.status(502).json({ error }));
 	console.log(data);
-
-	// User.findOne({ email: encMail })
-	// 	.then(user => {
-	// 		if (!user) {
-	// 			return res.status(401).json({ error: "Utilisateur non trouvé !" });
-	// 		}
-	// 		bcrypt
-	// 			.compare(req.body.password, user.password)
-	// 			.then(valid => {
-	// 				if (!valid) {
-	// 					return res.status(401).json({ error: "Mot de passe incorrect !" });
-	// 				}
-	// 				res.status(200).json({
-	// 					userId: user._id,
-	// 					token: jwt.sign({ userId: user._id }, tokenkey, { expiresIn: "24h" }),
-	// 				});
-	// 			})
-	// 			.catch(error => res.status(501).json({ error }));
-	// 	})
-	// 	.catch(error => res.status(502).json({ error }));
 };
 exports.getOneProfile = (req, res, next) => {
 	console.log("getOneProfile");
