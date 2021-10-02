@@ -171,6 +171,8 @@ export default {
 		async onCreateLike(valeurLike) {
 			console.log("onCreate", valeurLike);
 
+			const userId = localStorage.getItem("login");
+
 			console.log("userId", userId);
 			console.log("PostId", this.post.id);
 			console.log("like ", this.like);
@@ -203,22 +205,28 @@ export default {
 				//destroy
 				console.log("destroy-like");
 
-				let getLikeid = 0;
+				let getLikeId = 0;
 
 				await axios
 					.get(`/posts/like/${this.post.id}`)
 					.then(response => {
-						console.log("getlike");
-						// console.log(response.data);
-						getLikeid = response.data.id;
+						console.log(response.data);
+						response.data.forEach(e => {
+							if (e.UserId == userId) {
+								getLikeId = e.id;
+								return;
+							}
+						});
+						console.log("getLikeId-destroy");
+						console.log(getLikeId);
 					})
 					.catch(error => {
 						console.log("il y une erreur : " + error.response);
 					});
-
-				// veifier le userid
+				console.log("destroy");
+				// verifier le userid
 				await axios
-					.delete(`/posts/like/${getLikeid}`)
+					.delete(`/posts/like/${getLikeId}`)
 					.then(response => {
 						// console.log(response.data);
 						if (valeurLike === 1) {
@@ -233,12 +241,19 @@ export default {
 			} else {
 				console.log("update-like", newLike.valeur);
 				// update
-				let getLikeid = 0;
+				let getLikeId = 0;
 				await axios
 					.get(`/posts/like/${this.post.id}`)
 					.then(response => {
-						getLikeid = response.data.id;
-						console.log(getLikeid);
+						console.log(response.data);
+						response.data.forEach(e => {
+							if (e.UserId == userId) {
+								getLikeId = e.id;
+								return;
+							}
+						});
+						console.log("getLikeId-update");
+						console.log(getLikeId);
 					})
 					.catch(error => {
 						console.log("il y une erreur : " + error.response);
@@ -247,7 +262,7 @@ export default {
 				console.log("newLike", newLike);
 
 				await axios
-					.put(`/posts/like/${getLikeid}`, newLike, {
+					.put(`/posts/like/${getLikeId}`, newLike, {
 						headers: { Authorization: "Bearer " + token },
 					})
 					.then(response => {

@@ -1,11 +1,11 @@
 const jwt = require("jsonwebtoken");
 const db = require("../models");
 
-const Post = require("../models/posts");
+const User = require("../models/users");
 
 module.exports = (req, res, next) => {
 	try {
-		console.log("isOwner .......");
+		console.log("isUser .......");
 		const token = req.headers.authorization.split(" ")[1];
 		const tokenkey = process.env.TOKENKEY;
 		console.log(tokenkey);
@@ -14,15 +14,15 @@ module.exports = (req, res, next) => {
 		const userId = decodedToken.userId;
 		console.log("userId");
 		console.log(userId);
-		db.Post.findOne({ where: { id: req.params.id } })
-			.then(post => {
-				// console.log(post.UserId);
-				if (post.UserId === userId) {
+		db.User.findOne({ where: { id: req.params.id } })
+			.then(user => {
+				// console.log(user.UserId);
+				if (user.UserId === userId) {
 					next();
 				} else {
 					db.User.findOne({ where: { id: userId } })
-						.then(user => {
-							if (user.isAdmin) {
+						.then(userAdmin => {
+							if (userAdmin.isAdmin) {
 								next();
 							} else {
 								throw "UserId non autorisé";

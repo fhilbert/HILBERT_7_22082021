@@ -6,7 +6,7 @@
 			<div class="cardUsers" :key="user.id" v-for="user in users">
 				<div class="cardLeft">
 					<div class="cardPhoto">
-						<img :src="user.image" alt="user" />
+						<img v-if="user.image" :src="user.image" alt="user" />
 					</div>
 					<div class="cardContact">
 						<div>{{ user.firstName }}</div>
@@ -41,24 +41,24 @@ export default {
 			imageUrl: null,
 			userId: "",
 			selectedFile: null,
+			data: "",
 		};
 	},
 	methods: {
 		onDeleteUser(id) {
-			if (confirm("Are you sure ?")) {
-				this.users = this.users.filter(user => user.id !== id);
-			}
 			const token = localStorage.getItem("token");
 
 			axios
 				.delete(`auth/profile/${id}`, { headers: { Authorization: "Bearer " + token } })
-				.then((this.users = this.users.filter(user => user.id !== id)))
+				.then(response => {
+					this.users = this.users.filter(user => user.id !== id);
+					if (!data.isAdmin) {
+						this.$router.push("/login");
+					}
+				})
 				.catch(error => {
 					this.message = error.response.data;
 				});
-			if (!data.isAdmin) {
-				this.$router.push("/login");
-			}
 		},
 	},
 	created() {

@@ -26,7 +26,7 @@ exports.getOnePost = (req, res, next) => {
 	console.log("--------");
 	console.log("get_OnePost");
 
-	db.Post.findOne({ where: { id: req.params.id } })
+	db.Post.findOne({ include: db.User, where: { id: req.params.id } })
 		.then(post => {
 			res.status(200).json(post);
 		})
@@ -137,6 +137,7 @@ exports.createLike = (req, res, next) => {
 	};
 	console.log(req.body);
 	console.log(newLike);
+
 	db.Like.create(newLike)
 		.then(() => res.status(201).json(newLike))
 		.catch(error => res.status(400).json({ message: error.message }));
@@ -145,7 +146,7 @@ exports.getOneLike = (req, res, next) => {
 	console.log("--------");
 	console.log("getOneLike");
 
-	db.Like.findOne({ where: { Postid: req.params.id } })
+	db.Like.findAll({ where: { PostId: req.params.id } })
 		.then(like => {
 			res.status(200).json(like);
 		})

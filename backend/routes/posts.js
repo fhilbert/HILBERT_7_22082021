@@ -10,7 +10,7 @@ const multer = require("../middleware/multer-config");
 // comments
 
 // checked routes
-router.post("/comments/", auth, postCtrl.createComment);
+router.post("/comments/", postCtrl.createComment);
 router.delete("/comments/:id", auth, postCtrl.deleteComment);
 router.get("/comments/:id", postCtrl.getAllComments);
 
@@ -30,7 +30,7 @@ router.post("/like/", postCtrl.createLike);
 // ------- POSTS
 
 // checked routes
-router.post("/", multer, auth, postCtrl.createPost);
+router.post("/", auth, multer, postCtrl.createPost);
 router.get("/:id", postCtrl.getOnePost);
 router.get("/", postCtrl.getAllPosts);
 router.delete("/:id", auth, isOwner, postCtrl.deletePost);

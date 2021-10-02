@@ -2,7 +2,7 @@
 	<div class="user">
 		<Nav />
 		<div class="card">
-			<form @submit.prevent="updateUser(user.id)" enctype="multipart/form-data">
+			<form @submit.prevent="refresh" enctype="multipart/form-data">
 				<div class="firstRow">
 					<div class="photoProfile">
 						<div><img class="imgProfile" v-if="selectedFile" :src="imageUrl" alt="photo" /></div>
@@ -13,10 +13,10 @@
 						<button class="button" @click="$refs.fileInput.click()"><i class="fas fa-camera"></i></button>
 					</div>
 					<div class="userProfile">
-						<div class="cardProfile">
+						<!-- <div class="cardProfile">
 							<label class="space">Admin</label>
 							<input type="checkbox" v-model="admin" />
-						</div>
+						</div> -->
 						<div class="cardProfile">{{ user.firstName }}</div>
 						<div class="cardProfile">{{ user.lastName }}</div>
 						<div class="cardProfile">{{ user.email }}</div>
@@ -56,7 +56,7 @@ export default {
 	data() {
 		return {
 			isAdmin: false,
-			admin: false,
+			// admin: false,
 			bio: "",
 			user: Object,
 			userId: "",
@@ -66,6 +66,10 @@ export default {
 		};
 	},
 	methods: {
+		refresh() {
+			console.log("refresh");
+		},
+
 		selectFile(event) {
 			this.selectedFile = event.target.files[0];
 
@@ -86,7 +90,7 @@ export default {
 
 			const newUser = new FormData();
 
-			newUser.append("isAdmin", this.admin);
+			// newUser.append("isAdmin", this.admin);
 			newUser.append("bio", this.bio);
 
 			if (this.file !== null) {
@@ -105,9 +109,6 @@ export default {
 			this.selectedFile = "";
 		},
 		deleteUser(id) {
-			if (confirm("Are you sure ?")) {
-				this.users = this.users.filter(user => user.id !== id);
-			}
 			const token = localStorage.getItem("token");
 
 			axios
@@ -127,7 +128,7 @@ export default {
 			.get(`auth/profile/${userId}`, { headers: { Authorization: "Bearer " + token } })
 			.then(response => {
 				this.user = response.data;
-				this.admin = this.user.isAdmin;
+				// this.admin = this.user.isAdmin;
 			})
 			.catch(error => {
 				this.message = error.response.data;

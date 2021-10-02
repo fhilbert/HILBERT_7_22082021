@@ -65,7 +65,7 @@ export default {
 		},
 
 		deletePost(id) {
-			if (confirm("Are you sure ?")) {
+			if (confirm("Etes-vous sûr ?")) {
 				this.posts = this.posts.filter(post => post.id !== id);
 			}
 			const token = localStorage.getItem("token");
