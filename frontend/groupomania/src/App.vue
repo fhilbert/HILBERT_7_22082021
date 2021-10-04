@@ -1,7 +1,5 @@
 <template>
 	<div>
-		<!-- <Nav /> -->
-		<!-- <Header @toggle_add_post="toggleAddPost" title="Post Tracker" :showAddPost="showAddPost" /> -->
 		<router-view></router-view>
 		<!-- <Footer /> -->
 	</div>

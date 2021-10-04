@@ -78,10 +78,6 @@ export default {
 #inputImage {
 	display: none;
 }
-
-#uploadInput {
-	display: inline-block;
-}
 textarea {
 	font-size: 1.2rem;
 	width: 100%;
@@ -108,7 +104,7 @@ input {
 	justify-content: space-evenly;
 }
 .button {
-	background-color: blue;
+	background-color: #2196f3;
 	color: white;
 	padding: 6px;
 	margin-bottom: 10px;
@@ -117,12 +113,5 @@ input {
 	width: 150px;
 	height: 35px;
 	font-size: 1.2rem;
-}
-.error {
-	font-size: 13px;
-	background-color: blue;
-	color: rgb(53, 21, 21);
-	margin: 20px;
-	padding: 10px;
 }
 </style>

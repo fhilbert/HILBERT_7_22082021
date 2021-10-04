@@ -48,10 +48,8 @@ Content-Type:application/json
     "lastName":"Wawrziczny",
     "email":"d@gmail.com",
     "password":"Tr123456",
-    "isAdmin":1,
-    "bio":"cont",
-            "image":"http://localhost:3000/images/denis.jpeg"
-
+    "isAdmin":0,
+    "bio":"cont"
     
 }
 ###
@@ -106,8 +104,8 @@ Content-Type:application/json
     
 }
 ###
-GET  http://localhost:3000/api/auth/profile/1
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2MzAyNDc3MDgsImV4cCI6MTYzMDMzNDEwOH0.xHcx9CRobM0SRuOxgGOtIiq-6QKlaZ_9jH9RekUNW3c
+GET  http://localhost:3000/api/auth/profile/3
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjMsImlhdCI6MTYzMzAxNjc5MSwiZXhwIjoxNjMzMTAzMTkxfQ.TNGvaAvq2CgF3mgXYMcabR02CFFRQGWYysF5DgUMGPg
 
 ###
 PUT http://localhost:3000/api/auth/profile/1
@@ -125,8 +123,8 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2MzE1MzYwM
 
 
 ###
-DELETE http://localhost:3000/api/auth/profile/3
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpCJ9.eyJpYXQiOjE2MzA0ODU0MTgsImV4cCI6MTYzMDU3MTgxOH0.ERS-ZrkjHSxJHwvV6iWXv3YXPS1vR1sNpX-6adA7uQc
+DELETE http://localhost:3000/api/auth/profile/8
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjMsImlhdCI6MTYzMzAxOTUwNiwiZXhwIjoxNjMzMTA1OTA2fQ.CKZP29YSG7Vt7wwjvkknpo9A8B0M8NPR_NXK_iiaRNI
 ###
 POST  http://localhost:3000/api/auth/signup
 Content-Type:application/json
@@ -205,7 +203,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2MzA0ODkzM
 Content-Type:application/json
 
 {
-        "valeur":0,
+        "valeur":1,
         "PostId":3,
         "UserId":3
  }
@@ -231,77 +229,6 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MTFiY
 DELETE http://localhost:3000/api/posts/likes/2
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpCJ9.eyJpYXQiOjE2MzA0ODU0MTgsImV4cCI6MTYzMDU3MTgxOH0.ERS-ZrkjHSxJHwvV6iWXv3YXPS1vR1sNpX-6adA7uQc
 ###
-
-
-
-
-
-
-
-#jean francois
-POST  http://localhost:3000/api/sauces
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MTE5OTBjNDEwY2JmMzQzY2Y1MmI4OTgiLCJpYXQiOjE2MjkwNjU1ODUsImV4cCI6MTYyOTE1MTk4NX0.PdWsoJ6CPKwiSPThw5HVq1bq33a5rQ0Un2Tm1803vM0
-Content-Type:application/json
-
-{
-    "sauce":{
-        "userId":"1234567890",
-        "name":"tabasco",
-        "manufacturer":"kraft",
-        "description": "bouteille",
-        "mainPepper":"poivre",
-        "imageUrl":"http://localhost:3000/images/tabasco.png",
-        "heat":4,
-        "likes":0,
-        "dislikes":0,
-        "usersLiked":[],
-        "usersDisliked":[]
-    }
-}
-###
-GET http://localhost:3000/api/sauces
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MTFiYjViOWNiYWUxZDAzYmNiMDRkMjYiLCJpYXQiOjE2MjkyMDc2NzAsImV4cCI6MTYyOTI5NDA3MH0.drRjVbFwsMEyZd9YPvXGncC2C4wUt-RsxEJs7DFn8sE
-
-###
-POST http://localhost:3000/api/sauces/60fdd794447a6092baaf3466/like
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MTFhY2U5ZTBkYjM3YmUwZGFhZmQ0ODgiLCJpYXQiOjE2MjkxNjEzNTUsImV4cCI6MTYyOTI0Nzc1NX0.AwI0llwjzUkTj-Dq9515-IJkg4-DR5kOu6GxIvqtkRU
-Content-Type:application/json
-
-{
-    "like": -1,
-  "userId": "61000b346c8b4ae57b34cc54"
-}
-###
-PUT http://localhost:3000/api/sauces/611ace8b0db37be0daafd485
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MTFiYjViOWNiYWUxZDAzYmNiMDRkMjYiLCJpYXQiOjE2MjkyMDc2NzAsImV4cCI6MTYyOTI5NDA3MH0.drRjVbFwsMEyZd9YPvXGncC2C4wUt-RsxEJs7DFn8sE
-Content-Type:application/json
-
-{
-    
-    "manufacturer": "inconnuer"
-}
-###
-DELETE http://localhost:3000/api/sauces/611ace8b0db37be0daafd485
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MTFiYjViOWNiYWUxZDAzYmNiMDRkMjYiLCJpYXQiOjE2MjkyMDc2NzAsImV4cCI6MTYyOTI5NDA3MH0.drRjVbFwsMEyZd9YPvXGncC2C4wUt-RsxEJs7DFn8sE
-Content-Type:application/json
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

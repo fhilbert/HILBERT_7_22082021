@@ -30,10 +30,10 @@
 					><i class="far fa-keyboard" title="Inscription"></i
 				></router-link>
 			</div>
-			<div v-if="userId" class="item">
-				<router-link :to="{ name: 'Login' }" class="link"
-					><i class="fas fa-power-off" title="Déconnexion"></i
-				></router-link>
+			<div v-if="userId" class="item" @click="logout">
+				<!-- <router-link :to="{ name: 'Login' }" class="link" -->
+				<a class="fas fa-power-off" title="Déconnexion"></a>
+				<!-- </router-link> -->
 			</div>
 			<br />
 			<br />
@@ -47,6 +47,12 @@ export default {
 	name: "Nav",
 	props: {
 		token: String,
+	},
+	methods: {
+		logout() {
+			localStorage.clear();
+			this.$router.push("/login");
+		},
 	},
 	beforeMount() {
 		const userId = localStorage.getItem("login");

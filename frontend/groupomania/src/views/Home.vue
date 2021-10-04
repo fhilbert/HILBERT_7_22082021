@@ -8,7 +8,7 @@
 				<div class="space">{{ user.firstName }}</div>
 				<div class="space">{{ user.lastName }}</div>
 			</div>
-			<Header @toggle_add_post="toggleAddPost" title="Publications" :showAddPost="showAddPost" />
+			<Header @toggle_add_post="toggleAddPost" title="Dernieres Publications" :showAddPost="showAddPost" />
 			<div v-show="showAddPost">
 				<AddPost @add_post="addPost" />
 			</div>

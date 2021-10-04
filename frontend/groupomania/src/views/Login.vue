@@ -60,7 +60,15 @@ export default {
 		},
 	},
 	created() {
-		localStorage.clear();
+		const token = localStorage.getItem("token");
+		const userId = localStorage.getItem("login");
+		console.log("login");
+		console.log(userId);
+		if (userId) {
+			this.$router.push("/posts");
+		}
+
+		// localStorage.clear();
 	},
 };
 </script>

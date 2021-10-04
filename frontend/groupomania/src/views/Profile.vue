@@ -13,10 +13,6 @@
 						<button class="button" @click="$refs.fileInput.click()"><i class="fas fa-camera"></i></button>
 					</div>
 					<div class="userProfile">
-						<!-- <div class="cardProfile">
-							<label class="space">Admin</label>
-							<input type="checkbox" v-model="admin" />
-						</div> -->
 						<div class="cardProfile">{{ user.firstName }}</div>
 						<div class="cardProfile">{{ user.lastName }}</div>
 						<div class="cardProfile">{{ user.email }}</div>
@@ -26,7 +22,7 @@
 					<textarea :placeholder="user.bio" v-model="bio" rows="4" columns="65" max-rows="8"></textarea>
 				</div>
 				<div class="thirdRow">
-					<div class="button__profile">
+					<div class="buttonProfile">
 						<button class="button" @click.prevent="deleteUser(user.id)">Supprimer mon compte</button>
 						<button class="button" @click.prevent="updateUser(user.id)">Valider profil</button>
 					</div>
@@ -56,7 +52,6 @@ export default {
 	data() {
 		return {
 			isAdmin: false,
-			// admin: false,
 			bio: "",
 			user: Object,
 			userId: "",
@@ -90,7 +85,6 @@ export default {
 
 			const newUser = new FormData();
 
-			// newUser.append("isAdmin", this.admin);
 			newUser.append("bio", this.bio);
 
 			if (this.file !== null) {
@@ -144,11 +138,6 @@ export default {
 #inputImage {
 	display: none;
 }
-.user {
-	/* display: flex;
-	margin-top: 100px; */
-	/* justify-content: center; */
-}
 .firstRow {
 	display: flex;
 }
@@ -188,7 +177,7 @@ textarea {
 	text-align: center;
 }
 
-.button__profile {
+.buttonProfile {
 	width: 100%;
 	display: flex;
 	gap: 10px;
