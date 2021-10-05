@@ -61,10 +61,31 @@ export default {
 	},
 	created() {
 		const token = localStorage.getItem("token");
-		const userId = localStorage.getItem("login");
+		const login = localStorage.getItem("login");
 		console.log("login");
-		console.log(userId);
-		if (userId) {
+		console.log(login);
+		if (login) {
+			try {
+				console.log("---------");
+				console.log("auth");
+				token = token.authorization.split(" ")[1];
+				const tokenkey = process.env.TOKENKEY;
+				const decodedToken = jwt.verify(token, tokenkey);
+
+				const userId = decodedToken.userId;
+				console.log(login);
+				console.log(userId);
+				console.log(typeof userId);
+
+				if (login !== userId) {
+					throw "User ID non valable ! ";
+				} else {
+					this.$router.push("/posts");
+				}
+			} catch (error) {
+				console.log("Requête non authentifiée !");
+			}
+
 			this.$router.push("/posts");
 		}
 
