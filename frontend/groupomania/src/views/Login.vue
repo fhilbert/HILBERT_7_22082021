@@ -42,28 +42,40 @@ export default {
 		createAccount() {
 			this.$router.push("/register");
 		},
-		async handleSubmit() {
+		handleSubmit() {
 			if (!this.email || !this.password) {
 				this.message = "Certains champs non remplis !!!";
 				return;
 			}
-			const response = await axios.post("auth/login", {
-				email: this.email,
-				password: this.password,
-				passwordConfirm: this.passwordConfirm,
-			});
+			// axios.post("auth/login", {
+			// 	email: this.email,
+			// 	password: this.password,
+			// 	passwordConfirm: this.passwordConfirm,
+			// });
 
-			localStorage.setItem("token", response.data.token);
-			localStorage.setItem("login", response.data.userId);
-
-			this.$router.push("/posts");
+			axios
+				.post("auth/login", {
+					email: this.email,
+					password: this.password,
+					passwordConfirm: this.passwordConfirm,
+				})
+				.then(response => {
+					console.log("Login");
+					localStorage.setItem("token", response.data.token);
+					localStorage.setItem("login", response.data.userId);
+					this.$router.push("/posts");
+				})
+				.catch(error => {
+					console.log("Erreur Login");
+					this.message = error.response.data.message;
+				});
 		},
 	},
 	created() {
 		const token = localStorage.getItem("token");
 		const login = localStorage.getItem("login");
+		let message = "";
 		console.log("login");
-		console.log(login);
 		if (login) {
 			try {
 				console.log("---------");
@@ -73,9 +85,6 @@ export default {
 				const decodedToken = jwt.verify(token, tokenkey);
 
 				const userId = decodedToken.userId;
-				console.log(login);
-				console.log(userId);
-				console.log(typeof userId);
 
 				if (login !== userId) {
 					throw "User ID non valable ! ";
